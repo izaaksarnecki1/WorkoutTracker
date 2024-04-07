@@ -2,7 +2,8 @@
 ---
 ## Password Hashing:
 - [SHA-256 and SHA3-256 Hashing in Java](https://www.baeldung.com/sha-256-hashing-java)
-```     
+
+``` 
 <dependency>
     <groupId>com.google.guava</groupId>
     <artifactId>guava</artifactId>
@@ -13,7 +14,7 @@
 String sha256hex = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
 ```
 
----
+
 ## Sources for inspiration and information:
 - [Ying-Lai FitJournal](https://github.com/Ying-Lai/FitJournal)
 - [Workout tracker code review](https://codereview.stackexchange.com/questions/79196/workout-tracker)

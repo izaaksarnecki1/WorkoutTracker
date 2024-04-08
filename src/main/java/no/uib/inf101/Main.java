@@ -1,12 +1,13 @@
 package no.uib.inf101;
 
-/**
- * Hello world!
- */
+import no.uib.inf101.view.MainMenu;
+
+
 public class Main {
 
     public static void main(String[] args) {
-      System.out.println("Hello World!");
+      MainMenu menu = new MainMenu();
+      menu.run();
     }
   }
   

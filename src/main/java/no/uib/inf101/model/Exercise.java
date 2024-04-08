@@ -1,0 +1,59 @@
+package no.uib.inf101.model;
+
+import java.util.Objects;
+
+public class Exercise {
+
+  private String exerciseName;
+  private int sets;
+  private int reps;
+  private int weight;
+
+  public Exercise(String exerciseName, int sets, int reps, int weight) {
+    this.exerciseName = exerciseName;
+    this.sets = sets;
+    this.reps = reps;
+    this.weight = weight;
+  }
+
+  public Exercise(String exerciseName, int sets, int reps) {
+    this(exerciseName, sets, reps, 0);
+  }
+
+  public String getExerciseName() {
+    return this.exerciseName;
+  }
+
+  public int getReps() {
+    return this.reps;
+  }
+
+  public int getSets() {
+    return this.sets;
+  }
+
+  public int getWeight() {
+    return this.weight;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("Exercise_Name: %s | Sets: %d | Reps: %d | Weight: %d", exerciseName, sets, reps, weight);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Exercise exercise = (Exercise) o;
+    return sets == exercise.sets
+            && reps == exercise.reps
+            && weight == exercise.weight
+            && Objects.equals(exerciseName, exercise.exerciseName);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(exerciseName, sets, reps, weight);
+  }
+}

@@ -1,7 +1,7 @@
 package no.uib.inf101.model;
 
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Exercise {
@@ -10,22 +10,16 @@ public class Exercise {
   private int sets;
   private int reps;
   private int weight;
-  private LocalDate workoutDate;
 
-  public Exercise(String exerciseName, int sets, int reps, int weight, LocalDate date) {
+  public Exercise(String exerciseName, int sets, int reps, int weight) {
     this.exerciseName = exerciseName;
     this.sets = sets;
     this.reps = reps;
     this.weight = weight;
-    this.workoutDate = date;
   }
 
-  public Exercise(String exerciseName, int sets, int reps, LocalDate date) {
-    this(exerciseName, sets, reps, 0, date);
-  }
-
-  public Exercise(String exerciseName, int sets, int reps, int weight) {
-    this(exerciseName, sets, reps, weight, null);
+  public Exercise(String exerciseName, int sets, int reps) {
+    this(exerciseName, sets, reps, 0);
   }
 
   public String getExerciseName() {
@@ -42,9 +36,6 @@ public class Exercise {
 
   public int getWeight() {
     return this.weight;
-  }
-  public LocalDate getWorkoutDate() {
-    return workoutDate;
   }
 
   public void setExerciseName(String exerciseName) {
@@ -67,15 +58,11 @@ public class Exercise {
     this.weight = weight;
   }
 
-  public void setWorkoutDate(LocalDate workoutDate) {
-    this.workoutDate = workoutDate;
-  }
-
   @Override
   public String toString() {
     return String.format(
-            "Exercise_Name: %s | Sets: %d | Reps: %d | Weight: %d | Date: %s",
-            exerciseName, sets, reps, weight, workoutDate.toString()
+            "Exercise_Name: %s | Sets: %d | Reps: %d | Weight: %d",
+            exerciseName, sets, reps, weight
     );
   }
 
@@ -87,12 +74,11 @@ public class Exercise {
     return sets == exercise.sets
             && reps == exercise.reps
             && weight == exercise.weight
-            && Objects.equals(exerciseName, exercise.exerciseName)
-            && Objects.equals(workoutDate, exercise.workoutDate);
+            && Objects.equals(exerciseName, exercise.exerciseName);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(exerciseName, sets, reps, weight, workoutDate);
+    return Objects.hash(exerciseName, sets, reps, weight);
   }
 }

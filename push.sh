@@ -7,6 +7,8 @@ set -e
 
 # Define branch variable
 branch="master" # Change to your default branch if different, e.g., "master"
+github="git@github.com:izaaksarnecki1/WorkoutTracker.git"
+
 
 # Add changes to git
 echo "Adding changes to git..."

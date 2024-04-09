@@ -6,7 +6,19 @@ import java.awt.event.ActionListener;
 
 public abstract class InteractiveWindow implements ActionListener {
 
+  public static final String WINDOW_TITLE = "Workout Tracker";
+  public static final int SCREEN_WIDTH = 800;
+  public static final int SCREEN_HEIGHT = 600;
   private final Font BUTTON_FONT = new Font("Arial", Font.BOLD, 30);
+  final JFrame frame;
+  JPanel buttons;
+
+  public InteractiveWindow() {
+    this.frame = new JFrame();
+    this.frame.setTitle(WINDOW_TITLE);
+    this.frame.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+    this.buttons = new JPanel();
+  }
 
   JButton addButton(JPanel buttons, String text) {
     return this.addButton(buttons, text, null);

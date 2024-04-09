@@ -10,10 +10,6 @@ import java.awt.event.ActionListener;
 
 public class StartMenu extends InteractiveWindow  {
 
-  public static final String WINDOW_TITLE = "Workout Tracker";
-  public static final int SCREEN_WIDTH = 800;
-  public static final int SCREEN_HEIGHT = 600;
-  private final JFrame frame;
   private final JButton startButton;
   private final JButton loginButton;
   private final JButton signupButton;
@@ -21,15 +17,12 @@ public class StartMenu extends InteractiveWindow  {
   private boolean launch;
 
   public StartMenu() {
-    this.frame = new JFrame();
-    this.frame.setTitle(WINDOW_TITLE);
-    this.frame.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+    super();
 
-    JPanel buttons = new JPanel();
     buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
     buttons.setBorder(new EmptyBorder(10, 10, 30, 10));
 
-    this.startButton = this.addButton(buttons, "Start");
+    this.startButton = addButton(buttons, "Start");
     this.loginButton = addButton(buttons, "Log In");
     this.signupButton = addButton(buttons, "Sign Up");
     this.addWorkout = addButton(buttons, "Add Workout"); //TEST
@@ -45,6 +38,7 @@ public class StartMenu extends InteractiveWindow  {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == startButton) {
       System.out.println("Start Button Pressed");
+      this.launch = true;
     }
     if (e.getSource() == loginButton) {
       System.out.println("log in Button Pressed");
@@ -56,7 +50,6 @@ public class StartMenu extends InteractiveWindow  {
       Exercise exercise = new Exercise("Bench Press", 3, 8, 100);
       System.out.println(exercise);
     } // TEST
-    this.launch = true;
   }
 
   public void run() {

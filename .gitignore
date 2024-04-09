@@ -72,3 +72,6 @@ Thumbs.db
 
 # .env
 .env
+
+#push
+push.sh

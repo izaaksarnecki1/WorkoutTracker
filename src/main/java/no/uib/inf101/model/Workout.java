@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Workout implements IWorkout, Iterable<WorkoutExercise> {
-  private ArrayList<WorkoutExercise> exercises;
+public class Workout implements IWorkout, Iterable<Exercise> {
+  private ArrayList<Exercise> exercises;
   private LocalDate workoutDate;
 
   public Workout(LocalDate workoutDate) {
@@ -30,13 +30,12 @@ public class Workout implements IWorkout, Iterable<WorkoutExercise> {
   }
 
   public void addExercise(Exercise exercise) {
-    int id = this.exercises.size();
-    this.exercises.add(new WorkoutExercise(id, exercise));
+    this.exercises.add(exercise);
   }
 
   @Override
-  public Iterator<WorkoutExercise> iterator() {
-    ArrayList<WorkoutExercise> temp = new ArrayList<>(this.exercises);
+  public Iterator<Exercise> iterator() {
+    ArrayList<Exercise> temp = new ArrayList<>(this.exercises);
     return temp.iterator();
   }
 }

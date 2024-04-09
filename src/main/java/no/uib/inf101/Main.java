@@ -1,14 +1,6 @@
 package no.uib.inf101;
 
-import no.uib.inf101.model.Exercise;
-import no.uib.inf101.model.IWorkout;
-import no.uib.inf101.model.Workout;
-import no.uib.inf101.model.WorkoutExercise;
-import no.uib.inf101.view.MainMenu;
-
-import java.time.LocalDate;
-import java.util.Iterator;
-
+import no.uib.inf101.view.StartMenu;
 
 public class Main {
 
@@ -22,7 +14,7 @@ public class Main {
 //      IWorkout w2 = new Workout(date);
 
 
-      MainMenu menu = new MainMenu();
+      StartMenu menu = new StartMenu();
       menu.run();
     }
   }

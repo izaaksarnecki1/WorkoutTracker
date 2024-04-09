@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainMenu implements ActionListener {
+public class StartMenu implements ActionListener {
 
   public static final String WINDOW_TITLE = "Workout Tracker";
   public static final int SCREEN_WIDTH = 800;
@@ -21,7 +21,7 @@ public class MainMenu implements ActionListener {
   private final JButton addWorkout; // ::::::TEST::::::
   private boolean launch;
 
-  public MainMenu() {
+  public StartMenu() {
     this.frame = new JFrame();
     this.frame.setTitle(WINDOW_TITLE);
     this.frame.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));

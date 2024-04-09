@@ -15,7 +15,7 @@ public class Main {
 
 
       StartMenu menu = new StartMenu();
-      menu.run();
+//      menu.run();
     }
   }
   

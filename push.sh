@@ -25,6 +25,6 @@ git push origin $branch
 
 # Push changes to GitHub
 echo "Pushing changes to GitHub..."
-git push github $branch
+git push $github $branch
 
 echo "Successfully pushed to both GitHub and GitLab."

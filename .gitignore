@@ -59,6 +59,7 @@ target/
 *.log
 *.sql
 *.sqlite
+*.db
 
 # OS generated files #
 ######################
@@ -76,4 +77,3 @@ push.sh
 #sources
 .sources.md
 
-# db

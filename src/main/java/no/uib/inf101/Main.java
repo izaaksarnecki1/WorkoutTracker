@@ -13,7 +13,7 @@ public class Main {
 //      IWorkout w1 = new Workout(date);
 //      IWorkout w2 = new Workout(date);
 
-
+// test comment
       StartMenu menu = new StartMenu();
       menu.run();
     }

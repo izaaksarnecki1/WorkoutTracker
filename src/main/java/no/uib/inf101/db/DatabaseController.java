@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseController {
-
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
   private Connection connection;
   private final String[] tables = {"users", "workouts", "exercise"};

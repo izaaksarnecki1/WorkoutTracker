@@ -70,9 +70,6 @@ target/
 ehthumbs.db
 Thumbs.db
 
-# .env
-.env
-
 #push
 push.sh
 

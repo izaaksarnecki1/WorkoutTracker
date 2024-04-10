@@ -35,6 +35,5 @@ public class LoginMenu extends InteractiveWindow {
       System.out.println(username + " " + password);
     }
   }
-
-  private void
+  
 }

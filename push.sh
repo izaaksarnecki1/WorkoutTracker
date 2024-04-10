@@ -22,7 +22,7 @@ git commit -m "$commitMessage"
 echo "Pushing changes to GitLab (origin)..."
 git push origin $branch
 
-# Push changes to GitHub
+# Push changes to GitHub.
 echo "Pushing changes to GitHub..."
 git push github $branch
 

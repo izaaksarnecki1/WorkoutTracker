@@ -6,8 +6,9 @@ public class MainMenu extends InteractiveWindow {
 
 
   public MainMenu() {
+    super();
+
     this.frame.setVisible(true);
-    System.out.println(123);
   }
   @Override
   public void actionPerformed(ActionEvent e) {

@@ -34,7 +34,9 @@ public class StartMenu extends InteractiveWindow  {
       this.frame.removeAll();
     }
       if (e.getSource() == loginButton) {
-      System.out.println("log in Button Pressed");
+      InteractiveWindow loginMenu = new LoginMenu();
+      this.frame.setVisible(false);
+      this.frame.removeAll();
     }
     if (e.getSource() == signupButton) {
       System.out.println("sign up Button Pressed");

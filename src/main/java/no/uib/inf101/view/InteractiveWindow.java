@@ -18,6 +18,8 @@ public abstract class InteractiveWindow implements ActionListener {
     this.frame.setTitle(WINDOW_TITLE);
     this.frame.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
     this.buttons = new JPanel();
+    this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.frame.pack();
   }
 
   JButton addButton(JPanel buttons, String text) {

@@ -2,7 +2,7 @@ package no.uib.inf101.model;
 
 import java.util.Objects;
 
-public class Exercise {
+public class Exercise implements DbUploadable{
   private String exerciseName;
   private int sets;
   private int reps;

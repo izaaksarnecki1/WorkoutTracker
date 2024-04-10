@@ -1,4 +1,4 @@
-package no.uib.inf101.user;
+package no.uib.inf101.model.user;
 
 import no.uib.inf101.db.DatabaseController;
 

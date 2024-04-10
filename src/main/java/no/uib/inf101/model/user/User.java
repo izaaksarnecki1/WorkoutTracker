@@ -1,13 +1,14 @@
-package no.uib.inf101.user;
+package no.uib.inf101.model.user;
 
 import com.google.common.hash.Hashing;
+import no.uib.inf101.model.DbUploadable;
 import no.uib.inf101.model.Workout;
 
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.List;
 
-public class User implements IUser {
+public class User<E> implements DbUploadable<E> {
 
   private String username;
   private String firstName;
@@ -22,4 +23,8 @@ public class User implements IUser {
     this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
   }
 
+  @Override
+  public List<E> getUploadableData() {
+    return null;
+  }
 }

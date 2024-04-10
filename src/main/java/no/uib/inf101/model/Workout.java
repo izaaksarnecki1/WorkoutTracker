@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Workout implements IWorkout, Iterable<Exercise> {
+public class Workout implements Iterable<Exercise> {
   private ArrayList<Exercise> exercises;
   private LocalDate workoutDate;
 
@@ -14,7 +14,6 @@ public class Workout implements IWorkout, Iterable<Exercise> {
     this.workoutDate = workoutDate;
   }
 
-  @Override
   public LocalDate getWorkoutDate() {
     return this.workoutDate;
   }

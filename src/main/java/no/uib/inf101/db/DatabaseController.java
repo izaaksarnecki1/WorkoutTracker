@@ -1,11 +1,8 @@
 package no.uib.inf101.db;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
-public class DatabaseController {
+public class DatabaseController<E> {
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/database/workout-tracker.db";
   private Connection connection;
   private final String[] tables = {"users", "workouts", "exercise"};
@@ -42,12 +39,12 @@ public class DatabaseController {
   }
 
   private void createTable(String tableName) {
-    String sql = createTableSQLString(tableName);
+    String sqlString = createTableSQLString(tableName);
 
     try {
       this.connect();
       Statement statement = this.connection.createStatement();
-      statement.execute(sql);
+      statement.execute(sqlString);
       this.close();
     } catch (SQLException e) {
       // Crazy error handling
@@ -75,6 +72,27 @@ public class DatabaseController {
               + "	weight text\n"
               + ");";
       default -> throw new IllegalStateException("SQL Table creation failed with value: " + tableName);
+    };
+  }
+
+  private void addRow(String tableName) {
+    String sqlString = createRowSQLString(tableName);
+    try {
+      this.connect();
+      PreparedStatement statement = this.connection.prepareStatement(sqlString);
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
+
+  private String createRowSQLString(String tableName) {
+    return switch (tableName) {
+      case "users" -> "INSERT INTO users(username, password) VALUES(?,?)";
+      case "workouts" -> "INSERT INTO workouts(date, exercise) VALUES(?,?)";
+      case "exercise" -> "INSERT INTO exercise(description, sets, reps, weight) VALUES(?,?,?,?)";
+      default -> throw new IllegalStateException("SQL Row creation failed with value: " + tableName);
     };
   }
 }

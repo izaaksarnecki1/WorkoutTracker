@@ -7,7 +7,6 @@ set -e
 
 # Define branch variable
 branch="master" # Change to your default branch if different, e.g., "master"
-github="git@github.com:izaaksarnecki1/WorkoutTracker.git"
 
 
 # Add changes to git
@@ -25,6 +24,6 @@ git push origin $branch
 
 # Push changes to GitHub
 echo "Pushing changes to GitHub..."
-git push $github $branch
+git push github $branch
 
 echo "Successfully pushed to both GitHub and GitLab."

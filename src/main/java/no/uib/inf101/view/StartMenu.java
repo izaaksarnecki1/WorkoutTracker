@@ -40,7 +40,7 @@ public class StartMenu extends InteractiveWindow  {
       System.out.println("Start Button Pressed");
       this.launch = true;
     }
-    if (e.getSource() == loginButton) {
+      if (e.getSource() == loginButton) {
       System.out.println("log in Button Pressed");
     }
     if (e.getSource() == signupButton) {

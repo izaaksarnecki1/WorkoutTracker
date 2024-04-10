@@ -15,14 +15,14 @@ public class StartMenu extends InteractiveWindow  {
   public StartMenu() {
     super();
 
-    buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
-    buttons.setBorder(new EmptyBorder(10, 10, 30, 10));
+    this.screenComponents.setLayout(new BoxLayout(screenComponents, BoxLayout.Y_AXIS));
+    this.screenComponents.setBorder(new EmptyBorder(10, 10, 30, 10));
 
-    this.startButton = addButton(buttons, "Start");
-    this.loginButton = addButton(buttons, "Log In");
-    this.signupButton = addButton(buttons, "Sign Up");
+    this.startButton = addButton(screenComponents, "Start");
+    this.loginButton = addButton(screenComponents, "Log In");
+    this.signupButton = addButton(screenComponents, "Sign Up");
 
-    this.frame.add(buttons);
+    this.frame.add(screenComponents);
     this.frame.setVisible(true);
   }
 

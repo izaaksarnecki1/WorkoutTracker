@@ -12,14 +12,13 @@ public abstract class InteractiveWindow implements ActionListener {
   private final Font BUTTON_FONT = new Font("Arial", Font.BOLD, 30);
   private final Font TEXT_FONT = new Font("Arial", Font.PLAIN, 18);
   final JFrame frame;
-  JPanel buttons;
-  JPanel textFields;
+  JPanel screenComponents;
+
   public InteractiveWindow() {
     this.frame = new JFrame();
     this.frame.setTitle(WINDOW_TITLE);
     this.frame.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-    this.buttons = new JPanel();
-    this.textFields = new JPanel();
+    this.screenComponents = new JPanel();
     this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.frame.pack();
   }
@@ -66,5 +65,16 @@ public abstract class InteractiveWindow implements ActionListener {
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(textField);
     return textField;
+  }
+
+  JPasswordField addPasswordField(JPanel textFields, String text) {
+    // textFields param is used to simplify display process.
+    JPasswordField passwordField = new JPasswordField();
+    passwordField.setText(text);
+    passwordField.addActionListener(this);
+    passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+    textFields.add(Box.createRigidArea(new Dimension(20, 20)));
+    textFields.add(passwordField);
+    return passwordField;
   }
 }

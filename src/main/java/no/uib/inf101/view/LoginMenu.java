@@ -19,7 +19,6 @@ public class LoginMenu extends InteractiveWindow {
     this.passwordField = addPasswordField(this.screenComponents, "Password: ");
     this.submitButton = addButton(this.screenComponents, "Submit");
     this.frame.add(this.screenComponents);
-//    this.frame.add(this.screenComponents);
     this.frame.setVisible(true);
   }
   @Override
@@ -35,5 +34,4 @@ public class LoginMenu extends InteractiveWindow {
       System.out.println(username + " " + password);
     }
   }
-  
 }

@@ -83,18 +83,7 @@ public class DatabaseController {
       default -> throw new IllegalStateException("SQL Table creation failed for value: " + tableName);
     };
   }
-
-  private void addRow(String tableName, User user) {
-    String sqlString = createRowSQLString(tableName);
-    try {
-      this.connect();
-      PreparedStatement statement = this.connection.prepareStatement(sqlString);
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
-
+  
   public void addUser(User user) {
     List<Object> userData = user.getUploadableData();
 

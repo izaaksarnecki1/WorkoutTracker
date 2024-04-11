@@ -40,11 +40,11 @@ public class DatabaseController {
 
   private void setupTables() {
     for (String tableName : this.tables) {
-      createTable(tableName);
+      initiateTables(tableName);
     }
   }
 
-  private void createTable(String tableName) {
+  private void initiateTables(String tableName) {
     String sqlString = createTableSQLString(tableName);
 
     try {

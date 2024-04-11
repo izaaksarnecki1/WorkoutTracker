@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Workout implements Iterable<Exercise>, DbUploadable {
-  private ArrayList<Exercise> exercises;
+  private List<Exercise> exercises;
   private LocalDate workoutDate;
 
   public Workout(LocalDate workoutDate) {
@@ -46,14 +46,22 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
   }
   @Override
   public Iterator<Exercise> iterator() {
-    ArrayList<Exercise> temp = new ArrayList<>(this.exercises);
+    List<Exercise> temp = new ArrayList<>(this.exercises);
     return temp.iterator();
   }
 
   @Override
   public List<Object> getUploadableData() {
-    ArrayList<Object> uploadableData = new ArrayList<>();
-//    uploadableData.add();
+    List<Object> uploadableData = new ArrayList<>();
+    List<Object> exercises = new ArrayList<>();
+
+    for (Exercise exercise : this.exercises) {
+      exercises.add(exercise.getUploadableData());
+    }
+
+    uploadableData.add(exercises);
+    uploadableData.add(workoutDate);
+
     return uploadableData;
   }
 }

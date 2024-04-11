@@ -1,6 +1,9 @@
 package no.uib.inf101.db;
 
+import no.uib.inf101.model.user.User;
+
 import java.sql.*;
+import java.util.List;
 
 public class DatabaseController<E> {
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/database/workout-tracker.db";
@@ -58,30 +61,29 @@ public class DatabaseController<E> {
     return switch (tableName) {
       case "users" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"
-              + "	username text NOT NULL,\n"
+              + "	username text NOT NULL UNIQUE,\n"
               + "	password text NOT NULL\n"
               + ");";
       case "workouts" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"
               + " user_id integer, \n"
               + "	date text,\n"
-              + "	exercise text NOT NULL,\n"
-              + " FOREIGN KEY (user_id) REFERENCES users (user_id)"
+              + " FOREIGN KEY (user_id) REFERENCES users (id)"
               + ");";
       case "exercise" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"
               + " workout_id integer, \n"
-              + "	description text NOT NULL,\n"
+              + "	ex_name text NOT NULL,\n"
               + "	sets integer NOT NULL,\n"
-              + "	reps text NOT NULL,\n"
+              + "	reps integer NOT NULL,\n"
               + "	weight text,\n"
-              + " FOREIGN KEY (workout_id) REFERENCES workouts (group_id)"
+              + " FOREIGN KEY (workout_id) REFERENCES workouts (id)"
               + ");";
       default -> throw new IllegalStateException("SQL Table creation failed with value: " + tableName);
     };
   }
 
-  private void addRow(String tableName) {
+  private void addRow(String tableName, User user) {
     String sqlString = createRowSQLString(tableName);
     try {
       this.connect();
@@ -90,14 +92,30 @@ public class DatabaseController<E> {
     } catch (SQLException e) {
       e.printStackTrace();
     }
+  }
 
+  public void addUser(User user) {
+    String sqlString = "INSERT INTO users(username, password) VALUES(?,?)";
+    List<Object> userData = user.getUploadableData();
+
+    try {
+      this.connect();
+      PreparedStatement pStatement = this.connection.prepareStatement(sqlString);
+
+      for (int i = 0; i < userData.size(); i++) {
+        pStatement.setString(i+1, userData.get(i).toString());
+      }
+      pStatement.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   private String createRowSQLString(String tableName) {
     return switch (tableName) {
       case "users" -> "INSERT INTO users(username, password) VALUES(?,?)";
-      case "workouts" -> "INSERT INTO workouts(date, exercise) VALUES(?,?)";
-      case "exercise" -> "INSERT INTO exercise(description, sets, reps, weight) VALUES(?,?,?,?)";
+      case "workouts" -> "INSERT INTO workouts(date) VALUES(?,?)";
+      case "exercise" -> "INSERT INTO exercise(ex_name, sets, reps, weight) VALUES(?,?,?,?)";
       default -> throw new IllegalStateException("SQL Row creation failed with value: " + tableName);
     };
   }

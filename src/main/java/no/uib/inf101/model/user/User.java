@@ -21,10 +21,50 @@ public class User implements DbUploadable {
   public User(String username, String password) {
     this.username = username;
     this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+    this.workouts = new ArrayList<>();
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  public int getWeight() {
+    return weight;
+  }
+
+  public void setWeight(int weight) {
+    this.weight = weight;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
+  }
+
+  public void addWorkout(Workout workout) {
+    this.workouts.add(workout);
   }
 
   @Override
   public List<Object> getUploadableData() {
-    return null;
+    List<Object> uploadableData = new ArrayList<>();
+    uploadableData.add(this.username);
+    uploadableData.add(this.password);
+    return uploadableData;
   }
 }

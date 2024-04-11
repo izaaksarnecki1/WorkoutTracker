@@ -85,6 +85,9 @@ public class Exercise implements DbUploadable{
   public List<Object> getUploadableData() {
     ArrayList<Object> uploadableData = new ArrayList<>();
     uploadableData.add(this.exerciseName);
+    uploadableData.add(this.sets);
+    uploadableData.add(this.reps);
+    uploadableData.add(this.weight);
     return uploadableData;
   }
 }

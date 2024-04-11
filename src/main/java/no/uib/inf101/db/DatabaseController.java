@@ -8,6 +8,8 @@ public class DatabaseController<E> {
   private final String[] tables = {"users", "workouts", "exercise"};
 
   public DatabaseController() {
+    this.dropTables();
+    this.setupForeignKey();
     this.setupTables();
   }
 
@@ -66,10 +68,12 @@ public class DatabaseController<E> {
               + ");";
       case "exercise" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"
+              + " workout_id integer, \n"
               + "	description text NOT NULL,\n"
               + "	sets integer NOT NULL,\n"
               + "	reps text NOT NULL,\n"
-              + "	weight text\n"
+              + "	weight text,\n"
+              + " FOREIGN KEY (workout_id) REFERENCES workouts (group_id)"
               + ");";
       default -> throw new IllegalStateException("SQL Table creation failed with value: " + tableName);
     };
@@ -94,5 +98,31 @@ public class DatabaseController<E> {
       case "exercise" -> "INSERT INTO exercise(description, sets, reps, weight) VALUES(?,?,?,?)";
       default -> throw new IllegalStateException("SQL Row creation failed with value: " + tableName);
     };
+  }
+
+  private void setupForeignKey() {
+    String sqlString = "PRAGMA foreign_keys = ON;";
+    try {
+      this.connect();
+      Statement statement = this.connection.createStatement();
+      statement.execute(sqlString);
+      System.out.println("Successfully enabled Foreign Keys. ");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void dropTables() {
+    String sqlString = "SELECT 'DROP TABLE IF EXISTS ' || name || ';' \n"
+            + "FROM sqlite_master \n"
+            + "WHERE type = 'table';";
+    try {
+      this.connect();
+      Statement statement = this.connection.createStatement();
+      statement.execute(sqlString);
+      System.out.println("Successfully dropped all tables. ");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 }

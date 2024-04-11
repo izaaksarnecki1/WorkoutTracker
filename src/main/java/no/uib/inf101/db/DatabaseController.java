@@ -18,7 +18,7 @@ public class DatabaseController<E> {
     this.connection = null;
     try {
       this.connection = DriverManager.getConnection(DB_PATH);
-      System.out.println("Successful connection");
+//      System.out.println("Successful connection");
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -63,8 +63,10 @@ public class DatabaseController<E> {
               + ");";
       case "workouts" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"
+              + " user_id integer, \n"
               + "	date text,\n"
-              + "	exercise text NOT NULL\n"
+              + "	exercise text NOT NULL,\n"
+              + " FOREIGN KEY (user_id) REFERENCES users (user_id)"
               + ");";
       case "exercise" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"
@@ -119,8 +121,12 @@ public class DatabaseController<E> {
     try {
       this.connect();
       Statement statement = this.connection.createStatement();
-      statement.execute(sqlString);
-      System.out.println("Successfully dropped all tables. ");
+      ResultSet res = statement.executeQuery(sqlString);
+      while (res.next()) {
+        String dropTableStatement = res.getString(1);
+        statement.execute(dropTableStatement);
+        System.out.println("Dropped table: " + dropTableStatement);
+      }
     } catch (SQLException e) {
       e.printStackTrace();
     }

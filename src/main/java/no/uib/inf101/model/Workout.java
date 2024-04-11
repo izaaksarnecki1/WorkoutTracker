@@ -4,9 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Workout implements Iterable<Exercise>, DbUploadable {
   private List<Exercise> exercises;
@@ -44,6 +42,7 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
             && exercise.getReps() != 0
             && exercise.getSets() != 0;
   }
+
   @Override
   public Iterator<Exercise> iterator() {
     List<Exercise> temp = new ArrayList<>(this.exercises);
@@ -51,18 +50,10 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
   }
 
   @Override
-  public List<Object> getUploadableData() {
-    List<Object> uploadableData = new ArrayList<>();
-    List<Object> exercises = new ArrayList<>();
-
-    for (Exercise exercise : this.exercises) {
-      exercises.add(exercise.getUploadableData());
-    }
-
-    uploadableData.add(exercises);
-    uploadableData.add(workoutDate);
-
-    return uploadableData;
+  public HashMap<String, Object> getUploadableData() {
+    HashMap<String, Object> uploadableData = new HashMap<>();
+    uploadableData.put("date", this.workoutDate);
+    return null;
   }
 
   @Override

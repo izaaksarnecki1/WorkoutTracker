@@ -2,9 +2,7 @@ package no.uib.inf101.model;
 
 import no.uib.inf101.db.DatabaseController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Exercise implements DbUploadable{
   private String exerciseName;
@@ -84,12 +82,12 @@ public class Exercise implements DbUploadable{
   }
 
   @Override
-  public List<Object> getUploadableData() {
-    ArrayList<Object> uploadableData = new ArrayList<>();
-    uploadableData.add(this.exerciseName);
-    uploadableData.add(this.sets);
-    uploadableData.add(this.reps);
-    uploadableData.add(this.weight);
+  public HashMap<String, Object> getUploadableData() {
+    HashMap<String, Object> uploadableData = new HashMap<>();
+    uploadableData.put("ex_name", this.exerciseName );
+    uploadableData.put("sets", this.sets);
+    uploadableData.put("reps", this.reps);
+    uploadableData.put("weight", this.weight);
     return uploadableData;
   }
 

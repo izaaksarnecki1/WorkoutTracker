@@ -1,6 +1,7 @@
 package no.uib.inf101.model;
 
-import java.util.List;
+
+import java.util.HashMap;
 
 public interface DbUploadable {
   /**
@@ -8,7 +9,7 @@ public interface DbUploadable {
    * returned in a list.
    * @return list of relevant data
    */
-  List<Object> getUploadableData();
+  HashMap<String, Object> getUploadableData();
 
   /**
    * Retrieves the table name associated with the object.

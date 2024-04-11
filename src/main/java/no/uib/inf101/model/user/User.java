@@ -6,7 +6,9 @@ import no.uib.inf101.model.Workout;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User implements DbUploadable {
 
@@ -61,10 +63,10 @@ public class User implements DbUploadable {
   }
 
   @Override
-  public List<Object> getUploadableData() {
-    List<Object> uploadableData = new ArrayList<>();
-    uploadableData.add(this.username);
-    uploadableData.add(this.password);
+  public HashMap<String, Object> getUploadableData() {
+    HashMap<String, Object> uploadableData = new HashMap<>();
+    uploadableData.put("username", this.username);
+    uploadableData.put("password", this.password);
     return uploadableData;
   }
 

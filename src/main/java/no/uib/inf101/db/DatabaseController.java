@@ -4,6 +4,7 @@ import no.uib.inf101.model.DbUploadable;
 import no.uib.inf101.model.user.User;
 
 import java.sql.*;
+import java.util.HashMap;
 import java.util.List;
 
 public class DatabaseController {
@@ -83,9 +84,24 @@ public class DatabaseController {
       default -> throw new IllegalStateException("SQL Table creation failed for value: " + tableName);
     };
   }
-  
+
+  private void addRow(DbUploadable entity) {
+    String tableName = entity.getTableName();
+    HashMap<String, Object> entityAttributes = entity.getUploadableData();
+    int amtRows = entityAttributes.size();
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("INSERT INTO ").append(tableName).append("(");
+    for (int i = 0; i < amtRows - 1; i++) {
+//      sb.append(ent);
+    }
+    String sqlString = sb.toString();
+  }
+
+  private String createAddRowString() {return null;}
+
   public void addUser(User user) {
-    List<Object> userData = user.getUploadableData();
+    HashMap<String, Object> userData = user.getUploadableData();
 
     String sqlString = "INSERT INTO users(username, password) VALUES(?,?)";
 

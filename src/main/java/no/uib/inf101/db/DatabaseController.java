@@ -1,5 +1,6 @@
 package no.uib.inf101.db;
 
+import no.uib.inf101.model.DbUploadable;
 import no.uib.inf101.model.user.User;
 
 import java.sql.*;
@@ -95,8 +96,9 @@ public class DatabaseController<E> {
   }
 
   public void addUser(User user) {
-    String sqlString = "INSERT INTO users(username, password) VALUES(?,?)";
     List<Object> userData = user.getUploadableData();
+
+    String sqlString = "INSERT INTO users(username, password) VALUES(?,?)";
 
     try {
       this.connect();

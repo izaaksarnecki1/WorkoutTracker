@@ -90,4 +90,9 @@ public class Exercise implements DbUploadable{
     uploadableData.add(this.weight);
     return uploadableData;
   }
+
+  @Override
+  public String getTableName() {
+    return "exercises";
+  }
 }

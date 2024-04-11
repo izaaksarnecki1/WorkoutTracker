@@ -9,4 +9,5 @@ public interface DbUploadable {
    * @return list of relevant data
    */
   List<Object> getUploadableData();
+  String getTableName();
 }

@@ -67,4 +67,9 @@ public class User implements DbUploadable {
     uploadableData.add(this.password);
     return uploadableData;
   }
+
+  @Override
+  public String getTableName() {
+    return "users";
+  }
 }

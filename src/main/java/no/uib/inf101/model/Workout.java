@@ -64,4 +64,9 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
 
     return uploadableData;
   }
+
+  @Override
+  public String getTableName() {
+    return "workouts";
+  }
 }

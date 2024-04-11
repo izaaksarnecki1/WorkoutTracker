@@ -80,7 +80,7 @@ public class DatabaseController<E> {
               + "	weight text,\n"
               + " FOREIGN KEY (workout_id) REFERENCES workouts (id)"
               + ");";
-      default -> throw new IllegalStateException("SQL Table creation failed with value: " + tableName);
+      default -> throw new IllegalStateException("SQL Table creation failed for value: " + tableName);
     };
   }
 
@@ -118,7 +118,7 @@ public class DatabaseController<E> {
       case "users" -> "INSERT INTO users(username, password) VALUES(?,?)";
       case "workouts" -> "INSERT INTO workouts(date) VALUES(?,?)";
       case "exercise" -> "INSERT INTO exercise(ex_name, sets, reps, weight) VALUES(?,?,?,?)";
-      default -> throw new IllegalStateException("SQL Row creation failed with value: " + tableName);
+      default -> throw new IllegalStateException("SQL Row creation failed for value: " + tableName);
     };
   }
 

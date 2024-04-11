@@ -9,5 +9,10 @@ public interface DbUploadable {
    * @return list of relevant data
    */
   List<Object> getUploadableData();
+
+  /**
+   * Retrieves the table name associated with the object.
+   * @return table name for object
+   */
   String getTableName();
 }

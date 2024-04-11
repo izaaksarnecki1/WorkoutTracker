@@ -1,5 +1,7 @@
 package no.uib.inf101.model;
 
+import no.uib.inf101.db.DatabaseController;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

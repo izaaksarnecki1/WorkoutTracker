@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.List;
 
 public class DatabaseController {
-  private static final String DB_PATH = "jdbc:sqlite:src/main/resources/database/workout-tracker.db";
+  private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
   private Connection connection;
   private final String[] tables = {"users", "workouts", "exercise"};
 

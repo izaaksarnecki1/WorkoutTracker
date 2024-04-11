@@ -22,6 +22,6 @@ public class Authenticator {
 
     this.databaseController = new DatabaseController();
 //    this.databaseController.addUser(user);
-    this.databaseController.converterTest(workout);
+//    this.databaseController.converterTest(workout);
   }
 }

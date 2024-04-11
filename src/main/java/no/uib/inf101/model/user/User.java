@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User<E> implements DbUploadable<E> {
+public class User implements DbUploadable {
 
   private String username;
   private String firstName;
@@ -24,7 +24,7 @@ public class User<E> implements DbUploadable<E> {
   }
 
   @Override
-  public List<E> getUploadableData() {
+  public List<Object> getUploadableData() {
     return null;
   }
 }

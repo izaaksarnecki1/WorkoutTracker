@@ -1,5 +1,7 @@
 package no.uib.inf101.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Exercise implements DbUploadable{
@@ -77,5 +79,12 @@ public class Exercise implements DbUploadable{
   @Override
   public int hashCode() {
     return Objects.hash(exerciseName, sets, reps, weight);
+  }
+
+  @Override
+  public List<Object> getUploadableData() {
+    ArrayList<Object> uploadableData = new ArrayList<>();
+    uploadableData.add(this.exerciseName);
+    return uploadableData;
   }
 }

@@ -104,7 +104,7 @@ public class DatabaseController {
       for (String attribute : attributeNames) {
         pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
       }
-      System.out.println(pStatement);
+      pStatement.executeUpdate();
     } catch (SQLException e) {
       e.printStackTrace();
     }

@@ -85,34 +85,29 @@ public class DatabaseController {
     };
   }
 
-  private void addRow(DbUploadable entity) {
-    
-  }
-
-  private String createAddRowString(DbUploadable entity) {
-    String tableName = entity.getTableName();
+  public void addRow(DbUploadable entity) {
+    SQLQueryCreator creator = new SQLQueryCreator(entity);
+    String sqlStirng = creator.createAddRowString();
+    HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
-    HashMap<String, Object> entityAttributes = entity.getUploadableData();
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("INSERT INTO ").append(tableName).append("(");
-
-    for (int i = 0; i < attributeNames.size(); i++) {
-      sb.append(attributeNames.get(i));
-      if (i < attributeNames.size() - 1) {
-        sb.append(", ");
-      }
+    if (attributeNames.size() != uploadAbleData.keySet().size()) {
+      System.err.println("Attribute list size does not match data keys size. ");
+      return;
     }
-    sb.append(") VALUES(");
 
-    for (int i = 0; i < attributeNames.size(); i++) {
-      sb.append("?");
-      if (i < attributeNames.size() - 1) {
-        sb.append(", ");
+    try {
+      this.connect();
+      PreparedStatement pStatement = this.connection.prepareStatement(sqlStirng);
+
+      int idx = 1;
+      for (String attribute : attributeNames) {
+        pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
       }
+      System.out.println(pStatement);
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-    sb.append(")");
-    return sb.toString();
   }
 
   public void addUser(User user) {

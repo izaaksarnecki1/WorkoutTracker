@@ -3,7 +3,6 @@ package no.uib.inf101.db;
 import no.uib.inf101.model.DbUploadable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SQLQueryCreator {
 

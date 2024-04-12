@@ -10,11 +10,10 @@ public class LoginMenu extends InteractiveWindow {
   private final JTextField usernameField;
   private final JPasswordField passwordField;
   private final JButton submitButton;
-  private final Authenticator auth;
 
   public LoginMenu() {
     super();
-    this.auth = new Authenticator();
+    Authenticator auth = new Authenticator("izaak", "test");
     this.usernameField = addTextField(this.screenComponents, "Username: ");
     this.passwordField = addPasswordField(this.screenComponents, "Password: ");
     this.submitButton = addButton(this.screenComponents, "Submit");

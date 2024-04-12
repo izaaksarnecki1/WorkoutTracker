@@ -16,10 +16,12 @@ public class User implements DbUploadable {
   private int weight;
   private int height;
   private ArrayList<Workout> workouts;
+  private final int id;
 
-  public User(String username, String password) {
+  public User(String username, String password, int id) {
     this.username = username;
     this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+    this.id = id;
     this.workouts = new ArrayList<>();
   }
 

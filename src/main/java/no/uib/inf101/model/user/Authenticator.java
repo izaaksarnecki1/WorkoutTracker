@@ -1,27 +1,22 @@
 package no.uib.inf101.model.user;
 
+import com.google.common.hash.Hashing;
 import no.uib.inf101.db.DatabaseController;
-import no.uib.inf101.model.Exercise;
-import no.uib.inf101.model.Workout;
 
-import java.time.LocalDate;
+import java.nio.charset.StandardCharsets;
 
 public class Authenticator {
   private final DatabaseController databaseController;
-
-  public Authenticator() {
-    LocalDate date = LocalDate.now();
-    User user = new User("amalie", "test");
-    Workout workout = new Workout(date);
-    Exercise exercise = new Exercise("Bench press", 10,10,10);
-    Exercise exercise2 = new Exercise("Pull up", 20,20);
-    workout.addExercise(exercise);
-    workout.addExercise(exercise2);
-
-    user.addWorkout(workout);
-
+  private final String username;
+  private final String password;
+  public Authenticator(String username, String password) {
+    this.username = username;
+    this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
     this.databaseController = new DatabaseController();
-    this.databaseController.addRow(user);
-//    this.databaseController.converterTest(workout);
+    checkIfUsernameExist();
+  }
+
+  private boolean checkIfUsernameExist() {
+    return this.databaseController.fetchUserId(this.username) == null;
   }
 }

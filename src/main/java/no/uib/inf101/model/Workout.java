@@ -7,10 +7,12 @@ import java.util.*;
 public class Workout implements Iterable<Exercise>, DbUploadable {
   private List<Exercise> exercises;
   private LocalDate workoutDate;
+  private final int user_id;
 
-  public Workout(LocalDate workoutDate) {
+  public Workout(int user_id, LocalDate workoutDate) {
     this.exercises = new ArrayList<>();
     this.workoutDate = workoutDate;
+    this.user_id = user_id;
   }
 
   public LocalDate getWorkoutDate() {
@@ -51,7 +53,8 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
   public HashMap<String, Object> getUploadableData() {
     HashMap<String, Object> uploadableData = new HashMap<>();
     uploadableData.put("date", this.workoutDate);
-    return null;
+    uploadableData.put("user_id", this.user_id);
+    return uploadableData;
   }
 
   @Override
@@ -61,6 +64,6 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
 
   @Override
   public ArrayList<String> getAttributeNames() {
-    return new ArrayList<>(Arrays.asList("date"));
+    return new ArrayList<>(Arrays.asList("date", "user_id"));
   }
 }

@@ -12,7 +12,7 @@ public class DatabaseController {
   private final String[] tables = {"users", "workouts", "exercise"};
 
   public DatabaseController() {
-    this.dropTables();
+//    this.dropTables();
     this.setupForeignKey();
     this.setupTables();
   }
@@ -24,7 +24,7 @@ public class DatabaseController {
       this.connection = DriverManager.getConnection(DB_PATH);
 //      System.out.println("Successful connection");
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println(e.getMessage());
     }
   }
 
@@ -34,7 +34,7 @@ public class DatabaseController {
         this.connection.close();
       }
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println(e.getMessage());
     }
   }
 
@@ -53,7 +53,7 @@ public class DatabaseController {
       this.close();
     } catch (SQLException e) {
       // Crazy error handling
-      e.printStackTrace();
+      System.out.println(e.getMessage());
     }
   }
 
@@ -106,7 +106,7 @@ public class DatabaseController {
       }
       pStatement.executeUpdate();
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println(e.getMessage());
     }
   }
 
@@ -118,7 +118,7 @@ public class DatabaseController {
       statement.execute(sqlString);
       System.out.println("Successfully enabled Foreign Keys. ");
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println(e.getMessage());
     }
   }
 
@@ -130,7 +130,7 @@ public class DatabaseController {
       statement.execute(sqlString);
       System.out.println("Dropped table: " + tableName);
     } catch (SQLException e) {
-      e.printStackTrace();
+      System.out.println(e.getMessage());
     }
   }
 
@@ -155,5 +155,21 @@ public class DatabaseController {
     }
 
     return true;
+  }
+
+  public String fetchUserId(String username) {
+    String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
+
+    try {
+      this.connect();
+      Statement stmt = this.connection.createStatement();
+      ResultSet resultSet = stmt.executeQuery(sqlString);
+      while (resultSet.next()) {
+        System.out.println(resultSet.getInt("id"));
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    }
+    return null;
   }
 }

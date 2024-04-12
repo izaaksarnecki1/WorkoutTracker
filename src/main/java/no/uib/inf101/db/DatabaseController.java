@@ -4,8 +4,8 @@ import no.uib.inf101.model.DbUploadable;
 import no.uib.inf101.model.user.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class DatabaseController {
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
@@ -86,19 +86,34 @@ public class DatabaseController {
   }
 
   private void addRow(DbUploadable entity) {
+    
+  }
+
+  private String createAddRowString(DbUploadable entity) {
     String tableName = entity.getTableName();
+    ArrayList<String> attributeNames = entity.getAttributeNames();
     HashMap<String, Object> entityAttributes = entity.getUploadableData();
-    int amtRows = entityAttributes.size();
 
     StringBuilder sb = new StringBuilder();
     sb.append("INSERT INTO ").append(tableName).append("(");
-    for (int i = 0; i < amtRows - 1; i++) {
-//      sb.append(ent);
-    }
-    String sqlString = sb.toString();
-  }
 
-  private String createAddRowString() {return null;}
+    for (int i = 0; i < attributeNames.size(); i++) {
+      sb.append(attributeNames.get(i));
+      if (i < attributeNames.size() - 1) {
+        sb.append(", ");
+      }
+    }
+    sb.append(") VALUES(");
+
+    for (int i = 0; i < attributeNames.size(); i++) {
+      sb.append("?");
+      if (i < attributeNames.size() - 1) {
+        sb.append(", ");
+      }
+    }
+    sb.append(")");
+    return sb.toString();
+  }
 
   public void addUser(User user) {
     HashMap<String, Object> userData = user.getUploadableData();
@@ -110,7 +125,7 @@ public class DatabaseController {
       PreparedStatement pStatement = this.connection.prepareStatement(sqlString);
 
       for (int i = 0; i < userData.size(); i++) {
-        pStatement.setString(i+1, userData.get(i).toString());
+        pStatement.setString(i + 1, userData.get(i).toString());
       }
       pStatement.executeUpdate();
     } catch (SQLException e) {

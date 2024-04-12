@@ -95,4 +95,9 @@ public class Exercise implements DbUploadable{
   public String getTableName() {
     return "exercises";
   }
+
+  @Override
+  public ArrayList<String> getAttributeNames() {
+    return new ArrayList<>(Arrays.asList("ex_name", "sets", "reps", "weight"));
+  }
 }

@@ -5,10 +5,7 @@ import no.uib.inf101.model.DbUploadable;
 import no.uib.inf101.model.Workout;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class User implements DbUploadable {
 
@@ -73,5 +70,10 @@ public class User implements DbUploadable {
   @Override
   public String getTableName() {
     return "users";
+  }
+
+  @Override
+  public ArrayList<String> getAttributeNames() {
+    return new ArrayList<>(Arrays.asList("username", "password"));
   }
 }

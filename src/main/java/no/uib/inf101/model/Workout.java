@@ -60,4 +60,9 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
   public String getTableName() {
     return "workouts";
   }
+
+  @Override
+  public ArrayList<String> getAttributeNames() {
+    return new ArrayList<>(Arrays.asList("date"));
+  }
 }

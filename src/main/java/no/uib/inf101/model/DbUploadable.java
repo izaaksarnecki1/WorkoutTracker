@@ -1,6 +1,5 @@
 package no.uib.inf101.model;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

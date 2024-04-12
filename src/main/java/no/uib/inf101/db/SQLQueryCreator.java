@@ -13,11 +13,11 @@ public class SQLQueryCreator {
     this.uploadable = uploadable;
   }
 
-  public void setUploadable(DbUploadable uploadable) {
+  protected void setUploadable(DbUploadable uploadable) {
     this.uploadable = uploadable;
   }
 
-  public String createAddRowString() {
+  protected String createAddRowString() {
     String tableName = this.uploadable.getTableName();
     ArrayList<String> attributeNames = this.uploadable.getAttributeNames();
 

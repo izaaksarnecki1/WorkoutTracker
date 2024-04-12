@@ -1,7 +1,5 @@
 package no.uib.inf101.model;
 
-import no.uib.inf101.db.DatabaseController;
-
 import java.util.*;
 
 public class Exercise implements DbUploadable{

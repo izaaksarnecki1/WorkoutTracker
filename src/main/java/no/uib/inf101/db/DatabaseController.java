@@ -1,7 +1,6 @@
 package no.uib.inf101.db;
 
 import no.uib.inf101.model.DbUploadable;
-import no.uib.inf101.model.user.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -47,7 +46,6 @@ public class DatabaseController {
 
   private void initiateTables(String tableName) {
     String sqlString = createTableSQLString(tableName);
-
     try {
       this.connect();
       Statement statement = this.connection.createStatement();
@@ -94,8 +92,7 @@ public class DatabaseController {
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
 
-    if (attributeNames.size() != uploadAbleData.keySet().size()) {
-      System.err.println("Attribute list size does not match data keys size. ");
+    if (!validateParamsForString(uploadAbleData, attributeNames)) {
       return;
     }
 
@@ -113,33 +110,6 @@ public class DatabaseController {
     }
   }
 
-  public void addUser(User user) {
-    HashMap<String, Object> userData = user.getUploadableData();
-
-    String sqlString = "INSERT INTO users(username, password) VALUES(?,?)";
-
-    try {
-      this.connect();
-      PreparedStatement pStatement = this.connection.prepareStatement(sqlString);
-
-      for (int i = 0; i < userData.size(); i++) {
-        pStatement.setString(i + 1, userData.get(i).toString());
-      }
-      pStatement.executeUpdate();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private String createRowSQLString(String tableName) {
-    return switch (tableName) {
-      case "users" -> "INSERT INTO users(username, password) VALUES(?,?)";
-      case "workouts" -> "INSERT INTO workouts(date) VALUES(?,?)";
-      case "exercise" -> "INSERT INTO exercise(ex_name, sets, reps, weight) VALUES(?,?,?,?)";
-      default -> throw new IllegalStateException("SQL Row creation failed for value: " + tableName);
-    };
-  }
-
   private void setupForeignKey() {
     String sqlString = "PRAGMA foreign_keys = ON;";
     try {
@@ -152,21 +122,38 @@ public class DatabaseController {
     }
   }
 
-  private void dropTables() {
-    String sqlString = "SELECT 'DROP TABLE IF EXISTS ' || name || ';' \n"
-            + "FROM sqlite_master \n"
-            + "WHERE type = 'table';";
+  private void dropTable(String tableName) {
+    String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";
     try {
       this.connect();
       Statement statement = this.connection.createStatement();
-      ResultSet res = statement.executeQuery(sqlString);
-      while (res.next()) {
-        String dropTableStatement = res.getString(1);
-        statement.execute(dropTableStatement);
-        System.out.println("Dropped table: " + dropTableStatement);
-      }
+      statement.execute(sqlString);
+      System.out.println("Dropped table: " + tableName);
     } catch (SQLException e) {
       e.printStackTrace();
     }
+  }
+
+  private void dropTables() {
+    for (String tableName : this.tables) {
+      dropTable(tableName);
+    }
+    System.out.println("Successfully dropped all tables. ");
+  }
+
+  private boolean validateParamsForString(
+          HashMap<String, Object> uploadAbleData, ArrayList<String> attributeNames
+  ) {
+    if (attributeNames.size() != uploadAbleData.keySet().size()) {
+      System.err.println("Attribute list size does not match data keys size. ");
+      return false;
+    }
+
+    if (attributeNames.isEmpty()) {
+      System.err.println("Attribute list is empty. ");
+      return false;
+    }
+
+    return true;
   }
 }

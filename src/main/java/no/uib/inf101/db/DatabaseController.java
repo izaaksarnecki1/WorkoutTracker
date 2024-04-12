@@ -60,6 +60,9 @@ public class DatabaseController {
   }
 
   private static String createTableSQLString(String tableName) {
+    // TODO: refac into sqlquerycreator, where attribute class is check to determine type in query
+    // refac idea might cause problem as primary keys etc have to be predetermined?
+
     return switch (tableName) {
       case "users" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"

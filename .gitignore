@@ -76,3 +76,6 @@ push.sh
 
 #sources
 .sources.md
+
+#
+*.txt

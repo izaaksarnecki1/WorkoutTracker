@@ -1,5 +1,7 @@
 package no.uib.inf101.view;
 
+import no.uib.inf101.db.DatabaseController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -38,7 +40,9 @@ public class StartMenu extends InteractiveWindow  {
       this.frame.removeAll();
     }
     if (e.getSource() == signupButton) {
-      System.out.println("sign up Button Pressed");
+      InteractiveWindow signupMenu = new Signup();
+      this.frame.setVisible(false);
+      this.frame.removeAll();
     }
   }
 

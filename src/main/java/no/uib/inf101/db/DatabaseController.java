@@ -7,86 +7,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DatabaseController {
+
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
-  private Connection connection;
   private final String[] tables = {"users", "workouts", "exercise"};
 
   public DatabaseController() {
-//    this.dropTables();
+    this.dropTables();
     this.setupForeignKey();
     this.setupTables();
   }
 
-  // https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
-  private void connect() {
-    this.connection = null;
-    try {
-      this.connection = DriverManager.getConnection(DB_PATH);
-//      System.out.println("Successful connection");
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-  }
-
-  private void close() {
-    try {
-      if (this.connection != null) {
-        this.connection.close();
-      }
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-  }
-
-  private void setupTables() {
-    for (String tableName : this.tables) {
-      initiateTables(tableName);
-    }
-  }
-
-  private void initiateTables(String tableName) {
-    String sqlString = createTableSQLString(tableName);
-    try {
-      this.connect();
-      Statement statement = this.connection.createStatement();
-      statement.execute(sqlString);
-      this.close();
-    } catch (SQLException e) {
-      // Crazy error handling
-      System.out.println(e.getMessage());
-    }
-  }
-
-  private static String createTableSQLString(String tableName) {
-    // TODO: refac into sqlquerycreator, where attribute class is checked to determine type in query
-    // refac idea might cause problem as primary keys etc have to be predetermined?
-
-    return switch (tableName) {
-      case "users" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-              + "	id integer PRIMARY KEY,\n"
-              + "	username text NOT NULL UNIQUE,\n"
-              + "	password text NOT NULL\n"
-              + ");";
-      case "workouts" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-              + "	id integer PRIMARY KEY,\n"
-              + " user_id integer, \n"
-              + "	date text,\n"
-              + " FOREIGN KEY (user_id) REFERENCES users (id)"
-              + ");";
-      case "exercise" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-              + "	id integer PRIMARY KEY,\n"
-              + " workout_id integer, \n"
-              + "	ex_name text NOT NULL,\n"
-              + "	sets integer NOT NULL,\n"
-              + "	reps integer NOT NULL,\n"
-              + "	weight text,\n"
-              + " FOREIGN KEY (workout_id) REFERENCES workouts (id)"
-              + ");";
-      default -> throw new IllegalStateException("SQL Table creation failed for value: " + tableName);
-    };
-  }
-
-  public void addRow(DbUploadable entity) {
+  public static void addRow(DbUploadable entity) {
     SQLQueryCreator creator = new SQLQueryCreator(entity);
     String sqlStirng = creator.createAddRowString();
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
@@ -96,41 +27,80 @@ public class DatabaseController {
       return;
     }
 
-    try {
-      this.connect();
-      PreparedStatement pStatement = this.connection.prepareStatement(sqlStirng);
-
+    try (Connection connection = connect();
+         PreparedStatement pStatement = connection.prepareStatement(sqlStirng)) {
       int idx = 1;
       for (String attribute : attributeNames) {
         pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
       }
       pStatement.executeUpdate();
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      System.err.println(e.getMessage());
+    }
+  }
+
+  public static String fetchUserId(String username) {
+    String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
+
+    try (Connection connection = connect();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(sqlString)) {
+      while (resultSet.next()) {
+        System.out.println(resultSet.getInt("id"));
+      }
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+    return null;
+  }
+
+  private void setupTables() {
+    for (String tableName : this.tables) {
+      initiateTables(tableName);
     }
   }
 
   private void setupForeignKey() {
     String sqlString = "PRAGMA foreign_keys = ON;";
-    try {
-      this.connect();
-      Statement statement = this.connection.createStatement();
+    try (Connection connection = connect();
+         Statement statement = connection.createStatement()) {
       statement.execute(sqlString);
       System.out.println("Successfully enabled Foreign Keys. ");
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      System.err.println(e.getMessage());
     }
   }
 
-  private void dropTable(String tableName) {
-    String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";
+  private static Connection connect() {
+    Connection connection = null;
     try {
-      this.connect();
-      Statement statement = this.connection.createStatement();
-      statement.execute(sqlString);
-      System.out.println("Dropped table: " + tableName);
+      connection = DriverManager.getConnection(DB_PATH);
+      return connection;
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
+      System.err.println(e.getMessage());
+    }
+    return connection;
+  }
+
+  private static void closeConnection(Connection connection) {
+    try {
+      if (connection != null) {
+        connection.close();
+      }
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+  }
+
+  private void initiateTables(String tableName) {
+    String sqlString = SQLQueryCreator.getTableSQLString(tableName);
+
+    try (Connection connection = connect();
+         Statement statement = connection.createStatement()) {
+      statement.execute(sqlString);
+      closeConnection(connection);
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
     }
   }
 
@@ -141,7 +111,18 @@ public class DatabaseController {
     System.out.println("Successfully dropped all tables. ");
   }
 
-  private boolean validateParamsForString(
+  private void dropTable(String tableName) {
+    String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";
+    try (Connection connection = connect();
+         Statement statement = connection.createStatement()) {
+      statement.execute(sqlString);
+      System.out.println("Dropped table: " + tableName);
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+  }
+
+  private static boolean validateParamsForString(
           HashMap<String, Object> uploadAbleData, ArrayList<String> attributeNames
   ) {
     if (attributeNames.size() != uploadAbleData.keySet().size()) {
@@ -155,40 +136,5 @@ public class DatabaseController {
     }
 
     return true;
-  }
-
-  /**
-   * Methods that fetches a user_id by using the username. Used by
-   * Authenticator to safely find if a user exists in db, and to login.
-   * If no user has the username,
-   *
-   * @param username String of User's username
-   * @return String of user_id
-   */
-  public String fetchUserId(String username) {
-    String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
-
-    try {
-      this.connect();
-      Statement stmt = this.connection.createStatement();
-      ResultSet resultSet = stmt.executeQuery(sqlString);
-      while (resultSet.next()) {
-        System.out.println(resultSet.getInt("id"));
-      }
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    }
-    return null;
-  }
-
-
-  /**
-   * Method that takes in a DbUploadable object and if said object
-   * holds a foreign key, it will return .
-   * @param entity
-   * @return
-   */
-  public String fetchParentId(DbUploadable entity) {
-    return null;
   }
 }

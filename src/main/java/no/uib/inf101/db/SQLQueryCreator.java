@@ -40,4 +40,30 @@ public class SQLQueryCreator {
     sb.append(")");
     return sb.toString();
   }
+
+  public static String getTableSQLString(String tableName) {
+    return switch (tableName) {
+      case "users" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
+              + "	id integer PRIMARY KEY,\n"
+              + "	username text NOT NULL UNIQUE,\n"
+              + "	password text NOT NULL\n"
+              + ");";
+      case "workouts" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
+              + "	id integer PRIMARY KEY,\n"
+              + " user_id integer, \n"
+              + "	date text,\n"
+              + " FOREIGN KEY (user_id) REFERENCES users (id)"
+              + ");";
+      case "exercise" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
+              + "	id integer PRIMARY KEY,\n"
+              + " workout_id integer, \n"
+              + "	ex_name text NOT NULL,\n"
+              + "	sets integer NOT NULL,\n"
+              + "	reps integer NOT NULL,\n"
+              + "	weight text,\n"
+              + " FOREIGN KEY (workout_id) REFERENCES workouts (id)"
+              + ");";
+      default -> throw new IllegalStateException("SQL Table creation failed for value: " + tableName);
+    };
+  }
 }

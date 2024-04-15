@@ -39,15 +39,26 @@ public class DatabaseController {
     }
   }
 
+  public static boolean validatePass(String username, String password) {
+    String sqlString = "SELECT password FROM users WHERE username = '" + username + "';" ;
+
+    try (Connection connection = connect();
+    Statement statement = connection.createStatement();
+    ResultSet resultSet = statement.executeQuery(sqlString)) {
+      String s = resultSet.getString("password");
+      return s.equals(password);
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+    return false;
+  }
   public static String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(sqlString)) {
-      while (resultSet.next()) {
-        System.out.println(resultSet.getInt("id"));
-      }
+      return String.valueOf(resultSet.getInt("id"));
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }

@@ -6,6 +6,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class not deleted yet in case some features have not been added to new
+ * DbController
+ */
+@Deprecated
 public class DatabaseControllerV1 {
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
   private Connection connection;

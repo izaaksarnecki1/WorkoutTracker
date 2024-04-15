@@ -3,6 +3,7 @@ package no.uib.inf101.model;
 import java.util.*;
 
 public class Exercise implements DbUploadable{
+  public static final String tableName = "exercises";
   private String exerciseName;
   private int sets;
   private int reps;
@@ -91,11 +92,16 @@ public class Exercise implements DbUploadable{
 
   @Override
   public String getTableName() {
-    return "exercises";
+    return tableName;
   }
 
   @Override
   public ArrayList<String> getAttributeNames() {
     return new ArrayList<>(Arrays.asList("ex_name", "sets", "reps", "weight"));
+  }
+
+  @Override
+  public String getParent() {
+    return Workout.tableName;
   }
 }

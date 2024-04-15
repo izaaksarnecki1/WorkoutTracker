@@ -58,7 +58,7 @@ public class DatabaseController {
   }
 
   private static String createTableSQLString(String tableName) {
-    // TODO: refac into sqlquerycreator, where attribute class is check to determine type in query
+    // TODO: refac into sqlquerycreator, where attribute class is checked to determine type in query
     // refac idea might cause problem as primary keys etc have to be predetermined?
 
     return switch (tableName) {
@@ -157,6 +157,14 @@ public class DatabaseController {
     return true;
   }
 
+  /**
+   * Methods that fetches a user_id by using the username. Used by
+   * Authenticator to safely find if a user exists in db, and to login.
+   * If no user has the username,
+   *
+   * @param username String of User's username
+   * @return String of user_id
+   */
   public String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
 
@@ -170,6 +178,17 @@ public class DatabaseController {
     } catch (SQLException e) {
       System.out.println(e.getMessage());
     }
+    return null;
+  }
+
+
+  /**
+   * Method that takes in a DbUploadable object and if said object
+   * holds a foreign key, it will return .
+   * @param entity
+   * @return
+   */
+  public String fetchParentId(DbUploadable entity) {
     return null;
   }
 }

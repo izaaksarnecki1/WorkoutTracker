@@ -9,6 +9,7 @@ import java.util.*;
 
 public class User implements DbUploadable {
 
+  public static final String tableName = "users";
   private String username;
   private String firstName;
   private String lastName;
@@ -71,7 +72,7 @@ public class User implements DbUploadable {
 
   @Override
   public String getTableName() {
-    return "users";
+    return tableName;
   }
 
   @Override

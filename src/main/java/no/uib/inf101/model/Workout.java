@@ -1,10 +1,13 @@
 package no.uib.inf101.model;
 
+import no.uib.inf101.model.user.User;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Workout implements Iterable<Exercise>, DbUploadable {
+  public static final String tableName = "workouts";
   private List<Exercise> exercises;
   private LocalDate workoutDate;
   private final int user_id;
@@ -59,11 +62,16 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
 
   @Override
   public String getTableName() {
-    return "workouts";
+    return tableName;
   }
 
   @Override
   public ArrayList<String> getAttributeNames() {
     return new ArrayList<>(Arrays.asList("date", "user_id"));
+  }
+
+  @Override
+  public String getParent() {
+    return User.tableName;
   }
 }

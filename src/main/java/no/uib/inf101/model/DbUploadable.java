@@ -26,4 +26,14 @@ public interface DbUploadable {
    * @return List of attributes names.
    */
   ArrayList<String> getAttributeNames();
+
+  /**
+   * Retrieves the parent table of current object.
+   * Exercise would return workouts as exercise links to workouts
+   * through foreign key. Not all objects will have parents,
+   * returns null by default.
+   *
+   * @return Parent table of object.
+   */
+  default String getParent() {return null;}
 }

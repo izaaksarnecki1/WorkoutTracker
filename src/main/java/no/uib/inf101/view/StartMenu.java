@@ -27,20 +27,13 @@ public class StartMenu extends InteractiveWindow {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == startButton) {
-      InteractiveWindow mainMenu = new MainMenu();
-      this.frame.setVisible(false);
-      this.frame.removeAll();
-    }
     if (e.getSource() == loginButton) {
       InteractiveWindow loginMenu = new LoginMenu();
-      this.frame.setVisible(false);
-      this.frame.removeAll();
+      this.frame.dispose();
     }
     if (e.getSource() == signupButton) {
       InteractiveWindow signupMenu = new SignupMenu();
-      this.frame.setVisible(false);
-      this.frame.removeAll();
+      this.frame.dispose();
     }
   }
 

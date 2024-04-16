@@ -68,6 +68,13 @@ public class User implements DbUploadable {
   public int getId() {
     return this.id;
   }
+  public String getUsername() {
+    return this.username;
+  }
+
+  public String getPassword() {
+    return this.password;
+  }
 
   @Override
   public HashMap<String, Object> getUploadableData() {

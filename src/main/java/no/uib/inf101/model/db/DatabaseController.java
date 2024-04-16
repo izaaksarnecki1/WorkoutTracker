@@ -8,11 +8,11 @@ import java.util.HashMap;
 
 public class DatabaseController {
 
-  private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
+  private static final String DB_PATH = detectOs();
   private final String[] tables = {"users", "workouts", "exercise"};
 
   public DatabaseController() {
-    this.dropTables();
+//    this.dropTables();
     this.setupForeignKey();
     this.setupTables();
   }
@@ -52,13 +52,15 @@ public class DatabaseController {
     }
     return false;
   }
-  protected static String fetchUserId(String username) {
+  static String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(sqlString)) {
-      return String.valueOf(resultSet.getInt("id"));
+      String s = String.valueOf(resultSet.getInt("id"));
+      System.out.println(s.getClass());
+      return s;
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
@@ -147,5 +149,13 @@ public class DatabaseController {
     }
 
     return true;
+  }
+
+  private static String detectOs() {
+    String os = System.getProperty("os.name");
+    if (os.toLowerCase().equals("windows 11")) {
+      return "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
+    }
+    return null;
   }
 }

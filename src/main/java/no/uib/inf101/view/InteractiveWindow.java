@@ -61,7 +61,8 @@ public abstract class InteractiveWindow implements ActionListener {
     textField.setText(text);
     textField.setFont(TEXT_FONT);
     textField.addActionListener(this);
-    textField.setAlignmentX(Component.CENTER_ALIGNMENT);
+//    textField.setAlignmentX(Component.CENTER_ALIGNMENT);
+    textField.setBounds(new Rectangle(10, 10, 50, 30));
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(textField);
     return textField;
@@ -72,7 +73,7 @@ public abstract class InteractiveWindow implements ActionListener {
     JPasswordField passwordField = new JPasswordField();
     passwordField.setText(text);
     passwordField.addActionListener(this);
-    passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
+//    passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(passwordField);
     return passwordField;

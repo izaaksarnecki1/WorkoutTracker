@@ -1,7 +1,5 @@
 package no.uib.inf101.model;
 
-import no.uib.inf101.model.user.User;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;

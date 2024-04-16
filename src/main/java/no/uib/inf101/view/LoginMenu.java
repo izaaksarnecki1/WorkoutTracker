@@ -1,7 +1,5 @@
 package no.uib.inf101.view;
 
-import no.uib.inf101.model.user.Authenticator;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 

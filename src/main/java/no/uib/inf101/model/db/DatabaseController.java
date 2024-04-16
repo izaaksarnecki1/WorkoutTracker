@@ -1,4 +1,4 @@
-package no.uib.inf101.db;
+package no.uib.inf101.model.db;
 
 import no.uib.inf101.model.DbUploadable;
 
@@ -39,7 +39,7 @@ public class DatabaseController {
     }
   }
 
-  public static boolean validatePass(String username, String password) {
+  protected static boolean validatePass(String username, String password) {
     String sqlString = "SELECT password FROM users WHERE username = '" + username + "';" ;
 
     try (Connection connection = connect();
@@ -52,7 +52,7 @@ public class DatabaseController {
     }
     return false;
   }
-  public static String fetchUserId(String username) {
+  protected static String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();

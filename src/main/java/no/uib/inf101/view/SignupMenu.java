@@ -1,9 +1,8 @@
 package no.uib.inf101.view;
 
 import com.google.common.hash.Hashing;
-import no.uib.inf101.db.DatabaseController;
-import no.uib.inf101.model.user.Authenticator;
-import no.uib.inf101.model.user.User;
+import no.uib.inf101.model.db.Authenticator;
+import no.uib.inf101.model.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,18 +27,13 @@ public class SignupMenu extends InteractiveWindow {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == submitButton) {
       String username = this.usernameField.getText();
-      String password = Hashing
+      char[] charPassword = this.passwordField.getPassword();
+      String stringPassword = Hashing
               .sha256()
-              .hashString(String.valueOf(this.passwordField.getPassword()), StandardCharsets.UTF_8)
+              .hashString(String.valueOf(charPassword), StandardCharsets.UTF_8)
               .toString();
-//      if (Authenticator.authUser(username, password)) {
+      User user = Authenticator.createNewUser(username, stringPassword);
 
-//        int id = Integer.parseInt(DatabaseController.fetchUserId(username));
-//        User user = new User(username, password, id);
-//      }
-        if (!Authenticator.authUser(username, password)) {
-          System.out.println("user not found");
-        }
     }
   }
 }

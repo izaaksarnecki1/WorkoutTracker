@@ -1,4 +1,4 @@
-package no.uib.inf101.model.user;
+package no.uib.inf101.model;
 
 import com.google.common.hash.Hashing;
 import no.uib.inf101.model.DbUploadable;
@@ -61,7 +61,7 @@ public class User implements DbUploadable {
     this.workouts.add(workout);
   }
 
-  protected void setId(int id) {
+  public void setId(int id) {
     this.id = id;
   }
 

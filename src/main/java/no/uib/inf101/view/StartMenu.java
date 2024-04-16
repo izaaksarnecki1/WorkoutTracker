@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 
-public class StartMenu extends InteractiveWindow  {
+public class StartMenu extends InteractiveWindow {
 
   private final JButton startButton;
   private final JButton loginButton;
@@ -32,7 +32,7 @@ public class StartMenu extends InteractiveWindow  {
       this.frame.setVisible(false);
       this.frame.removeAll();
     }
-      if (e.getSource() == loginButton) {
+    if (e.getSource() == loginButton) {
       InteractiveWindow loginMenu = new LoginMenu();
       this.frame.setVisible(false);
       this.frame.removeAll();

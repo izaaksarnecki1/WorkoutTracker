@@ -1,6 +1,6 @@
 package no.uib.inf101;
 
-import no.uib.inf101.db.DatabaseController;
+import no.uib.inf101.model.db.DatabaseController;
 import no.uib.inf101.view.StartMenu;
 
 public class Main {

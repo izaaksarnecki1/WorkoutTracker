@@ -1,4 +1,4 @@
-package no.uib.inf101.db;
+package no.uib.inf101.model.db;
 
 import no.uib.inf101.model.DbUploadable;
 

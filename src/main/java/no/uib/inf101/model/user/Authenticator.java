@@ -7,13 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public class Authenticator {
-  private final String username;
-  private final String password;
-  public Authenticator(String username, String password) {
-    // More secure if password passed in is already hashed?
-    // Do I even need to store the password here?
-    this.username = username;
-    this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+
+  public Authenticator() {
+
   }
 
   public static User createNewUser(String username, String password) throws Exception {
@@ -21,29 +17,25 @@ public class Authenticator {
     DatabaseController.addRow(user);
     String stringId = DatabaseController.fetchUserId(username);
 
-    int id = 0;
+    int userId = 0;
 
     if (stringId != null) {
-      id = Integer.parseInt(stringId);
+      userId = Integer.parseInt(stringId);
 
     } else {
       throw new Exception("Error when assigning user id");
     }
 
-    user.setId(id);
+    user.setId(userId);
     return user;
   }
 
   public static User loginUser(String username, String password) {
     User user = new User(username, password);
-    int id = Integer.parseInt(Objects.requireNonNull(DatabaseController.fetchUserId(username)));
+    int userId = Integer.parseInt(Objects.requireNonNull(DatabaseController.fetchUserId(username)));
 
-    user.setId(id);
+    user.setId(userId);
     return user;
-  }
-
-  private static boolean checkPassword(String username, String password) {
-    return DatabaseController.validatePass(username, password);
   }
 
   public static boolean authUser(String username, String password) {
@@ -58,6 +50,10 @@ public class Authenticator {
     }
 
     return true;
+  }
+  
+  private static boolean checkPassword(String username, String password) {
+    return DatabaseController.validatePass(username, password);
   }
 
   private static boolean checkUsername(String username) {

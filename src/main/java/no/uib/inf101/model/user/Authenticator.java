@@ -16,28 +16,6 @@ public class Authenticator {
     this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
   }
 
-  private static boolean checkPassword(String username, String password) {
-    return DatabaseController.validatePass(username, password);
-  }
-
-  public static boolean authUser(String username, String password) {
-    if (!checkUsername(username)) {
-      System.out.println("Username not found. ");
-      return false;
-    }
-
-    if (!checkPassword(username, password)) {
-      System.out.println("Password does not match. ");
-      return false;
-    }
-
-    return true;
-  }
-
-  private static boolean checkUsername(String username) {
-    return DatabaseController.fetchUserId(username) == null;
-  }
-
   public static User createNewUser(String username, String password) throws Exception {
     User user = new User(username, password);
     DatabaseController.addRow(user);
@@ -62,5 +40,27 @@ public class Authenticator {
 
     user.setId(id);
     return user;
+  }
+
+  private static boolean checkPassword(String username, String password) {
+    return DatabaseController.validatePass(username, password);
+  }
+
+  public static boolean authUser(String username, String password) {
+    if (!checkUsername(username)) {
+      System.out.println("Username not found. ");
+      return false;
+    }
+
+    if (!checkPassword(username, password)) {
+      System.out.println("Password does not match. ");
+      return false;
+    }
+
+    return true;
+  }
+
+  private static boolean checkUsername(String username) {
+    return DatabaseController.fetchUserId(username) == null;
   }
 }

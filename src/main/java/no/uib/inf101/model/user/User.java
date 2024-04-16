@@ -17,12 +17,11 @@ public class User implements DbUploadable {
   private int weight;
   private int height;
   private ArrayList<Workout> workouts;
-  private final int id;
+  private int id = 0;
 
-  public User(String username, String password, int id) {
+  public User(String username, String password) {
     this.username = username;
-    this.password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
-    this.id = id;
+    this.password = password; // Password is already hashed in parameter
     this.workouts = new ArrayList<>();
   }
 
@@ -60,6 +59,14 @@ public class User implements DbUploadable {
 
   public void addWorkout(Workout workout) {
     this.workouts.add(workout);
+  }
+
+  protected void setId(int id) {
+    this.id = id;
+  }
+
+  public int getId() {
+    return this.id;
   }
 
   @Override

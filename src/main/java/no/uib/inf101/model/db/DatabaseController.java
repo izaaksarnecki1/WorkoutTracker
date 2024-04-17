@@ -12,7 +12,11 @@ public class DatabaseController {
   private final String[] tables = {"users", "workouts", "exercise"};
 
   public DatabaseController() {
-//    this.dropTables();
+    setupDb();
+  }
+
+  void setupDb() {
+    this.dropTables();
     this.setupForeignKey();
     this.setupTables();
   }
@@ -117,7 +121,7 @@ public class DatabaseController {
     }
   }
 
-  private void dropTables() {
+  void dropTables() {
     for (String tableName : this.tables) {
       dropTable(tableName);
     }
@@ -155,7 +159,8 @@ public class DatabaseController {
     String os = System.getProperty("os.name");
     if (os.toLowerCase().equals("windows 11")) {
       return "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
+    } else {
+      return "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
     }
-    return null;
   }
 }

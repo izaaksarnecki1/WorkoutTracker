@@ -93,4 +93,8 @@ public class User implements DbUploadable {
   public ArrayList<String> getAttributeNames() {
     return new ArrayList<>(Arrays.asList("username", "password"));
   }
+
+  public ArrayList<Workout> getWorkouts() {
+    return this.workouts;
+  }
 }

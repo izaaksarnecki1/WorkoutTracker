@@ -44,6 +44,8 @@ public class SignupMenu extends InteractiveWindow {
       User user = Authenticator.createNewUser(username, stringPassword);
       if (user == null) {
         System.err.println("Error making user");
+      } else {
+        System.out.println("Created user. ");
       }
     }
   }

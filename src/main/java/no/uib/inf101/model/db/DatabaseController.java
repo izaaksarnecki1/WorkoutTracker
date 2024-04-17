@@ -16,7 +16,7 @@ public class DatabaseController {
   }
 
   void setupDb() {
-    this.dropTables();
+//    this.dropTables();
     this.setupForeignKey();
     this.setupTables();
   }
@@ -62,9 +62,7 @@ public class DatabaseController {
     try (Connection connection = connect();
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(sqlString)) {
-      String s = String.valueOf(resultSet.getInt("id"));
-      System.out.println(s.getClass());
-      return s;
+      return String.valueOf(resultSet.getInt("id"));
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }

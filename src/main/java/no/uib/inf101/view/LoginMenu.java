@@ -37,7 +37,9 @@ public class LoginMenu extends InteractiveWindow {
       User user = Authenticator.loginUser(username, stringPassword);
       if (user == null) {
         System.err.println("Error logging in. ");
-      } 
+      } else {
+        System.out.println("Logged in. ");
+      }
     }
   }
 }

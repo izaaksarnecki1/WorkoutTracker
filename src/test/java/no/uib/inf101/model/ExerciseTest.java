@@ -1,101 +1,67 @@
-//package no.uib.inf101.model;
-//
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.BeforeEach;
-//import java.util.Calendar;
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//public class ExerciseTest {
-//
-//  private Exercise exercise;
-//
-//  @BeforeEach
-//  public void setUp() {
-//    Calendar date = Calendar.getInstance();
-//    exercise = new Exercise("Push-ups", 3, 10, 50, date);
-//  }
-//
-//  @Test
-//  public void testGetExerciseName() {
-//    assertEquals("Push-ups", exercise.getExerciseName());
-//  }
-//
-//  @Test
-//  public void testGetSets() {
-//    assertEquals(3, exercise.getSets());
-//  }
-//
-//  @Test
-//  public void testGetReps() {
-//    assertEquals(10, exercise.getReps());
-//  }
-//
-//  @Test
-//  public void testGetWeight() {
-//    assertEquals(50, exercise.getWeight());
-//  }
-//
-//  @Test
-//  public void testGetWorkoutDate() {
-//    assertNotNull(exercise.getWorkoutDate());
-//  }
-//
-//  @Test
-//  public void testSetExerciseName() {
-//    exercise.setExerciseName("Pull-ups");
-//    assertEquals("Pull-ups", exercise.getExerciseName());
-//  }
-//
-//  @Test
-//  public void testSetSets() {
-//    exercise.setSets(4);
-//    assertEquals(4, exercise.getSets());
-//  }
-//
-//  @Test
-//  public void testSetReps() {
-//    exercise.setReps(12);
-//    assertEquals(12, exercise.getReps());
-//  }
-//
-//  @Test
-//  public void testSetWeight() {
-//    exercise.setWeight(60);
-//    assertEquals(60, exercise.getWeight());
-//  }
-//
-//  @Test
-//  public void testSetWorkoutDate() {
-//    Calendar newDate = Calendar.getInstance();
-//    exercise.setWorkoutDate(newDate);
-//    assertEquals(newDate, exercise.getWorkoutDate());
-//  }
-//
-//  @Test
-//  public void testToString() {
-//    String expected = "Exercise_Name: Push-ups | Sets: 3 | Reps: 10 | Weight: 50 | Date: " + exercise.getWorkoutDate().toString();
-//    assertEquals(expected, exercise.toString());
-//  }
-//
-//  @Test
-//  public void testEquals() {
-//    exercise.setWorkoutDate(Calendar.);
-//    Calendar date = Calendar.getInstance();
-//    Exercise sameExercise = new Exercise("Push-ups", 3, 10, 50, date);
-//    assertEquals(exercise, sameExercise);
-//  }
-//
-//  @Test
-//  public void testNotEquals() {
-//    Calendar date = Calendar.getInstance();
-//    Exercise differentExercise = new Exercise("Squats", 3, 10, 50, date);
-//    assertNotEquals(exercise, differentExercise);
-//  }
-//
-//  @Test
-//  public void testHashCode() {
-//    Calendar date = Calendar.getInstance();
-//    Exercise sameExercise = new Exercise("Push-ups", 3, 10, 50, date);
-//    assertEquals(exercise.hashCode(), sameExercise.hashCode());
-//  }
-//}
+package no.uib.inf101.model;
+
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.HashMap;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class ExerciseTest {
+
+  @Test
+  void getSetExerciseName() {
+    Exercise exercise = new Exercise("Push-up", 3, 10);
+    exercise.setExerciseName("Pull-up");
+    assertEquals("Pull-up", exercise.getExerciseName());
+  }
+
+  @Test
+  void getSetSets() {
+    Exercise exercise = new Exercise("Squat", 4, 8);
+    exercise.setSets(5);
+    assertEquals(5, exercise.getSets());
+  }
+
+  @Test
+  void getSetReps() {
+    Exercise exercise = new Exercise("Deadlift", 3, 12);
+    exercise.setReps(15);
+    assertEquals(15, exercise.getReps());
+  }
+
+  @Test
+  void getSetWeight() {
+    Exercise exercise = new Exercise("Bench Press", 4, 10, 50);
+    exercise.setWeight(60);
+    assertEquals(60, exercise.getWeight());
+  }
+
+  @Test
+  void getUploadableData() {
+    Exercise exercise = new Exercise("Sit-up", 3, 20);
+    exercise.setWeight(0);
+    HashMap<String, Object> expectedData = new HashMap<>();
+    expectedData.put("ex_name", "Sit-up");
+    expectedData.put("sets", 3);
+    expectedData.put("reps", 20);
+    expectedData.put("weight", 0);
+    assertEquals(expectedData, exercise.getUploadableData());
+  }
+
+  @Test
+  void getTableName() {
+    assertEquals("exercises", Exercise.tableName);
+  }
+
+  @Test
+  void getAttributeNames() {
+    Exercise exercise = new Exercise("Plank", 3, 60);
+    assertEquals(Arrays.asList("ex_name", "sets", "reps", "weight"), exercise.getAttributeNames());
+  }
+
+  @Test
+  void getParent() {
+    assertEquals(Workout.tableName, new Exercise("Lunge", 3, 12).getParent());
+  }
+}

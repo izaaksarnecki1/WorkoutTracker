@@ -12,6 +12,10 @@ public class DatabaseController {
   private final String[] tables = {"users", "workouts", "exercise"};
 
   public DatabaseController() {
+    setupDb();
+  }
+
+  void setupDb() {
 //    this.dropTables();
     this.setupForeignKey();
     this.setupTables();
@@ -58,9 +62,7 @@ public class DatabaseController {
     try (Connection connection = connect();
          Statement statement = connection.createStatement();
          ResultSet resultSet = statement.executeQuery(sqlString)) {
-      String s = String.valueOf(resultSet.getInt("id"));
-      System.out.println(s.getClass());
-      return s;
+      return String.valueOf(resultSet.getInt("id"));
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
@@ -117,7 +119,7 @@ public class DatabaseController {
     }
   }
 
-  private void dropTables() {
+  void dropTables() {
     for (String tableName : this.tables) {
       dropTable(tableName);
     }
@@ -155,7 +157,8 @@ public class DatabaseController {
     String os = System.getProperty("os.name");
     if (os.toLowerCase().equals("windows 11")) {
       return "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
+    } else {
+      return "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
     }
-    return null;
   }
 }

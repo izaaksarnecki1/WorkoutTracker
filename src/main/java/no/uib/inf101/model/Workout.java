@@ -38,7 +38,7 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
     }
   }
 
-  private boolean validExercise(Exercise exercise) {
+  boolean validExercise(Exercise exercise) {
     return !exercise.getExerciseName().isEmpty()
             && exercise.getReps() != 0
             && exercise.getSets() != 0;

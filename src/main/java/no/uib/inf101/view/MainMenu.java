@@ -16,4 +16,9 @@ public class MainMenu extends InteractiveWindow {
   public void actionPerformed(ActionEvent e) {
 
   }
+
+  @Override
+  public String getIdentifier() {
+    return "MainMenu";
+  }
 }

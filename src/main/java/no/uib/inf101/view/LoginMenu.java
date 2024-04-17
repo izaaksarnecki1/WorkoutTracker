@@ -25,6 +25,12 @@ public class LoginMenu extends InteractiveWindow {
     this.frame.add(this.screenComponents);
     this.frame.setVisible(true);
   }
+
+  @Override
+  public String getIdentifier() {
+    return "LoginMenu";
+  }
+
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == submitButton) {

@@ -11,11 +11,9 @@ import java.awt.event.ActionEvent;
 import java.nio.charset.StandardCharsets;
 
 public class SignupMenu extends InteractiveWindow {
-
   private final JTextField usernameField;
   private final JPasswordField passwordField;
   private final JButton submitButton;
-
   public SignupMenu() {
     super();
 //    this.screenComponents.setLayout(new GridBagLayout());
@@ -28,8 +26,16 @@ public class SignupMenu extends InteractiveWindow {
     this.submitButton = addButton(this.screenComponents, "Submit");
 //    this.usernameField.setBounds(new Rectangle(10, 10, 50, 30));
     this.passwordField.setBounds(new Rectangle(10, 50, 50, 30));
+
+
+
     this.frame.add(this.screenComponents);
     this.frame.setVisible(true);
+  }
+
+  @Override
+  public String getIdentifier() {
+    return "SignupMenu";
   }
 
   @Override

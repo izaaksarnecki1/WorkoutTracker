@@ -3,6 +3,8 @@ package no.uib.inf101.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class InteractiveWindow implements ActionListener {
 
@@ -13,6 +15,7 @@ public abstract class InteractiveWindow implements ActionListener {
   private final Font TEXT_FONT = new Font("Arial", Font.PLAIN, 18);
   final JFrame frame;
   JPanel screenComponents;
+  Map<String, JButton> buttonMap;
 
   public InteractiveWindow() {
     this.frame = new JFrame();
@@ -21,6 +24,11 @@ public abstract class InteractiveWindow implements ActionListener {
     this.screenComponents = new JPanel();
     this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.frame.pack();
+    this.buttonMap = new HashMap<>();
+  }
+
+  public Map<String, JButton> getButtons() {
+    return this.buttonMap;
   }
 
   JButton addButton(JPanel buttons, String text) {
@@ -78,4 +86,6 @@ public abstract class InteractiveWindow implements ActionListener {
     textFields.add(passwordField);
     return passwordField;
   }
+
+  public abstract String getIdentifier();
 }

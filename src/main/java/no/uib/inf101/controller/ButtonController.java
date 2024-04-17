@@ -2,8 +2,11 @@ package no.uib.inf101.controller;
 
 import no.uib.inf101.view.*;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ButtonController implements ActionListener {
@@ -20,6 +23,9 @@ public class ButtonController implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (this.currentWindow instanceof StartMenu) {
+      for (Component component : this.currentWindow.getPanel()) {
+        
+      }
 //      if (e.getSource() == currentWindow.getLoginButton()) {
 //        InteractiveWindow loginMenu = new LoginMenu();
 //        startMenu.dispose();

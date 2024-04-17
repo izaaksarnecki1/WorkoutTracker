@@ -3,6 +3,7 @@ package no.uib.inf101.view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class StartMenu extends InteractiveWindow {
   private final JButton loginButton;
@@ -28,6 +29,12 @@ public class StartMenu extends InteractiveWindow {
   @Override
   public String getIdentifier() {
     return "StartMenu";
+  }
+
+  @Override
+  protected void addActionListener(ActionListener l) {
+    this.loginButton.addActionListener(l);
+    this.signupButton.addActionListener(l);
   }
 
   @Override

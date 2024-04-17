@@ -3,6 +3,7 @@ package no.uib.inf101.view;
 import no.uib.inf101.model.User;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainMenu extends InteractiveWindow {
 
@@ -20,5 +21,10 @@ public class MainMenu extends InteractiveWindow {
   @Override
   public String getIdentifier() {
     return "MainMenu";
+  }
+
+  @Override
+  protected void addActionListener(ActionListener l) {
+
   }
 }

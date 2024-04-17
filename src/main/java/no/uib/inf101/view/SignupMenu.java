@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.charset.StandardCharsets;
 
 public class SignupMenu extends InteractiveWindow {
@@ -36,6 +37,13 @@ public class SignupMenu extends InteractiveWindow {
   @Override
   public String getIdentifier() {
     return "SignupMenu";
+  }
+
+  @Override
+  protected void addActionListener(ActionListener l) {
+    this.usernameField.addActionListener(l);
+    this.passwordField.addActionListener(l);
+    this.submitButton.addActionListener(l);
   }
 
   @Override

@@ -3,6 +3,7 @@ package no.uib.inf101.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,10 @@ public abstract class InteractiveWindow implements ActionListener {
     return this.buttonMap;
   }
 
+  public Component[] getPanel() {
+    return this.screenComponents.getComponents();
+  }
+
   JButton addButton(JPanel buttons, String text) {
     return this.addButton(buttons, text, null);
   }
@@ -56,7 +61,7 @@ public abstract class InteractiveWindow implements ActionListener {
 
     button.setText(text);
     button.setFont(BUTTON_FONT);
-    button.addActionListener(this);
+//    button.addActionListener(this);
     button.setAlignmentX(Component.CENTER_ALIGNMENT);
     button.setAlignmentY(Component.BOTTOM_ALIGNMENT);
     buttons.add(Box.createRigidArea(paddingBoxDimension));
@@ -88,4 +93,5 @@ public abstract class InteractiveWindow implements ActionListener {
   }
 
   public abstract String getIdentifier();
+  protected abstract void addActionListener(ActionListener l);
 }

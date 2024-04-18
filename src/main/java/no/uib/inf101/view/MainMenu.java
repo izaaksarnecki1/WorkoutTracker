@@ -13,10 +13,10 @@ public class MainMenu extends InteractiveWindow {
     this.user = user;
     this.frame.setVisible(true);
   }
-  @Override
-  public void actionPerformed(ActionEvent e) {
-
-  }
+//  @Override
+//  public void actionPerformed(ActionEvent e) {
+//
+//  }
 
   @Override
   public String getIdentifier() {
@@ -24,7 +24,7 @@ public class MainMenu extends InteractiveWindow {
   }
 
   @Override
-  protected void addActionListener(ActionListener l) {
+  public void addActionListener(ActionListener l) {
 
   }
 }

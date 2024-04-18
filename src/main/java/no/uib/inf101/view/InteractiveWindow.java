@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class InteractiveWindow implements ActionListener {
+public abstract class InteractiveWindow {
 
   public static final String WINDOW_TITLE = "Workout Tracker";
   public static final int SCREEN_WIDTH = 800;
@@ -16,8 +16,8 @@ public abstract class InteractiveWindow implements ActionListener {
   private final Font TEXT_FONT = new Font("Arial", Font.PLAIN, 18);
   final JFrame frame;
   JPanel screenComponents;
+  JPanel rightside;
   Map<String, JButton> buttonMap;
-  JComponent[] compList;
 
   public InteractiveWindow() {
     this.frame = new JFrame();
@@ -31,10 +31,6 @@ public abstract class InteractiveWindow implements ActionListener {
 
   public Map<String, JButton> getButtons() {
     return this.buttonMap;
-  }
-
-  public JComponent[] getCompList() {
-    return this.compList;
   }
 
   JButton addButton(JPanel buttons, String text) {
@@ -74,7 +70,7 @@ public abstract class InteractiveWindow implements ActionListener {
     JTextField textField = new JTextField();
     textField.setText(text);
     textField.setFont(TEXT_FONT);
-    textField.addActionListener(this);
+//    textField.addActionListener(this);
 //    textField.setAlignmentX(Component.CENTER_ALIGNMENT);
     textField.setBounds(new Rectangle(10, 10, 50, 30));
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
@@ -86,13 +82,16 @@ public abstract class InteractiveWindow implements ActionListener {
     // textFields param is used to simplify display process.
     JPasswordField passwordField = new JPasswordField();
     passwordField.setText(text);
-    passwordField.addActionListener(this);
+//    passwordField.addActionListener(this);
 //    passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(passwordField);
     return passwordField;
   }
 
+  public void dispose() {
+    this.frame.dispose();
+  }
   public abstract String getIdentifier();
-  protected abstract void addActionListener(ActionListener l);
+  public abstract void addActionListener(ActionListener l);
 }

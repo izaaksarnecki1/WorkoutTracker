@@ -6,9 +6,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
+
 public class DatabaseController {
 
-  private static final String DB_PATH = detectOs();
+  private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
   private final String[] tables = {"users", "workouts", "exercise"};
 
   public DatabaseController() {
@@ -149,13 +151,5 @@ public class DatabaseController {
     }
 
     return true;
-  }
-
-  private static String detectOs() {
-    String os = System.getProperty("os.name");
-    if (os.toLowerCase().equals("windows 11")) {
-      return "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
-    }
-    return null;
   }
 }

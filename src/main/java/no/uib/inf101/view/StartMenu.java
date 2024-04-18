@@ -20,10 +20,8 @@ public class StartMenu extends InteractiveWindow {
     this.signupButton = addButton(screenComponents, "Sign Up");
 
     this.frame.add(screenComponents);
+    this.frame.add(rightside);
     this.frame.setVisible(true);
-
-    this.compList[0] = loginButton;
-    this.compList[1] = signupButton;
 
     this.buttonMap.put("loginButton", this.loginButton);
     this.buttonMap.put("signupButton", this.signupButton);
@@ -43,22 +41,22 @@ public class StartMenu extends InteractiveWindow {
   }
 
   @Override
-  protected void addActionListener(ActionListener l) {
+  public void addActionListener(ActionListener l) {
     this.loginButton.addActionListener(l);
     this.signupButton.addActionListener(l);
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == loginButton) {
-      InteractiveWindow loginMenu = new LoginMenu();
-      this.frame.dispose();
-    }
-    if (e.getSource() == signupButton) {
-      InteractiveWindow signupMenu = new SignupMenu();
-      this.frame.dispose();
-    }
-  }
+//  @Override
+//  public void actionPerformed(ActionEvent e) {
+//    if (e.getSource() == loginButton) {
+//      InteractiveWindow loginMenu = new LoginMenu();
+//      this.frame.dispose();
+//    }
+//    if (e.getSource() == signupButton) {
+//      InteractiveWindow signupMenu = new SignupMenu();
+//      this.frame.dispose();
+//    }
+//  }
 
   public void run() {
     while (true) {

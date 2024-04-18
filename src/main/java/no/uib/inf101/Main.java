@@ -10,7 +10,7 @@ public class Main {
       DatabaseController dbController = new DatabaseController();
       StartMenu menu = new StartMenu();
 
-//      new ButtonController()
+      new ButtonController(menu);
 
       menu.run();
     }

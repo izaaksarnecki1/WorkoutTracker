@@ -34,31 +34,43 @@ public class SignupMenu extends InteractiveWindow {
     this.frame.setVisible(true);
   }
 
+  public JTextField getUsernameField() {
+    return usernameField;
+  }
+
+  public JPasswordField getPasswordField() {
+    return passwordField;
+  }
+
+  public JButton getSubmitButton() {
+    return submitButton;
+  }
+
   @Override
   public String getIdentifier() {
     return "SignupMenu";
   }
 
   @Override
-  protected void addActionListener(ActionListener l) {
+  public void addActionListener(ActionListener l) {
     this.usernameField.addActionListener(l);
     this.passwordField.addActionListener(l);
     this.submitButton.addActionListener(l);
   }
 
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == submitButton) {
-      String username = this.usernameField.getText();
-      char[] charPassword = this.passwordField.getPassword();
-      String stringPassword = Hashing
-              .sha256()
-              .hashString(String.valueOf(charPassword), StandardCharsets.UTF_8)
-              .toString();
-      User user = Authenticator.createNewUser(username, stringPassword);
-      if (user == null) {
-        System.err.println("Error making user");
-      }
-    }
-  }
+//  @Override
+//  public void actionPerformed(ActionEvent e) {
+//    if (e.getSource() == submitButton) {
+//      String username = this.usernameField.getText();
+//      char[] charPassword = this.passwordField.getPassword();
+//      String stringPassword = Hashing
+//              .sha256()
+//              .hashString(String.valueOf(charPassword), StandardCharsets.UTF_8)
+//              .toString();
+//      User user = Authenticator.createNewUser(username, stringPassword);
+//      if (user == null) {
+//        System.err.println("Error making user");
+//      }
+//    }
+//  }
 }

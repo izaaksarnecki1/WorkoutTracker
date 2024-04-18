@@ -17,6 +17,7 @@ public abstract class InteractiveWindow implements ActionListener {
   final JFrame frame;
   JPanel screenComponents;
   Map<String, JButton> buttonMap;
+  JComponent[] compList;
 
   public InteractiveWindow() {
     this.frame = new JFrame();
@@ -32,8 +33,8 @@ public abstract class InteractiveWindow implements ActionListener {
     return this.buttonMap;
   }
 
-  public Component[] getPanel() {
-    return this.screenComponents.getComponents();
+  public JComponent[] getCompList() {
+    return this.compList;
   }
 
   JButton addButton(JPanel buttons, String text) {

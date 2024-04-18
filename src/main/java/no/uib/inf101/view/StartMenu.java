@@ -22,8 +22,19 @@ public class StartMenu extends InteractiveWindow {
     this.frame.add(screenComponents);
     this.frame.setVisible(true);
 
+    this.compList[0] = loginButton;
+    this.compList[1] = signupButton;
+
     this.buttonMap.put("loginButton", this.loginButton);
     this.buttonMap.put("signupButton", this.signupButton);
+  }
+
+  public JButton getLoginButton() {
+    return loginButton;
+  }
+
+  public JButton getSignupButton() {
+    return signupButton;
   }
 
   @Override

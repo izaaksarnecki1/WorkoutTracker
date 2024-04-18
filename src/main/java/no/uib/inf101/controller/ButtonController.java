@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class ButtonController implements ActionListener {
   private final ControllableMenuModel model;
-  private final InteractiveWindow currentWindow;
+  private InteractiveWindow currentWindow;
   private Map<String, InteractiveWindow> windowMap;
 
   public ButtonController(ControllableMenuModel model, InteractiveWindow window) {
@@ -23,17 +23,14 @@ public class ButtonController implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (this.currentWindow instanceof StartMenu) {
-      for (Component component : this.currentWindow.getPanel()) {
-        
+      if (e.getSource() == this.currentWindow.getLoginButton()) {
+        InteractiveWindow loginMenu = new LoginMenu();
+//        this.currentWindow.dispose();
       }
-//      if (e.getSource() == currentWindow.getLoginButton()) {
-//        InteractiveWindow loginMenu = new LoginMenu();
-//        startMenu.dispose();
-//      }
-//      if (e.getSource() == startMenu.getSignupButton()) {
-//        InteractiveWindow signupMenu = new SignupMenu();
-//        startMenu.dispose();
-//      }
+      if (e.getSource() == this.currentWindow.getSignupButton()) {
+        InteractiveWindow signupMenu = new SignupMenu();
+        startMenu.dispose();
+      }
     } else if (this.currentWindow instanceof SignupMenu) {
       // Code here
     } else if (this.currentWindow instanceof LoginMenu) {

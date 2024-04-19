@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ButtonController implements ActionListener {
-//  private final ControllableMenuModel model;
+  private final ControllableMenuModel model;
   private InteractiveWindow currentWindow;
   private Map<String, InteractiveWindow> windowMap;
 
-  public ButtonController(InteractiveWindow window) {
-//    this.model = model;
+  public ButtonController(ControllableMenuModel model, InteractiveWindow window) {
+    this.model = model;
     this.currentWindow = window;
     this.windowMap = new HashMap<>();
     this.windowMap.put(currentWindow.getIdentifier(), window);
@@ -25,6 +25,7 @@ public class ButtonController implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (this.currentWindow instanceof StartMenu startMenu) {
+      model.handleStartMenu(e);
       if (e.getSource() == startMenu.getLoginButton()) {
         InteractiveWindow loginMenu = new LoginMenu();
         this.setNewWindow(loginMenu);

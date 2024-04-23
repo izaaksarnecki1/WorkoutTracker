@@ -7,16 +7,11 @@ import java.awt.event.ActionListener;
 
 public class MainMenu extends InteractiveWindow {
 
-  private User user;
-  public MainMenu(User user) {
+  public MainMenu() {
     super();
-    this.user = user;
     this.frame.setVisible(true);
   }
-//  @Override
-//  public void actionPerformed(ActionEvent e) {
-//
-//  }
+
 
   @Override
   public String getIdentifier() {

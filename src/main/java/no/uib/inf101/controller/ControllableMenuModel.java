@@ -5,8 +5,8 @@ import no.uib.inf101.view.InteractiveWindow;
 import java.awt.event.ActionEvent;
 
 public interface ControllableMenuModel {
-  void handleSignupMenu(String identifier, String uname, char[] pass);
-  void handleLoginMenu(String identifier, String uname, char[] pass);
+  InteractiveWindow handleSignupMenu(String identifier, String uname, char[] pass);
+  InteractiveWindow handleLoginMenu(String identifier, String uname, char[] pass);
   InteractiveWindow handleStartMenu(String identifier);
   void handleMainMenu(ActionEvent e);
 }

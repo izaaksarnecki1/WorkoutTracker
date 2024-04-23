@@ -15,6 +15,7 @@ public class SignupMenu extends InteractiveWindow {
   private final JTextField usernameField;
   private final JPasswordField passwordField;
   private final JButton submitButton;
+
   public SignupMenu() {
     super();
 //    this.screenComponents.setLayout(new GridBagLayout());
@@ -47,30 +48,9 @@ public class SignupMenu extends InteractiveWindow {
   }
 
   @Override
-  public String getIdentifier() {
-    return "SignupMenu";
-  }
-
-  @Override
   public void addActionListener(ActionListener l) {
     this.usernameField.addActionListener(l);
     this.passwordField.addActionListener(l);
     this.submitButton.addActionListener(l);
   }
-
-//  @Override
-//  public void actionPerformed(ActionEvent e) {
-//    if (e.getSource() == submitButton) {
-//      String username = this.usernameField.getText();
-//      char[] charPassword = this.passwordField.getPassword();
-//      String stringPassword = Hashing
-//              .sha256()
-//              .hashString(String.valueOf(charPassword), StandardCharsets.UTF_8)
-//              .toString();
-//      User user = Authenticator.createNewUser(username, stringPassword);
-//      if (user == null) {
-//        System.err.println("Error making user");
-//      }
-//    }
-//  }
 }

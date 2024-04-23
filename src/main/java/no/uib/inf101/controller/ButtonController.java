@@ -13,13 +13,10 @@ import java.util.Map;
 public class ButtonController implements ActionListener {
   private final ControllableMenuModel model;
   private InteractiveWindow currentWindow;
-  private Map<String, InteractiveWindow> windowMap;
 
   public ButtonController(ControllableMenuModel model, InteractiveWindow window) {
     this.model = model;
     this.currentWindow = window;
-    this.windowMap = new HashMap<>();
-    this.windowMap.put(currentWindow.getIdentifier(), window);
     this.currentWindow.addActionListener(this);
   }
 
@@ -46,13 +43,25 @@ public class ButtonController implements ActionListener {
       if (e.getSource() == signupMenu.getSubmitButton()) {
         String username = signupMenu.getUsernameField().getText();
         char[] charPassword = signupMenu.getPasswordField().getPassword();
-        model.handleSignupMenu(Constants.SIGNUPMENU_SUBMIT, username, charPassword);
+
+        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_SUBMIT, username, charPassword);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating main menu from signup menu. ");
+        }
       }
     } else if (this.currentWindow instanceof LoginMenu loginMenu) {
       if (e.getSource() == loginMenu.getSubmitButton()) {
         String username = loginMenu.getUsernameField().getText();
         char[] charPassword = loginMenu.getPasswordField().getPassword();
-        model.handleLoginMenu(Constants.LOGINMENU_SUBMIT, username, charPassword);
+
+        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_SUBMIT, username, charPassword);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating main menu from login menu. ");
+        }
       }
     } else if (this.currentWindow instanceof MainMenu mainMenu) {
       // Code here

@@ -2,16 +2,15 @@ package no.uib.inf101.model;
 
 import com.google.common.hash.Hashing;
 import no.uib.inf101.Constants;
+import no.uib.inf101.Main;
 import no.uib.inf101.controller.ControllableMenuModel;
 import no.uib.inf101.model.db.Authenticator;
-import no.uib.inf101.view.InteractiveWindow;
-import no.uib.inf101.view.LoginMenu;
-import no.uib.inf101.view.SignupMenu;
+import no.uib.inf101.view.*;
 
 import java.awt.event.ActionEvent;
 import java.nio.charset.StandardCharsets;
 
-public class MenuModel implements ControllableMenuModel {
+public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   private User user = null;
   public MenuModel() {
@@ -19,7 +18,7 @@ public class MenuModel implements ControllableMenuModel {
 
 
   @Override
-  public void handleSignupMenu(String identifier, String uname, char[] password) {
+  public InteractiveWindow handleSignupMenu(String identifier, String uname, char[] password) {
     if (identifier.equals(Constants.SIGNUPMENU_SUBMIT)) {
       String stringPassword = Hashing
         .sha256()
@@ -28,14 +27,16 @@ public class MenuModel implements ControllableMenuModel {
       User user = Authenticator.createNewUser(uname, stringPassword);
       if (user != null) {
         this.user = user;
+        return new MainMenu();
       } else {
         System.err.println("Error creating user. ");
       }
     }
+    return null;
   }
 
   @Override
-  public void handleLoginMenu(String identifier, String uname, char[] password) {
+  public InteractiveWindow handleLoginMenu(String identifier, String uname, char[] password) {
     String stringPassword = Hashing
             .sha256()
             .hashString(String.valueOf(password), StandardCharsets.UTF_8)
@@ -43,9 +44,11 @@ public class MenuModel implements ControllableMenuModel {
     User user = Authenticator.loginUser(uname, stringPassword);
     if (user != null) {
       this.user = user;
+      return new MainMenu();
     } else {
       System.err.println("Error logging in user. ");
     }
+    return null;
   }
 
   @Override

@@ -16,7 +16,6 @@ public abstract class InteractiveWindow {
   private final Font TEXT_FONT = new Font("Arial", Font.PLAIN, 18);
   final JFrame frame;
   JPanel screenComponents;
-  Map<String, JButton> buttonMap;
 
   public InteractiveWindow() {
     this.frame = new JFrame();
@@ -25,11 +24,6 @@ public abstract class InteractiveWindow {
     this.screenComponents = new JPanel();
     this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.frame.pack();
-    this.buttonMap = new HashMap<>();
-  }
-
-  public Map<String, JButton> getButtons() {
-    return this.buttonMap;
   }
 
   JButton addButton(JPanel buttons, String text) {
@@ -57,7 +51,6 @@ public abstract class InteractiveWindow {
 
     button.setText(text);
     button.setFont(BUTTON_FONT);
-//    button.addActionListener(this);
     button.setAlignmentX(Component.CENTER_ALIGNMENT);
     button.setAlignmentY(Component.BOTTOM_ALIGNMENT);
     buttons.add(Box.createRigidArea(paddingBoxDimension));
@@ -69,7 +62,6 @@ public abstract class InteractiveWindow {
     JTextField textField = new JTextField();
     textField.setText(text);
     textField.setFont(TEXT_FONT);
-//    textField.addActionListener(this);
 //    textField.setAlignmentX(Component.CENTER_ALIGNMENT);
     textField.setBounds(new Rectangle(10, 10, 50, 30));
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
@@ -81,7 +73,6 @@ public abstract class InteractiveWindow {
     // textFields param is used to simplify display process.
     JPasswordField passwordField = new JPasswordField();
     passwordField.setText(text);
-//    passwordField.addActionListener(this);
 //    passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(passwordField);
@@ -91,6 +82,5 @@ public abstract class InteractiveWindow {
   public void dispose() {
     this.frame.dispose();
   }
-  public abstract String getIdentifier();
   public abstract void addActionListener(ActionListener l);
 }

@@ -28,11 +28,6 @@ public class LoginMenu extends InteractiveWindow {
   }
 
   @Override
-  public String getIdentifier() {
-    return "LoginMenu";
-  }
-
-  @Override
   public void addActionListener(ActionListener l) {
     this.usernameField.addActionListener(l);
     this.passwordField.addActionListener(l);
@@ -50,19 +45,4 @@ public class LoginMenu extends InteractiveWindow {
   public JButton getSubmitButton() {
     return submitButton;
   }
-  //  @Override
-//  public void actionPerformed(ActionEvent e) {
-//    if (e.getSource() == submitButton) {
-//      String username = this.usernameField.getText();
-//      char[] charPassword = this.passwordField.getPassword();
-//      String stringPassword = Hashing
-//              .sha256()
-//              .hashString(String.valueOf(charPassword), StandardCharsets.UTF_8)
-//              .toString();
-//      User user = Authenticator.loginUser(username, stringPassword);
-//      if (user == null) {
-//        System.err.println("Error logging in. ");
-//      }
-//    }
-//  }
 }

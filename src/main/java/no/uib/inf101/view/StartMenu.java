@@ -21,9 +21,6 @@ public class StartMenu extends InteractiveWindow {
 
     this.frame.add(screenComponents);
     this.frame.setVisible(true);
-
-    this.buttonMap.put("loginButton", this.loginButton);
-    this.buttonMap.put("signupButton", this.signupButton);
   }
 
   public JButton getLoginButton() {
@@ -35,27 +32,10 @@ public class StartMenu extends InteractiveWindow {
   }
 
   @Override
-  public String getIdentifier() {
-    return "StartMenu";
-  }
-
-  @Override
   public void addActionListener(ActionListener l) {
     this.loginButton.addActionListener(l);
     this.signupButton.addActionListener(l);
   }
-
-//  @Override
-//  public void actionPerformed(ActionEvent e) {
-//    if (e.getSource() == loginButton) {
-//      InteractiveWindow loginMenu = new LoginMenu();
-//      this.frame.dispose();
-//    }
-//    if (e.getSource() == signupButton) {
-//      InteractiveWindow signupMenu = new SignupMenu();
-//      this.frame.dispose();
-//    }
-//  }
 
   public void run() {
     while (true) {

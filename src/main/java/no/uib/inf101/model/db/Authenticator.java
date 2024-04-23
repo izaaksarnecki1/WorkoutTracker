@@ -89,7 +89,7 @@ public class Authenticator {
    * @return true if user exits and correct password, false otherwise
    */
   private static boolean validateUserLogin(String username, String password) {
-    if (checkUsernameExists(username)) {
+    if (!checkUsernameExists(username)) {
       System.out.println("Username not found. ");
       return false;
     }
@@ -123,6 +123,6 @@ public class Authenticator {
    * @return boolean based on username existence in db.
    */
   private static boolean checkUsernameExists(String username) {
-    return Objects.equals(DatabaseController.fetchUserId(username), "0");
+    return !Objects.equals(DatabaseController.fetchUserId(username), "0");
   }
 }

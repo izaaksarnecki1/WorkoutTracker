@@ -41,6 +41,4 @@ public class StartMenu extends InteractiveWindow {
   protected void setUpLayout() {
 
   }
-
-
 }

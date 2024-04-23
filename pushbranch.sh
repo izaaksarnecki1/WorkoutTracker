@@ -6,10 +6,8 @@
 set -e
 
 # Define branch variable
-branch="master" # Change to your default branch if different, e.g., "master"
+branch=$(git name-rev --name-only HEAD) # Change to your default branch if different, e.g., "master"
 
-
-# Add changes to git
 echo "Adding changes to git..."
 git add .
 
@@ -20,10 +18,10 @@ git commit -m "$commitMessage"
 
 # Push changes to GitLab
 echo "Pushing changes to GitLab (origin)..."
-git push origin $branch
+git push origin "$branch"
 
 # Push changes to GitHub.
 echo "Pushing changes to GitHub..."
-git push github $branch
+git push github "$branch"
 
 echo "Successfully pushed to both GitHub and GitLab."

@@ -37,7 +37,7 @@ public class MainMenu extends InteractiveWindow {
     this.viewWorkoutsButton.addActionListener(l);
   }
 
-  private void setUpLayout() {
+  protected void setUpLayout() {
     this.screenComponents.setLayout(new GridBagLayout());
     GridBagConstraints c = new GridBagConstraints();
     this.addWorkoutButton = addButton(this.screenComponents, "+");

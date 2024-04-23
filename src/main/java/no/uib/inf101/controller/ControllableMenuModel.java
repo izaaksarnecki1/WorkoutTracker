@@ -8,5 +8,5 @@ public interface ControllableMenuModel {
   InteractiveWindow handleSignupMenu(String identifier, String uname, char[] pass);
   InteractiveWindow handleLoginMenu(String identifier, String uname, char[] pass);
   InteractiveWindow handleStartMenu(String identifier);
-  void handleMainMenu(String identifier);
+  InteractiveWindow handleMainMenu(String identifier);
 }

@@ -53,4 +53,9 @@ public class SignupMenu extends InteractiveWindow {
     this.passwordField.addActionListener(l);
     this.submitButton.addActionListener(l);
   }
+
+  @Override
+  protected void setUpLayout() {
+
+  }
 }

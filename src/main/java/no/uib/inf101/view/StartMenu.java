@@ -37,11 +37,10 @@ public class StartMenu extends InteractiveWindow {
     this.signupButton.addActionListener(l);
   }
 
-  public void run() {
-    while (true) {
-      if (this.launch) {
-        System.out.println("Window started");
-      }
-    }
+  @Override
+  protected void setUpLayout() {
+
   }
+
+
 }

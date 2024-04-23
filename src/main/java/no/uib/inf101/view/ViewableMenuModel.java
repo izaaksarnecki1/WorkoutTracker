@@ -1,7 +1,6 @@
 package no.uib.inf101.view;
 
-import javax.swing.*;
-
+// Use to get user data from model to view.
 public interface ViewableMenuModel {
 
 }

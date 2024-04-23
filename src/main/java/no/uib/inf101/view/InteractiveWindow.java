@@ -60,11 +60,12 @@ public abstract class InteractiveWindow {
   }
 
   JTextField addTextField(JPanel textFields, String text) {
+    // TODO: consider using setbounds for fields instead of layouts
     JTextField textField = new JTextField();
     textField.setText(text);
     textField.setFont(TEXT_FONT);
 //    textField.setAlignmentX(Component.CENTER_ALIGNMENT);
-    textField.setBounds(new Rectangle(10, 10, 10, 10));
+    textField.setBounds(new Rectangle(new Dimension(20, 50) ));
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(textField);
     return textField;
@@ -92,4 +93,5 @@ public abstract class InteractiveWindow {
   }
 
   public abstract void addActionListener(ActionListener l);
+  protected abstract void setUpLayout();
 }

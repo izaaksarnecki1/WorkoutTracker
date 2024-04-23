@@ -67,7 +67,12 @@ public class ButtonController implements ActionListener {
       if (e.getSource() == mainMenu.getAddWorkoutButton()) {
         model.handleMainMenu(Constants.MAINMENU_ADDWORKOUT);
       } else if (e.getSource() == mainMenu.getEditUserButton()) {
-        model.handleMainMenu(Constants.MAINMENU_EDITUSER);
+        InteractiveWindow window = model.handleMainMenu(Constants.MAINMENU_EDITUSER);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating profile menu from main menu. ");
+        }
       } else if (e.getSource() == mainMenu.getViewWorkoutsButton()) {
         model.handleMainMenu(Constants.MAINMENU_VIEWWORKOUTS);
       }

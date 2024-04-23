@@ -60,7 +60,10 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   }
 
   @Override
-  public void handleMainMenu(String identifier) {
-
+  public InteractiveWindow handleMainMenu(String identifier) {
+    if (identifier.equals(Constants.MAINMENU_EDITUSER)) {
+      return new ProfileMenu();
+    }
+    return null;
   }
 }

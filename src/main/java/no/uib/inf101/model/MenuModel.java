@@ -7,6 +7,8 @@ import no.uib.inf101.model.db.Authenticator;
 import no.uib.inf101.view.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
@@ -14,10 +16,9 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   public MenuModel() {
   }
 
-
   @Override
   public InteractiveWindow handleSignupMenu(String identifier, String uname, char[] password) {
-    if (identifier.equals(Constants.SIGNUPMENU_SUBMIT)) {
+    if (identifier.equals(Constants.SIGNUPMENU_BUTTON_SUBMIT)) {
       String stringPassword = Hashing
         .sha256()
         .hashString(String.valueOf(password), StandardCharsets.UTF_8)
@@ -51,9 +52,9 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   @Override
   public InteractiveWindow handleStartMenu(String identifier) {
-    if (identifier.equals(Constants.STARTMENU_SIGNUP)) {
+    if (identifier.equals(Constants.STARTMENU_BUTTON_SIGNUP)) {
       return new SignupMenu();
-    } else if (identifier.equals(Constants.STARTMENU_LOGIN)) {
+    } else if (identifier.equals(Constants.STARTMENU_BUTTON_LOGIN)) {
       return new LoginMenu();
     }
     return null;
@@ -61,9 +62,15 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   @Override
   public InteractiveWindow handleMainMenu(String identifier) {
-    if (identifier.equals(Constants.MAINMENU_EDITUSER)) {
+    if (identifier.equals(Constants.MAINMENU_BUTTON_EDITUSER)) {
       return new ProfileMenu();
     }
+    return null;
+  }
+
+  @Override
+  public InteractiveWindow handleProfileMenu(String identifier, Map<String, String> fields) {
+    
     return null;
   }
 }

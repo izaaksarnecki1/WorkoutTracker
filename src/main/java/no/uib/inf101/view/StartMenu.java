@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 public class StartMenu extends InteractiveWindow {
   private final JButton loginButton;
   private final JButton signupButton;
-  private boolean launch;
 
   public StartMenu() {
     super();

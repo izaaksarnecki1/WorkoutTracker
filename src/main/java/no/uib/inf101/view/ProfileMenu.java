@@ -1,31 +1,68 @@
 package no.uib.inf101.view;
 
+import no.uib.inf101.Constants;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileMenu extends InteractiveWindow {
-
   private JTextField firstNameField;
   private JTextField lastNameField;
   private JTextField weightField;
   private JTextField heightField;
-  private JButton saveButton;
   private final JLabel firstNameLabel = new JLabel();
   private final JLabel lastNameLabel = new JLabel();
   private final JLabel weightLabel = new JLabel();
   private final JLabel heightLabel = new JLabel();
+  private JButton saveButton;
+  private Map<String, String> fields;
 
   public ProfileMenu() {
     super();
+    this.fields = new HashMap<>();
     this.setUpLayout();
     this.frame.add(this.screenComponents);
     this.frame.setVisible(true);
   }
 
+  public Map<String, String> getFields() {
+    this.fields.put(Constants.PROFILEMENU_FIELD_FIRST, this.firstNameField.getText());
+    this.fields.put(Constants.PROFILEMENU_FIELD_LAST, this.lastNameField.getText());
+    this.fields.put(Constants.PROFILEMENU_FIELD_WEIGHT, this.weightField.getText());
+    this.fields.put(Constants.PROFILEMENU_HEIGHT, this.heightField.getText());
+    return this.fields;
+  }
+
+  public JTextField getFirstNameField() {
+    return firstNameField;
+  }
+
+  public JTextField getLastNameField() {
+    return lastNameField;
+  }
+
+  public JTextField getWeightField() {
+    return weightField;
+  }
+
+  public JTextField getHeightField() {
+    return heightField;
+  }
+
+  public JButton getSaveButton() {
+    return saveButton;
+  }
+
   @Override
   public void addActionListener(ActionListener l) {
-
+    this.firstNameField.addActionListener(l);
+    this.lastNameField.addActionListener(l);
+    this.weightField.addActionListener(l);
+    this.heightField.addActionListener(l);
+    this.saveButton.addActionListener(l);
   }
 
   @Override
@@ -42,7 +79,6 @@ public class ProfileMenu extends InteractiveWindow {
     lastNameLabel.setText("Last name:");
     weightLabel.setText("Weight (kg): ");
     heightLabel.setText("Height (cm): ");
-
 
     // First name label and field
     c.gridx = 0;

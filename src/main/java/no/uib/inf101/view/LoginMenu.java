@@ -7,6 +7,7 @@ import no.uib.inf101.model.db.Authenticator;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.nio.charset.StandardCharsets;
 
 public class LoginMenu extends InteractiveWindow {
@@ -25,21 +26,23 @@ public class LoginMenu extends InteractiveWindow {
     this.frame.add(this.screenComponents);
     this.frame.setVisible(true);
   }
+
   @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == submitButton) {
-      String username = this.usernameField.getText();
-      char[] charPassword = this.passwordField.getPassword();
-      String stringPassword = Hashing
-              .sha256()
-              .hashString(String.valueOf(charPassword), StandardCharsets.UTF_8)
-              .toString();
-      User user = Authenticator.loginUser(username, stringPassword);
-      if (user == null) {
-        System.err.println("Error logging in. ");
-      } else {
-        System.out.println("Logged in. ");
-      }
-    }
+  public void addActionListener(ActionListener l) {
+    this.usernameField.addActionListener(l);
+    this.passwordField.addActionListener(l);
+    this.submitButton.addActionListener(l);
+  }
+
+  public JTextField getUsernameField() {
+    return usernameField;
+  }
+
+  public JPasswordField getPasswordField() {
+    return passwordField;
+  }
+
+  public JButton getSubmitButton() {
+    return submitButton;
   }
 }

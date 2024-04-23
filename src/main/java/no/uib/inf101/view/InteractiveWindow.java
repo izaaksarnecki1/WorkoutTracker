@@ -3,8 +3,11 @@ package no.uib.inf101.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public abstract class InteractiveWindow implements ActionListener {
+public abstract class InteractiveWindow {
 
   public static final String WINDOW_TITLE = "Workout Tracker";
   public static final int SCREEN_WIDTH = 800;
@@ -48,7 +51,6 @@ public abstract class InteractiveWindow implements ActionListener {
 
     button.setText(text);
     button.setFont(BUTTON_FONT);
-    button.addActionListener(this);
     button.setAlignmentX(Component.CENTER_ALIGNMENT);
     button.setAlignmentY(Component.BOTTOM_ALIGNMENT);
     buttons.add(Box.createRigidArea(paddingBoxDimension));
@@ -60,7 +62,6 @@ public abstract class InteractiveWindow implements ActionListener {
     JTextField textField = new JTextField();
     textField.setText(text);
     textField.setFont(TEXT_FONT);
-    textField.addActionListener(this);
 //    textField.setAlignmentX(Component.CENTER_ALIGNMENT);
     textField.setBounds(new Rectangle(10, 10, 50, 30));
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
@@ -72,10 +73,14 @@ public abstract class InteractiveWindow implements ActionListener {
     // textFields param is used to simplify display process.
     JPasswordField passwordField = new JPasswordField();
     passwordField.setText(text);
-    passwordField.addActionListener(this);
 //    passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(passwordField);
     return passwordField;
   }
+
+  public void dispose() {
+    this.frame.dispose();
+  }
+  public abstract void addActionListener(ActionListener l);
 }

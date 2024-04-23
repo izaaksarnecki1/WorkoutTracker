@@ -9,7 +9,7 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
   private List<Exercise> exercises;
   private LocalDate workoutDate;
   private final int user_id;
-
+  // JList to display workouts in window
   public Workout(int user_id, LocalDate workoutDate) {
     this.exercises = new ArrayList<>();
     this.workoutDate = workoutDate;

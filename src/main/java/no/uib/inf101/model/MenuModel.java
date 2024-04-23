@@ -70,7 +70,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   @Override
   public InteractiveWindow handleProfileMenu(String identifier, Map<String, String> fields) {
-    
+
     return null;
   }
 }

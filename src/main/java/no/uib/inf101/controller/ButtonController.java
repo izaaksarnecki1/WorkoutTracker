@@ -64,7 +64,13 @@ public class ButtonController implements ActionListener {
         }
       }
     } else if (this.currentWindow instanceof MainMenu mainMenu) {
-      // Code here
+      if (e.getSource() == mainMenu.getAddWorkoutButton()) {
+        model.handleMainMenu(Constants.MAINMENU_ADDWORKOUT);
+      } else if (e.getSource() == mainMenu.getEditUserButton()) {
+        model.handleMainMenu(Constants.MAINMENU_EDITUSER);
+      } else if (e.getSource() == mainMenu.getViewWorkoutsButton()) {
+        model.handleMainMenu(Constants.MAINMENU_VIEWWORKOUTS);
+      }
     }
   }
 

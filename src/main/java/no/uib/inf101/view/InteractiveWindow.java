@@ -24,6 +24,7 @@ public abstract class InteractiveWindow {
     this.screenComponents = new JPanel();
     this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.frame.pack();
+    this.setPreferredScreenLocation();
   }
 
   JButton addButton(JPanel buttons, String text) {
@@ -63,7 +64,7 @@ public abstract class InteractiveWindow {
     textField.setText(text);
     textField.setFont(TEXT_FONT);
 //    textField.setAlignmentX(Component.CENTER_ALIGNMENT);
-    textField.setBounds(new Rectangle(10, 10, 50, 30));
+    textField.setBounds(new Rectangle(10, 10, 10, 10));
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(textField);
     return textField;
@@ -82,5 +83,13 @@ public abstract class InteractiveWindow {
   public void dispose() {
     this.frame.dispose();
   }
+
+  private void setPreferredScreenLocation() {
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    int centerX = (int) ((screenSize.getWidth() - SCREEN_WIDTH) / 2);
+    int centerY = (int) ((screenSize.getHeight() - SCREEN_HEIGHT) / 2);
+    this.frame.setLocation(centerX, centerY);
+  }
+
   public abstract void addActionListener(ActionListener l);
 }

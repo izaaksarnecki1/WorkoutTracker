@@ -25,7 +25,7 @@ public class DatabaseController {
 
   public static void addRow(DbUploadable entity) {
     SQLQueryCreator creator = new SQLQueryCreator(entity);
-    String sqlStirng = creator.createAddRowString();
+    String sqlString = creator.createAddRowString();
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
 
@@ -34,7 +34,7 @@ public class DatabaseController {
     }
 
     try (Connection connection = connect();
-         PreparedStatement pStatement = connection.prepareStatement(sqlStirng)) {
+         PreparedStatement pStatement = connection.prepareStatement(sqlString)) {
       int idx = 1;
       for (String attribute : attributeNames) {
         pStatement.setString(idx++, uploadAbleData.get(attribute).toString());

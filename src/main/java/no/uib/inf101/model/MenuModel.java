@@ -2,12 +2,10 @@ package no.uib.inf101.model;
 
 import com.google.common.hash.Hashing;
 import no.uib.inf101.Constants;
-import no.uib.inf101.Main;
 import no.uib.inf101.controller.ControllableMenuModel;
 import no.uib.inf101.model.db.Authenticator;
 import no.uib.inf101.view.*;
 
-import java.awt.event.ActionEvent;
 import java.nio.charset.StandardCharsets;
 
 public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
@@ -62,7 +60,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   }
 
   @Override
-  public void handleMainMenu(ActionEvent e) {
+  public void handleMainMenu(String identifier) {
 
   }
 }

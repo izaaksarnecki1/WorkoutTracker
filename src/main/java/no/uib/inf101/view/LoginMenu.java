@@ -20,8 +20,8 @@ public class LoginMenu extends InteractiveWindow {
     super();
     this.screenComponents.setLayout(new BoxLayout(screenComponents, BoxLayout.Y_AXIS));
     this.screenComponents.setBorder(new EmptyBorder(10, 10, 30, 10)); // try different borders
-    this.usernameField = addTextField(this.screenComponents, "Username: ");
-    this.passwordField = addPasswordField(this.screenComponents, "Password: ");
+    this.usernameField = addTextField(this.screenComponents, "");
+    this.passwordField = addPasswordField(this.screenComponents, "");
     this.submitButton = addButton(this.screenComponents, "Submit");
     this.frame.add(this.screenComponents);
     this.frame.setVisible(true);

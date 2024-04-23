@@ -20,7 +20,6 @@ public class StartMenu extends InteractiveWindow {
     this.signupButton = addButton(screenComponents, "Sign Up");
 
     this.frame.add(screenComponents);
-    this.frame.add(rightside);
     this.frame.setVisible(true);
 
     this.buttonMap.put("loginButton", this.loginButton);

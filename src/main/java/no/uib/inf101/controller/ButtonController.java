@@ -1,5 +1,6 @@
 package no.uib.inf101.controller;
 
+import no.uib.inf101.Constants;
 import no.uib.inf101.view.*;
 
 import javax.swing.*;
@@ -25,14 +26,21 @@ public class ButtonController implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (this.currentWindow instanceof StartMenu startMenu) {
-      model.handleStartMenu(e);
       if (e.getSource() == startMenu.getLoginButton()) {
-        InteractiveWindow loginMenu = new LoginMenu();
-        this.setNewWindow(loginMenu);
+        InteractiveWindow window = model.handleStartMenu(Constants.STARTMENU_LOGIN);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating login menu from startmenu. ");
+        }
       }
       if (e.getSource() == startMenu.getSignupButton()) {
-        InteractiveWindow signupMenu = new SignupMenu();
-        this.setNewWindow(signupMenu);
+        InteractiveWindow window = model.handleStartMenu(Constants.STARTMENU_LOGIN);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating signup menu from startmenu. ");
+        }
       }
     } else if (this.currentWindow instanceof SignupMenu signupMenu) {
       if (e.getSource() == signupMenu.getSubmitButton()) {

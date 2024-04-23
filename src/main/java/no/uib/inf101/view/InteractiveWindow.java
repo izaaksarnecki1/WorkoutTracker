@@ -16,7 +16,6 @@ public abstract class InteractiveWindow {
   private final Font TEXT_FONT = new Font("Arial", Font.PLAIN, 18);
   final JFrame frame;
   JPanel screenComponents;
-  JPanel rightside;
   Map<String, JButton> buttonMap;
 
   public InteractiveWindow() {

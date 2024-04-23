@@ -39,7 +39,18 @@ public class LoginMenu extends InteractiveWindow {
     this.submitButton.addActionListener(l);
   }
 
-//  @Override
+  public JTextField getUsernameField() {
+    return usernameField;
+  }
+
+  public JPasswordField getPasswordField() {
+    return passwordField;
+  }
+
+  public JButton getSubmitButton() {
+    return submitButton;
+  }
+  //  @Override
 //  public void actionPerformed(ActionEvent e) {
 //    if (e.getSource() == submitButton) {
 //      String username = this.usernameField.getText();

@@ -35,7 +35,7 @@ public class ButtonController implements ActionListener {
         }
       }
       if (e.getSource() == startMenu.getSignupButton()) {
-        InteractiveWindow window = model.handleStartMenu(Constants.STARTMENU_LOGIN);
+        InteractiveWindow window = model.handleStartMenu(Constants.STARTMENU_SIGNUP);
         if (window != null) {
           this.setNewWindow(window);
         } else {
@@ -44,10 +44,16 @@ public class ButtonController implements ActionListener {
       }
     } else if (this.currentWindow instanceof SignupMenu signupMenu) {
       if (e.getSource() == signupMenu.getSubmitButton()) {
-        System.out.println("pressed submit button");
+        String username = signupMenu.getUsernameField().getText();
+        char[] charPassword = signupMenu.getPasswordField().getPassword();
+        model.handleSignupMenu(Constants.SIGNUPMENU_SUBMIT, username, charPassword);
       }
     } else if (this.currentWindow instanceof LoginMenu loginMenu) {
-      // Code here
+      if (e.getSource() == loginMenu.getSubmitButton()) {
+        String username = loginMenu.getUsernameField().getText();
+        char[] charPassword = loginMenu.getPasswordField().getPassword();
+        model.handleLoginMenu(Constants.LOGINMENU_SUBMIT, username, charPassword);
+      }
     } else if (this.currentWindow instanceof MainMenu mainMenu) {
       // Code here
     }

@@ -9,6 +9,7 @@ public class User implements DbUploadable {
   private final String password;
   private String firstName;
   private String lastName;
+  // Simply fetch from db instead of saving this info here?
   private int weight;
   private int height;
   private ArrayList<Workout> workouts;
@@ -107,10 +108,4 @@ public class User implements DbUploadable {
   public String[] getProfileAttributes() {
     return Arrays.copyOf(this.profileAttributes, this.profileAttributes.length);
   }
-
-//  public Map<String, String>
-
-//  public ArrayList<Workout> getWorkouts() {
-//    return this.workouts;
-//  }
 }

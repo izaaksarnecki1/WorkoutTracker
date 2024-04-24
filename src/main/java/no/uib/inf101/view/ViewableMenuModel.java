@@ -4,5 +4,5 @@ import java.util.Map;
 
 // Use to get user data from model to view.
 public interface ViewableMenuModel {
-  Map<String, String> getProfileData();
+  Map<String, String> getUserProfile();
 }

@@ -64,7 +64,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   @Override
   public InteractiveWindow handleMainMenu(String identifier) {
     if (identifier.equals(Constants.MAINMENU_BUTTON_EDITUSER)) {
-      return new ProfileMenu();
+      return new ProfileMenu(this);
     }
     return null;
   }
@@ -83,7 +83,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   }
 
   @Override
-  public Map<String, String> getProfileData() {
+  public Map<String, String> getUserProfile() {
     Map<String, String> profileData = new HashMap<>();
     profileData.put(Constants.PROFILEMENU_FIELD_FIRST, this.user.getFirstName());
     profileData.put(Constants.PROFILEMENU_FIELD_LAST, this.user.getLastName());

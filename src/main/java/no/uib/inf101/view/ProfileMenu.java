@@ -1,6 +1,7 @@
 package no.uib.inf101.view;
 
 import no.uib.inf101.Constants;
+import no.uib.inf101.model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,10 +19,12 @@ public class ProfileMenu extends InteractiveWindow {
   private final JLabel weightLabel = new JLabel();
   private final JLabel heightLabel = new JLabel();
   private JButton saveButton;
-  private Map<String, String> fields;
+  private final Map<String, String> fields;
+  private final ViewableMenuModel model;
 
-  public ProfileMenu() {
+  public ProfileMenu(ViewableMenuModel model) {
     super();
+    this.model = model;
     this.fields = new HashMap<>();
     this.setUpLayout();
     this.frame.add(this.screenComponents);
@@ -53,14 +56,14 @@ public class ProfileMenu extends InteractiveWindow {
   protected void setUpLayout() {
     // Used some ChatGPT to help me with the layout.
     // "Using GridBagLayout, how would I set up JTextFields with labels?"
-//    Map<String, String> userProfile = model.getUserProfile();
+    Map<String, String> userProfile = model.getUserProfile();
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints c = new GridBagConstraints();
 
-//    String firstName = userProfile.get(User.FIRST_NAME);
-//    String lastName = userProfile.get(User.LAST_NAME);
-//    String weight = userProfile.get(User.WEIGHT);
-//    String height = userProfile.get(User.HEIGHT);
+    String firstName = userProfile.get(User.FIRST_NAME);
+    String lastName = userProfile.get(User.LAST_NAME);
+    String weight = userProfile.get(User.WEIGHT);
+    String height = userProfile.get(User.HEIGHT);
 
     this.screenComponents.setLayout(layout);
 
@@ -80,7 +83,7 @@ public class ProfileMenu extends InteractiveWindow {
     c.gridy = 0;
     c.fill = GridBagConstraints.HORIZONTAL;
     c.weightx = 1.0;
-    this.firstNameField = addTextField(this.screenComponents, "");
+    this.firstNameField = addTextField(this.screenComponents, firstName);
     c.insets = new Insets(10, 0, 0, 10);
     this.screenComponents.add(firstNameField, c);
 
@@ -97,7 +100,7 @@ public class ProfileMenu extends InteractiveWindow {
     c.fill = GridBagConstraints.HORIZONTAL;
     c.weightx = 1.0;
     c.insets = new Insets(10, 0, 0, 10);
-    this.lastNameField = addTextField(this.screenComponents, "");
+    this.lastNameField = addTextField(this.screenComponents, lastName);
     this.screenComponents.add(lastNameField, c);
 
     // Weight label and field
@@ -113,7 +116,7 @@ public class ProfileMenu extends InteractiveWindow {
     c.fill = GridBagConstraints.HORIZONTAL;
     c.weightx = 1.0;
     c.insets = new Insets(10, 0, 0, 10);
-    this.weightField = addTextField(this.screenComponents, "");
+    this.weightField = addTextField(this.screenComponents, weight);
     this.screenComponents.add(weightField, c);
 
     // Height label and field
@@ -129,7 +132,7 @@ public class ProfileMenu extends InteractiveWindow {
     c.fill = GridBagConstraints.HORIZONTAL;
     c.weightx = 1.0;
     c.insets = new Insets(10, 0, 0, 10);
-    this.heightField = addTextField(this.screenComponents, "");
+    this.heightField = addTextField(this.screenComponents, height);
     this.screenComponents.add(heightField, c);
 
     // Save button

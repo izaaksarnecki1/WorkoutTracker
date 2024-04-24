@@ -12,10 +12,6 @@ public class SQLQueryCreator {
     this.uploadable = uploadable;
   }
 
-  protected void setUploadable(DbUploadable uploadable) {
-    this.uploadable = uploadable;
-  }
-
   protected String createAddRowString() {
     String tableName = this.uploadable.getTableName();
     ArrayList<String> attributeNames = this.uploadable.getAttributeNames();
@@ -41,12 +37,33 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  public static String updateRowSQLString(DbUploadable entity) {
+    String tablename = entity.getTableName();
+    ArrayList<String> attributes = entity.getAttributeNames();
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("UPDATE ").append(tablename).append(" SET ");
+
+    for (int i = 0; i < attributes.size(); i++) {
+      sb.append(attributes.get(i)).append(" = ?");
+      if (i < attributes.size() - 1) {
+        sb.append(", ");
+      }
+    }
+    sb.append(" WHERE id = ?");
+    return sb.toString();
+  }
+
   public static String getTableSQLString(String tableName) {
     return switch (tableName) {
       case "users" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"
               + "	username text NOT NULL UNIQUE,\n"
-              + "	password text NOT NULL\n"
+              + "	password text NOT NULL,\n"
+              + " first_name text,\n"
+              + " last_name text,\n"
+              + " weight int,\n"
+              + " height int\n"
               + ");";
       case "workouts" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"

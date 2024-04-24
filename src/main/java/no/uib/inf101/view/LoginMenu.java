@@ -34,6 +34,11 @@ public class LoginMenu extends InteractiveWindow {
     this.submitButton.addActionListener(l);
   }
 
+  @Override
+  protected void setUpLayout() {
+
+  }
+
   public JTextField getUsernameField() {
     return usernameField;
   }

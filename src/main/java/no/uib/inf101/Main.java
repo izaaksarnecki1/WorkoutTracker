@@ -13,8 +13,6 @@ public class Main {
       StartMenu menu = new StartMenu();
       ControllableMenuModel model = new MenuModel();
       new ButtonController(model, menu);
-
-      menu.run();
     }
   }
   

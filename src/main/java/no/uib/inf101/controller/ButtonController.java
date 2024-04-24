@@ -3,8 +3,6 @@ package no.uib.inf101.controller;
 import no.uib.inf101.Constants;
 import no.uib.inf101.view.*;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -24,7 +22,7 @@ public class ButtonController implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (this.currentWindow instanceof StartMenu startMenu) {
       if (e.getSource() == startMenu.getLoginButton()) {
-        InteractiveWindow window = model.handleStartMenu(Constants.STARTMENU_LOGIN);
+        InteractiveWindow window = model.handleStartMenu(Constants.STARTMENU_BUTTON_LOGIN);
         if (window != null) {
           this.setNewWindow(window);
         } else {
@@ -32,7 +30,7 @@ public class ButtonController implements ActionListener {
         }
       }
       if (e.getSource() == startMenu.getSignupButton()) {
-        InteractiveWindow window = model.handleStartMenu(Constants.STARTMENU_SIGNUP);
+        InteractiveWindow window = model.handleStartMenu(Constants.STARTMENU_BUTTON_SIGNUP);
         if (window != null) {
           this.setNewWindow(window);
         } else {
@@ -44,7 +42,7 @@ public class ButtonController implements ActionListener {
         String username = signupMenu.getUsernameField().getText();
         char[] charPassword = signupMenu.getPasswordField().getPassword();
 
-        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_SUBMIT, username, charPassword);
+        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_BUTTON_SUBMIT, username, charPassword);
         if (window != null) {
           this.setNewWindow(window);
         } else {
@@ -56,7 +54,7 @@ public class ButtonController implements ActionListener {
         String username = loginMenu.getUsernameField().getText();
         char[] charPassword = loginMenu.getPasswordField().getPassword();
 
-        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_SUBMIT, username, charPassword);
+        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_BUTTON_SUBMIT, username, charPassword);
         if (window != null) {
           this.setNewWindow(window);
         } else {
@@ -65,11 +63,21 @@ public class ButtonController implements ActionListener {
       }
     } else if (this.currentWindow instanceof MainMenu mainMenu) {
       if (e.getSource() == mainMenu.getAddWorkoutButton()) {
-        model.handleMainMenu(Constants.MAINMENU_ADDWORKOUT);
+        model.handleMainMenu(Constants.MAINMENU_BUTTON_ADDWORKOUT);
       } else if (e.getSource() == mainMenu.getEditUserButton()) {
-        model.handleMainMenu(Constants.MAINMENU_EDITUSER);
+        InteractiveWindow window = model.handleMainMenu(Constants.MAINMENU_BUTTON_EDITUSER);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating profile menu from main menu. ");
+        }
       } else if (e.getSource() == mainMenu.getViewWorkoutsButton()) {
-        model.handleMainMenu(Constants.MAINMENU_VIEWWORKOUTS);
+        model.handleMainMenu(Constants.MAINMENU_BUTTON_VIEWWORKOUTS);
+      }
+    } else if (this.currentWindow instanceof ProfileMenu profileMenu) {
+      if (e.getSource() == profileMenu.getSaveButton()) {
+        Map<String, String> fields = profileMenu.getFields();
+        InteractiveWindow window = model.handleProfileMenu(Constants.PROFILEMENU_BUTTON_SAVE, fields);
       }
     }
   }

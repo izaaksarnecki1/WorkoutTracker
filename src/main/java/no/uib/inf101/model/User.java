@@ -10,18 +10,28 @@ import java.util.*;
 public class User implements DbUploadable {
 
   public static final String tableName = "users";
-  private String username;
+  private final String username;
+  private final String password;
   private String firstName;
   private String lastName;
-  private String password;
   private int weight;
   private int height;
   private ArrayList<Workout> workouts;
   private int id = 0;
+  public static final String USERNAME = "username";
+  public static final String PASSWORD = "password";
+  public static final String FIRST_NAME = "first_name";
+  public static final String LAST_NAME = "last_name";
+  public static final String WEIGHT = "weight";
+  public static final String HEIGHT = "height";
 
   public User(String username, String password) {
     this.username = username;
-    this.password = password; // Password is already hashed in parameter
+    this.password = password;
+    this.firstName = "";
+    this.lastName = "";
+    this.weight = 0;
+    this.height = 0;
     this.workouts = new ArrayList<>();
   }
 
@@ -79,8 +89,12 @@ public class User implements DbUploadable {
   @Override
   public HashMap<String, Object> getUploadableData() {
     HashMap<String, Object> uploadableData = new HashMap<>();
-    uploadableData.put("username", this.username);
-    uploadableData.put("password", this.password);
+    uploadableData.put(USERNAME, this.username);
+    uploadableData.put(PASSWORD, this.password);
+    uploadableData.put(FIRST_NAME, this.firstName);
+    uploadableData.put(LAST_NAME, this.lastName);
+    uploadableData.put(WEIGHT, this.weight);
+    uploadableData.put(HEIGHT, this.height);
     return uploadableData;
   }
 
@@ -91,7 +105,7 @@ public class User implements DbUploadable {
 
   @Override
   public ArrayList<String> getAttributeNames() {
-    return new ArrayList<>(Arrays.asList("username", "password"));
+    return new ArrayList<>(Arrays.asList(USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, WEIGHT, HEIGHT));
   }
 
   public ArrayList<Workout> getWorkouts() {

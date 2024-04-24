@@ -32,24 +32,8 @@ public class ProfileMenu extends InteractiveWindow {
     this.fields.put(Constants.PROFILEMENU_FIELD_FIRST, this.firstNameField.getText());
     this.fields.put(Constants.PROFILEMENU_FIELD_LAST, this.lastNameField.getText());
     this.fields.put(Constants.PROFILEMENU_FIELD_WEIGHT, this.weightField.getText());
-    this.fields.put(Constants.PROFILEMENU_HEIGHT, this.heightField.getText());
+    this.fields.put(Constants.PROFILEMENU_FIELD_HEIGHT, this.heightField.getText());
     return this.fields;
-  }
-
-  public JTextField getFirstNameField() {
-    return firstNameField;
-  }
-
-  public JTextField getLastNameField() {
-    return lastNameField;
-  }
-
-  public JTextField getWeightField() {
-    return weightField;
-  }
-
-  public JTextField getHeightField() {
-    return heightField;
   }
 
   public JButton getSaveButton() {

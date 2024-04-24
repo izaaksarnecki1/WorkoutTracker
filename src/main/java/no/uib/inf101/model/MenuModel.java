@@ -4,10 +4,12 @@ import com.google.common.hash.Hashing;
 import no.uib.inf101.Constants;
 import no.uib.inf101.controller.ControllableMenuModel;
 import no.uib.inf101.model.db.Authenticator;
+import no.uib.inf101.model.db.DatabaseController;
 import no.uib.inf101.view.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
@@ -70,7 +72,13 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   @Override
   public InteractiveWindow handleProfileMenu(String identifier, Map<String, String> fields) {
-
+    if (identifier.equals(Constants.PROFILEMENU_BUTTON_SAVE)) {
+      user.setFirstName(fields.get(Constants.PROFILEMENU_FIELD_FIRST));
+      user.setLastName(fields.get(Constants.PROFILEMENU_FIELD_LAST));
+      user.setWeight(Integer.parseInt(fields.get(Constants.PROFILEMENU_FIELD_WEIGHT)));
+      user.setHeight(Integer.parseInt(fields.get(Constants.PROFILEMENU_FIELD_HEIGHT)));
+      DatabaseController.updateRow(user);
+    }
     return null;
   }
 }

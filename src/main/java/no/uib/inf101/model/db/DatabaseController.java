@@ -1,6 +1,7 @@
 package no.uib.inf101.model.db;
 
 import no.uib.inf101.model.DbUploadable;
+import no.uib.inf101.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class DatabaseController {
   }
 
   void setupDb() {
-//    this.dropTables();
+    this.dropTables();
     this.setupForeignKey();
     this.setupTables();
   }
@@ -39,6 +40,28 @@ public class DatabaseController {
       for (String attribute : attributeNames) {
         pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
       }
+      pStatement.executeUpdate();
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+  }
+
+  public static void updateRow(DbUploadable entity) {
+    String sqlString = SQLQueryCreator.updateRowSQLString(entity);
+    HashMap<String, Object> uploadAbleData = entity.getUploadableData();
+    ArrayList<String> attributeNames = entity.getAttributeNames();
+
+    if (!validateParamsForString(uploadAbleData, attributeNames)) {
+      return;
+    }
+
+    try (Connection connection = connect();
+         PreparedStatement pStatement = connection.prepareStatement(sqlString)) {
+      int idx = 1;
+      for (String attribute : attributeNames) {
+        pStatement.setObject(idx++, uploadAbleData.get(attribute));
+      }
+      pStatement.setInt(idx, ((User) entity).getId());
       pStatement.executeUpdate();
     } catch (SQLException e) {
       System.err.println(e.getMessage());

@@ -1,10 +1,5 @@
 package no.uib.inf101.model;
 
-import com.google.common.hash.Hashing;
-import no.uib.inf101.model.DbUploadable;
-import no.uib.inf101.model.Workout;
-
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class User implements DbUploadable {
@@ -24,6 +19,7 @@ public class User implements DbUploadable {
   public static final String LAST_NAME = "last_name";
   public static final String WEIGHT = "weight";
   public static final String HEIGHT = "height";
+  private final String[] profileAttributes = {FIRST_NAME, LAST_NAME, WEIGHT, HEIGHT};
 
   public User(String username, String password) {
     this.username = username;
@@ -108,7 +104,13 @@ public class User implements DbUploadable {
     return new ArrayList<>(Arrays.asList(USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, WEIGHT, HEIGHT));
   }
 
-  public ArrayList<Workout> getWorkouts() {
-    return this.workouts;
+  public String[] getProfileAttributes() {
+    return Arrays.copyOf(this.profileAttributes, this.profileAttributes.length);
   }
+
+//  public Map<String, String>
+
+//  public ArrayList<Workout> getWorkouts() {
+//    return this.workouts;
+//  }
 }

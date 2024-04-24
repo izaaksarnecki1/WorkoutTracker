@@ -78,6 +78,11 @@ public class ButtonController implements ActionListener {
       if (e.getSource() == profileMenu.getSaveButton()) {
         Map<String, String> fields = profileMenu.getFields();
         InteractiveWindow window = model.handleProfileMenu(Constants.PROFILEMENU_BUTTON_SAVE, fields);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating main menu from profile menu. ");
+        }
       }
     }
   }

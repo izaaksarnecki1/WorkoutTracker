@@ -8,8 +8,7 @@ import no.uib.inf101.model.db.DatabaseController;
 import no.uib.inf101.view.*;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
@@ -78,7 +77,18 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
       user.setWeight(Integer.parseInt(fields.get(Constants.PROFILEMENU_FIELD_WEIGHT)));
       user.setHeight(Integer.parseInt(fields.get(Constants.PROFILEMENU_FIELD_HEIGHT)));
       DatabaseController.updateRow(user);
+      return new MainMenu();
     }
     return null;
+  }
+
+  @Override
+  public Map<String, String> getProfileData() {
+    Map<String, String> profileData = new HashMap<>();
+    profileData.put(Constants.PROFILEMENU_FIELD_FIRST, this.user.getFirstName());
+    profileData.put(Constants.PROFILEMENU_FIELD_LAST, this.user.getLastName());
+    profileData.put(Constants.PROFILEMENU_FIELD_WEIGHT, String.valueOf(this.user.getWeight()));
+    profileData.put(Constants.PROFILEMENU_FIELD_HEIGHT, String.valueOf(this.user.getHeight()));
+    return profileData;
   }
 }

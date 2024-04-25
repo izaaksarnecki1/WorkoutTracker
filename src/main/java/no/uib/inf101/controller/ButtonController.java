@@ -5,7 +5,6 @@ import no.uib.inf101.view.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ButtonController implements ActionListener {

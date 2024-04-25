@@ -2,7 +2,6 @@ package no.uib.inf101.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StartMenu extends InteractiveWindow {

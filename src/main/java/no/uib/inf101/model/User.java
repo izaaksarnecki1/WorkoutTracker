@@ -83,6 +83,10 @@ public class User implements DbUploadable {
     return this.password;
   }
 
+  public ArrayList<Workout> getWorkouts() {
+    return new ArrayList<>(workouts);
+  }
+
   @Override
   public HashMap<String, Object> getUploadableData() {
     HashMap<String, Object> uploadableData = new HashMap<>();

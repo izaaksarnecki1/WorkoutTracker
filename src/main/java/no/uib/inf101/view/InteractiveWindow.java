@@ -3,9 +3,6 @@ package no.uib.inf101.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class InteractiveWindow {
 

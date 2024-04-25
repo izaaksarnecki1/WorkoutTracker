@@ -85,10 +85,10 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   @Override
   public Map<String, String> getUserProfile() {
     Map<String, String> profileData = new HashMap<>();
-    profileData.put(Constants.PROFILEMENU_FIELD_FIRST, this.user.getFirstName());
-    profileData.put(Constants.PROFILEMENU_FIELD_LAST, this.user.getLastName());
-    profileData.put(Constants.PROFILEMENU_FIELD_WEIGHT, String.valueOf(this.user.getWeight()));
-    profileData.put(Constants.PROFILEMENU_FIELD_HEIGHT, String.valueOf(this.user.getHeight()));
+    profileData.put(User.FIRST_NAME, this.user.getFirstName());
+    profileData.put(User.LAST_NAME, this.user.getLastName());
+    profileData.put(User.WEIGHT, String.valueOf(this.user.getWeight()));
+    profileData.put(User.HEIGHT, String.valueOf(this.user.getHeight()));
     return profileData;
   }
 }

@@ -19,7 +19,7 @@ public class DatabaseController {
   }
 
   void setupDb() {
-    this.dropTables();
+//    this.dropTables();
     this.setupForeignKey();
     this.setupTables();
   }

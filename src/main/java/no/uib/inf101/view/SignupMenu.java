@@ -1,15 +1,9 @@
 package no.uib.inf101.view;
 
-import com.google.common.hash.Hashing;
-import no.uib.inf101.model.db.Authenticator;
-import no.uib.inf101.model.User;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.nio.charset.StandardCharsets;
 
 public class SignupMenu extends InteractiveWindow {
   private final JTextField usernameField;

@@ -51,7 +51,7 @@ public class ExerciseTest {
 
   @Test
   void getTableName() {
-    assertEquals("exercises", Exercise.tableName);
+    assertEquals("exercises", Exercise.TABLE_NAME);
   }
 
   @Test
@@ -62,6 +62,6 @@ public class ExerciseTest {
 
   @Test
   void getParent() {
-    assertEquals(Workout.tableName, new Exercise("Lunge", 3, 12).getParent());
+    assertEquals(Workout.TABLE_NAME, new Exercise("Lunge", 3, 12).getParent());
   }
 }

@@ -12,7 +12,7 @@ class DatabaseControllerTest {
   static void setUp() {
     // Set up tables before running tests
     DatabaseController controller = new DatabaseController();
-    controller.setupDb();
+    controller.setupDb(true);
   }
 
 //  @Test

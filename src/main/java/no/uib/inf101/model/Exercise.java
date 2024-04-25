@@ -2,8 +2,17 @@ package no.uib.inf101.model;
 
 import java.util.*;
 
-public class Exercise implements DbUploadable{
-  public static final String tableName = "exercises";
+public class Exercise implements DbUploadable {
+  public static final String TABLE_NAME = "exercise";
+  public static final String WORKOUT_ID = "workout_id";
+  public static final String EXERCISE_NAME = "ex_name";
+  public static final String SETS = "sets";
+  public static final String REPS = "reps";
+  public static final String WEIGHT = "weight";
+
+  private final ArrayList<String> attributeNames = new ArrayList<>(
+      Arrays.asList(WORKOUT_ID, EXERCISE_NAME, SETS, REPS, WEIGHT));
+  
   private String exerciseName;
   private int sets;
   private int reps;
@@ -59,20 +68,21 @@ public class Exercise implements DbUploadable{
   @Override
   public String toString() {
     return String.format(
-            "Exercise_Name: %s | Sets: %d | Reps: %d | Weight: %d",
-            exerciseName, sets, reps, weight
-    );
+        "Exercise_Name: %s | Sets: %d | Reps: %d | Weight: %d",
+        exerciseName, sets, reps, weight);
   }
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     Exercise exercise = (Exercise) o;
     return sets == exercise.sets
-            && reps == exercise.reps
-            && weight == exercise.weight
-            && Objects.equals(exerciseName, exercise.exerciseName);
+        && reps == exercise.reps
+        && weight == exercise.weight
+        && Objects.equals(exerciseName, exercise.exerciseName);
   }
 
   @Override
@@ -83,7 +93,7 @@ public class Exercise implements DbUploadable{
   @Override
   public HashMap<String, Object> getUploadableData() {
     HashMap<String, Object> uploadableData = new HashMap<>();
-    uploadableData.put("ex_name", this.exerciseName );
+    uploadableData.put("ex_name", this.exerciseName);
     uploadableData.put("sets", this.sets);
     uploadableData.put("reps", this.reps);
     uploadableData.put("weight", this.weight);
@@ -92,17 +102,17 @@ public class Exercise implements DbUploadable{
 
   @Override
   public String getTableName() {
-    return tableName;
+    return TABLE_NAME;
   }
 
   @Override
   public ArrayList<String> getAttributeNames() {
-    return new ArrayList<>(Arrays.asList("ex_name", "sets", "reps", "weight"));
+    return this.attributeNames;
   }
 
   @Override
   public String getParent() {
-    return Workout.tableName;
+    return Workout.TABLE_NAME;
   }
 
   @Override

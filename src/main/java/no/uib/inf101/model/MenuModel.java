@@ -95,7 +95,6 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   private void setUserDbAttributes() {
     Map<String, String> userAttributes = DatabaseController.getRow(user);
-    System.out.println(userAttributes);
     user.setFirstName(userAttributes.get(User.FIRST_NAME));
     user.setLastName(userAttributes.get(User.LAST_NAME));
     user.setWeight(Integer.parseInt(userAttributes.get(User.WEIGHT)));

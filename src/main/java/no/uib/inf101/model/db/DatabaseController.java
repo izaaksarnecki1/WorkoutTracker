@@ -13,14 +13,16 @@ import java.util.Map;
 public class DatabaseController {
 
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
-  private final String[] tables = { "users", "workouts", "exercise" };
+  private final String[] tables = { User.TABLE_NAME, "workouts", "exercise" };
 
   public DatabaseController() {
-    setupDb();
+    setupDb(false);
   }
 
-  void setupDb() {
-    // this.dropTables();
+  void setupDb(boolean dropTables) {
+    if (dropTables) {
+      this.dropTables();
+    }
     this.setupForeignKey();
     this.setupTables();
   }

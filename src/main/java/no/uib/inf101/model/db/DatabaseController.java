@@ -46,7 +46,7 @@ public class DatabaseController {
         pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
       }
       pStatement.executeUpdate();
-      return Integer.parseInt(getLastId());
+      return 0;
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
@@ -227,8 +227,8 @@ public class DatabaseController {
     return true;
   }
 
-  public static String getLastId() {
-    String sqlString = SQLQueryCreator.getLastIdSQLString();
+  public static String getLastId(DbUploadable entity) {
+    String sqlString = SQLQueryCreator.getLastIdSQLString(entity);
 
     try (Connection connection = connect();
         Statement statement = connection.createStatement();
@@ -236,6 +236,7 @@ public class DatabaseController {
 
       if (resultSet != null && resultSet.next()) {
         String lastId = resultSet.getString(1);
+        System.out.println(lastId);
         return lastId;
       } 
     } catch (SQLException e) {

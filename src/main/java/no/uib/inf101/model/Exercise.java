@@ -12,7 +12,7 @@ public class Exercise implements DbUploadable {
 
   private final ArrayList<String> attributeNames = new ArrayList<>(
       Arrays.asList(WORKOUT_ID, EXERCISE_NAME, SETS, REPS, WEIGHT));
-  
+
   private final int workoutId;
   private int exerciseId = 0;
   private String exerciseName;

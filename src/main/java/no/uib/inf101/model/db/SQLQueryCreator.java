@@ -60,7 +60,7 @@ public class SQLQueryCreator {
   protected static String getTableSQLString(String tableName) {
     return switch (tableName) {
       case User.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-          + "	id integer PRIMARY KEY,\n"
+          + "	id integer PRIMARY KEY AUTOINCREMENT,\n"
           + "	" + User.USERNAME + " text NOT NULL UNIQUE,\n"
           + "	" + User.PASSWORD + " text NOT NULL,\n"
           + "	" + User.FIRST_NAME + " text,\n"
@@ -69,14 +69,14 @@ public class SQLQueryCreator {
           + "	" + User.HEIGHT + " int\n"
           + ");";
       case Workout.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-          + "	id integer PRIMARY KEY,\n"
+          + "	id integer PRIMARY KEY AUTOINCREMENT,\n"
           + " " + Workout.USERID + " integer,\n"
           + " " + Workout.WORKOUTNAME + " text,\n"
           + " " + Workout.WORKOUTDATE + " DATE,\n"
           + " FOREIGN KEY (" + Workout.USERID + ") REFERENCES " + User.TABLE_NAME + "(id)"
           + ");";
       case Exercise.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-          + "	id integer PRIMARY KEY,\n"
+          + "	id integer PRIMARY KEY AUTOINCREMENT,\n"
           + " " + Exercise.WORKOUT_ID + " integer,\n"
           + " " + Exercise.EXERCISE_NAME + " text NOT NULL,\n"
           + "	" + Exercise.SETS + " integer NOT NULL,\n"
@@ -97,7 +97,12 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
-  protected static String getLastIdSQLString() {
-    return "SELECT last_insert_rowid()";
+  protected static String getLastIdSQLString(DbUploadable entity) {
+
+    String tablename = entity.getTableName();
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("SELECT seq FROM sqlite_sequence WHERE name=").append('"').append(tablename).append('"');
+    return sb.toString();
   }
 }

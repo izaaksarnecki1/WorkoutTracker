@@ -158,7 +158,10 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
       this.workout = new Workout(this.user.getId(), fields.get(Constants.ADDWORKOUT_FIELD_DATE),
           fields.get(Constants.ADDWORKOUT_FIELD_WORKOUTNAME));
       DatabaseController.addRow(workout);
-      int id = Integer.parseInt(DatabaseController.getLastId());
+      System.out.println(workoutExists());
+      System.out.println(this.workout);
+      int id = Integer.parseInt(DatabaseController.getLastId(this.workout));
+      System.out.println(id);
       workout.setWorkoutId(id);
     } else {
       workout.setWorkoutDate(fields.get(Constants.ADDWORKOUT_FIELD_DATE));

@@ -2,10 +2,7 @@ package no.uib.inf101.model.db;
 
 import no.uib.inf101.model.DbUploadable;
 import no.uib.inf101.model.User;
-import no.uib.inf101.model.Workout;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 

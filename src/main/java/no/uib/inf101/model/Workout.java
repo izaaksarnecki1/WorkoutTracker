@@ -72,4 +72,9 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
   public String getParent() {
     return User.tableName;
   }
+
+  @Override
+  public int getId() {
+    return 0;
+  }
 }

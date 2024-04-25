@@ -44,6 +44,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     User user = Authenticator.loginUser(uname, stringPassword);
     if (user != null) {
       this.user = user;
+      setUserDbAttributes();
       return new MainMenu();
     } else {
       System.err.println("Error logging in user. ");
@@ -90,5 +91,14 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     profileData.put(User.WEIGHT, String.valueOf(this.user.getWeight()));
     profileData.put(User.HEIGHT, String.valueOf(this.user.getHeight()));
     return profileData;
+  }
+
+  private void setUserDbAttributes() {
+    Map<String, String> userAttributes = DatabaseController.getRow(user);
+    System.out.println(userAttributes);
+    user.setFirstName(userAttributes.get(User.FIRST_NAME));
+    user.setLastName(userAttributes.get(User.LAST_NAME));
+    user.setWeight(Integer.parseInt(userAttributes.get(User.WEIGHT)));
+    user.setHeight(Integer.parseInt(userAttributes.get(User.HEIGHT)));
   }
 }

@@ -104,4 +104,9 @@ public class Exercise implements DbUploadable{
   public String getParent() {
     return Workout.tableName;
   }
+
+  @Override
+  public int getId() {
+    return 0;
+  }
 }

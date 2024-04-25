@@ -40,9 +40,21 @@ public class MainMenu extends InteractiveWindow {
   protected void setUpLayout() {
     this.screenComponents.setLayout(new GridBagLayout());
     GridBagConstraints c = new GridBagConstraints();
+
+    c.fill = GridBagConstraints.HORIZONTAL;
+    c.gridx = 0;
+    c.gridy = 0;
+    c.insets = new Insets(10, 10, 10, 10);
     this.addWorkoutButton = addButton(this.screenComponents, "+");
+
+    c.gridx = 0;
+    c.gridy = 1;
     this.viewWorkoutsButton = addButton(this.screenComponents, "View Workouts");
+
+    c.gridx = 0;
+    c.gridy = 2;
     this.editUserButton = addButton(this.screenComponents, "Edit Profile");
+
     this.frame.add(this.screenComponents);
   }
 }

@@ -6,20 +6,21 @@ import no.uib.inf101.model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 // https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
 
 public class DatabaseController {
 
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
-  private final String[] tables = {"users", "workouts", "exercise"};
+  private final String[] tables = { "users", "workouts", "exercise" };
 
   public DatabaseController() {
     setupDb();
   }
 
   void setupDb() {
-//    this.dropTables();
+    // this.dropTables();
     this.setupForeignKey();
     this.setupTables();
   }
@@ -35,7 +36,7 @@ public class DatabaseController {
     }
 
     try (Connection connection = connect();
-         PreparedStatement pStatement = connection.prepareStatement(sqlString)) {
+        PreparedStatement pStatement = connection.prepareStatement(sqlString)) {
       int idx = 1;
       for (String attribute : attributeNames) {
         pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
@@ -44,6 +45,26 @@ public class DatabaseController {
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
+  }
+
+  public static Map<String, String> getRow(DbUploadable entity) {
+    String sqlString = SQLQueryCreator.getRowSQLString(entity);
+    ArrayList<String> attributeNames = entity.getAttributeNames();
+    Map<String, String> dbAttributes = new HashMap<>();
+    
+    try (Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
+      while (resultSet.next()) {
+        for (String attribute : attributeNames) {
+          dbAttributes.put(attribute, resultSet.getObject(attribute).toString());
+        }
+      }
+      return dbAttributes;
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+    return null;
   }
 
   public static void updateRow(DbUploadable entity) {
@@ -56,7 +77,7 @@ public class DatabaseController {
     }
 
     try (Connection connection = connect();
-         PreparedStatement pStatement = connection.prepareStatement(sqlString)) {
+        PreparedStatement pStatement = connection.prepareStatement(sqlString)) {
       int idx = 1;
       for (String attribute : attributeNames) {
         pStatement.setObject(idx++, uploadAbleData.get(attribute));
@@ -69,11 +90,11 @@ public class DatabaseController {
   }
 
   protected static boolean validatePass(String username, String password) {
-    String sqlString = "SELECT password FROM users WHERE username = '" + username + "';" ;
+    String sqlString = "SELECT password FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();
-    Statement statement = connection.createStatement();
-    ResultSet resultSet = statement.executeQuery(sqlString)) {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
       String s = resultSet.getString("password");
       return s.equals(password);
     } catch (SQLException e) {
@@ -81,12 +102,13 @@ public class DatabaseController {
     }
     return false;
   }
+
   static String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();
-         Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery(sqlString)) {
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
       return String.valueOf(resultSet.getInt("id"));
     } catch (SQLException e) {
       System.err.println(e.getMessage());
@@ -103,7 +125,7 @@ public class DatabaseController {
   private void setupForeignKey() {
     String sqlString = "PRAGMA foreign_keys = ON;";
     try (Connection connection = connect();
-         Statement statement = connection.createStatement()) {
+        Statement statement = connection.createStatement()) {
       statement.execute(sqlString);
       System.out.println("Successfully enabled Foreign Keys. ");
     } catch (SQLException e) {
@@ -136,7 +158,7 @@ public class DatabaseController {
     String sqlString = SQLQueryCreator.getTableSQLString(tableName);
 
     try (Connection connection = connect();
-         Statement statement = connection.createStatement()) {
+        Statement statement = connection.createStatement()) {
       statement.execute(sqlString);
       closeConnection(connection);
     } catch (SQLException e) {
@@ -154,7 +176,7 @@ public class DatabaseController {
   private void dropTable(String tableName) {
     String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";
     try (Connection connection = connect();
-         Statement statement = connection.createStatement()) {
+        Statement statement = connection.createStatement()) {
       statement.execute(sqlString);
       System.out.println("Dropped table: " + tableName);
     } catch (SQLException e) {
@@ -163,8 +185,7 @@ public class DatabaseController {
   }
 
   private static boolean validateParamsForString(
-          HashMap<String, Object> uploadAbleData, ArrayList<String> attributeNames
-  ) {
+      HashMap<String, Object> uploadAbleData, ArrayList<String> attributeNames) {
     if (attributeNames.size() != uploadAbleData.keySet().size()) {
       System.err.println("Attribute list size does not match data keys size. ");
       return false;

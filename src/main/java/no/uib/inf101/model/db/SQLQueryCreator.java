@@ -37,7 +37,7 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
-  public static String updateRowSQLString(DbUploadable entity) {
+  protected static String updateRowSQLString(DbUploadable entity) {
     String tablename = entity.getTableName();
     ArrayList<String> attributes = entity.getAttributeNames();
 
@@ -54,7 +54,7 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
-  public static String getTableSQLString(String tableName) {
+  protected static String getTableSQLString(String tableName) {
     return switch (tableName) {
       case "users" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
               + "	id integer PRIMARY KEY,\n"
@@ -82,5 +82,14 @@ public class SQLQueryCreator {
               + ");";
       default -> throw new IllegalStateException("SQL Table creation failed for value: " + tableName);
     };
+  }
+
+  protected static String getRowSQLString(DbUploadable entity) {
+    String tablename = entity.getTableName();
+    int id = entity.getId();
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("SELECT * FROM ").append(tablename).append(" WHERE id = ").append(id);
+    return sb.toString();
   }
 }

@@ -105,6 +105,17 @@ public class ButtonController implements ActionListener {
           System.err.println("Failed creating main menu from add workout window. ");
         }
       }
+    } else if (this.currentWindow instanceof AddExerciseMenu addExerciseMenu) {
+      if (e.getSource() == addExerciseMenu.getAddButton()) {
+        Map<String, String> fields = addExerciseMenu.getFields();
+        InteractiveWindow window = model.handleAddExerciseMenu(Constants.ADDEXERCISE_BUTTON_ADD, fields);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating add exercise window from add workout window. ");
+        }
+      }
+    
     }
   }
 

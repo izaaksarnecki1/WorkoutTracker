@@ -23,4 +23,10 @@ public class Constants {
   public static final String ADDWORKOUT_BUTTON_ADD = "add";
   public static final String ADDWORKOUT_BUTTON_BACK = "back";
   public static final String ADDWORKOUT_BUTTON_SAVE = "save";
+
+  public static final String ADDEXERCISE_FIELD_EX_NAME = "name";
+  public static final String ADDEXERCISE_FIELD_REPS = "reps";
+  public static final String ADDEXERCISE_FIELD_SETS = "sets";
+  public static final String ADDEXERCISE_FIELD_WEIGHT = "weight";
+  public static final String ADDEXERCISE_BUTTON_ADD = "add";
   }

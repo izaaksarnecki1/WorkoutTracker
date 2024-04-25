@@ -13,20 +13,19 @@ public class Exercise implements DbUploadable {
   private final ArrayList<String> attributeNames = new ArrayList<>(
       Arrays.asList(WORKOUT_ID, EXERCISE_NAME, SETS, REPS, WEIGHT));
   
+  private final int workoutId;
+  private int exerciseId = 0;
   private String exerciseName;
   private int sets;
   private int reps;
   private int weight;
 
-  public Exercise(String exerciseName, int sets, int reps, int weight) {
+  public Exercise(int workoutId, String exerciseName, int sets, int reps, int weight) {
+    this.workoutId = workoutId;
     this.exerciseName = exerciseName;
     this.sets = sets;
     this.reps = reps;
     this.weight = weight;
-  }
-
-  public Exercise(String exerciseName, int sets, int reps) {
-    this(exerciseName, sets, reps, 0);
   }
 
   public String getExerciseName() {
@@ -65,6 +64,10 @@ public class Exercise implements DbUploadable {
     this.weight = weight;
   }
 
+  public void setExerciseId(int exerciseId) {
+    this.exerciseId = exerciseId;
+  }
+
   @Override
   public String toString() {
     return String.format(
@@ -93,10 +96,11 @@ public class Exercise implements DbUploadable {
   @Override
   public HashMap<String, Object> getUploadableData() {
     HashMap<String, Object> uploadableData = new HashMap<>();
-    uploadableData.put("ex_name", this.exerciseName);
-    uploadableData.put("sets", this.sets);
-    uploadableData.put("reps", this.reps);
-    uploadableData.put("weight", this.weight);
+    uploadableData.put(WORKOUT_ID, this.workoutId);
+    uploadableData.put(EXERCISE_NAME, this.exerciseName);
+    uploadableData.put(SETS, this.sets);
+    uploadableData.put(REPS, this.reps);
+    uploadableData.put(WEIGHT, this.weight);
     return uploadableData;
   }
 
@@ -117,6 +121,6 @@ public class Exercise implements DbUploadable {
 
   @Override
   public int getId() {
-    return 0;
+    return this.workoutId;
   }
 }

@@ -5,7 +5,6 @@ import no.uib.inf101.model.User;
 import no.uib.inf101.model.Workout;
 import no.uib.inf101.model.Exercise;
 
-
 import java.util.ArrayList;
 
 public class SQLQueryCreator {
@@ -61,30 +60,30 @@ public class SQLQueryCreator {
   protected static String getTableSQLString(String tableName) {
     return switch (tableName) {
       case User.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-        + "	id integer PRIMARY KEY,\n"
-        + "	" + User.USERNAME + " text NOT NULL UNIQUE,\n"
-        + "	" + User.PASSWORD + " text NOT NULL,\n"
-        + "	" + User.FIRST_NAME + " text,\n"
-        + "	" + User.LAST_NAME + " text,\n"
-        + "	" + User.WEIGHT + " int,\n"
-        + "	" + User.HEIGHT + " int\n"
-        + ");";
+          + "	id integer PRIMARY KEY,\n"
+          + "	" + User.USERNAME + " text NOT NULL UNIQUE,\n"
+          + "	" + User.PASSWORD + " text NOT NULL,\n"
+          + "	" + User.FIRST_NAME + " text,\n"
+          + "	" + User.LAST_NAME + " text,\n"
+          + "	" + User.WEIGHT + " int,\n"
+          + "	" + User.HEIGHT + " int\n"
+          + ");";
       case Workout.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-        + "	id integer PRIMARY KEY,\n"
-        + " " + Workout.USERID + " integer,\n"
-        + " " + Workout.WORKOUTNAME + " text,\n"
-        + " " + Workout.WORKOUTDATE + " DATE,\n"
-        + " FOREIGN KEY (" + Workout.USERID + ") REFERENCES " + User.TABLE_NAME + "(id)"
-        + ");";
+          + "	id integer PRIMARY KEY,\n"
+          + " " + Workout.USERID + " integer,\n"
+          + " " + Workout.WORKOUTNAME + " text,\n"
+          + " " + Workout.WORKOUTDATE + " DATE,\n"
+          + " FOREIGN KEY (" + Workout.USERID + ") REFERENCES " + User.TABLE_NAME + "(id)"
+          + ");";
       case Exercise.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-        + "	id integer PRIMARY KEY,\n"
-        + " " + Exercise.WORKOUT_ID + " integer,\n"
-        + " " + Exercise.EXERCISE_NAME + " text NOT NULL,\n"
-        + "	" + Exercise.SETS + " integer NOT NULL,\n"
-        + "	" + Exercise.REPS + " integer NOT NULL,\n"
-        + "	" + Exercise.WEIGHT + " text,\n"
-        + " FOREIGN KEY (" + Exercise.WORKOUT_ID + ") REFERENCES " + Workout.TABLE_NAME + "(id)"
-        + ");";
+          + "	id integer PRIMARY KEY,\n"
+          + " " + Exercise.WORKOUT_ID + " integer,\n"
+          + " " + Exercise.EXERCISE_NAME + " text NOT NULL,\n"
+          + "	" + Exercise.SETS + " integer NOT NULL,\n"
+          + "	" + Exercise.REPS + " integer NOT NULL,\n"
+          + "	" + Exercise.WEIGHT + " text,\n"
+          + " FOREIGN KEY (" + Exercise.WORKOUT_ID + ") REFERENCES " + Workout.TABLE_NAME + "(id)"
+          + ");";
       default -> throw new IllegalStateException("SQL Table creation failed for value: " + tableName);
     };
   }

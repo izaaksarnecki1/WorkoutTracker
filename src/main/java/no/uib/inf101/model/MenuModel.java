@@ -95,7 +95,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
         return null;
       }
       setupWorkout(fields);
-      return new AddExerciseWindowPopUp();
+      return new AddExerciseMenu();
     } else if (identifier.equals(Constants.ADDWORKOUT_BUTTON_BACK)) {
       this.workout = null;
       return new MainMenu();
@@ -106,6 +106,23 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
       }
       setupWorkout(fields);
       DatabaseController.updateRow(workout);
+    }
+    return null;
+  }
+
+  @Override
+  public InteractiveWindow handleAddExerciseMenu(String identifier, Map<String, String> fields) {
+    if (identifier.equals(Constants.ADDEXERCISE_BUTTON_ADD)) {
+      if (fields == null) {
+        System.err.println("Error adding exercise. Fields are null");
+        return null;
+      }
+      Exercise exercise = new Exercise(this.workout.getId(), fields.get(Constants.ADDEXERCISE_FIELD_EX_NAME),
+          Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_REPS)),
+          Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_SETS)),
+          Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_WEIGHT)));
+      DatabaseController.addRow(exercise);
+      return new AddWorkoutMenu(this);
     }
     return null;
   }
@@ -131,9 +148,15 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return workoutAttributes;
   }
 
+  @Override
+  public boolean workoutExists() {
+    return this.workout != null;
+  }
+
   private void setupWorkout(Map<String, String> fields) {
     if (workout == null) {
-      this.workout = new Workout(this.user.getId(), fields.get(Constants.ADDWORKOUT_FIELD_DATE), fields.get(Constants.ADDWORKOUT_FIELD_WORKOUTNAME));
+      this.workout = new Workout(this.user.getId(), fields.get(Constants.ADDWORKOUT_FIELD_DATE),
+          fields.get(Constants.ADDWORKOUT_FIELD_WORKOUTNAME));
       DatabaseController.addRow(workout);
       int id = Integer.parseInt(DatabaseController.getLastId());
       workout.setWorkoutId(id);
@@ -142,17 +165,12 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
       workout.setWorkoutName(fields.get(Constants.ADDWORKOUT_FIELD_WORKOUTNAME));
     }
   }
-  
+
   private void setUserDbAttributes() {
     Map<String, String> userAttributes = DatabaseController.getRow(user);
     user.setFirstName(userAttributes.get(User.FIRST_NAME));
     user.setLastName(userAttributes.get(User.LAST_NAME));
     user.setWeight(Integer.parseInt(userAttributes.get(User.WEIGHT)));
     user.setHeight(Integer.parseInt(userAttributes.get(User.HEIGHT)));
-  }
-
-  @Override
-  public boolean workoutExists() {
-    return this.workout != null;
   }
 }

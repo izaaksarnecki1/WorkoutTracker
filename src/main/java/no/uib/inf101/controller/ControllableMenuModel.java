@@ -5,8 +5,8 @@ import no.uib.inf101.view.InteractiveWindow;
 import java.util.Map;
 
 /**
- * The ControllableMenuModel interface represents a model for a controllable menu in the workout tracker application.
- * It provides methods for handling various menu actions such as signup, login, start, main, profile, and adding a workout.
+ * The ControllableMenuModel interface represents a model for handling menu actions in the workout tracker application.
+ * It provides methods for handling various menu actions such as signup, login, start, main, profile, add workout, and add exercise.
  */
 public interface ControllableMenuModel {
   /**
@@ -72,4 +72,14 @@ public interface ControllableMenuModel {
   default InteractiveWindow handleAddWorkoutMenu(String identifier) {
     return handleAddWorkoutMenu(identifier, null);
   };
+
+
+  /**
+   * Handles the add exercise menu action.
+   *
+   * @param identifier the identifier for the menu
+   * @param fields a map of exercise fields and their values
+   * @return an InteractiveWindow representing the next menu to display
+   */
+  InteractiveWindow handleAddExerciseMenu(String identifier, Map<String, String> fields);
 }

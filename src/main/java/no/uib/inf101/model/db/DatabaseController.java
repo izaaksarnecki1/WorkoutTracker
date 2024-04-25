@@ -1,7 +1,9 @@
 package no.uib.inf101.model.db;
 
 import no.uib.inf101.model.DbUploadable;
+import no.uib.inf101.model.Exercise;
 import no.uib.inf101.model.User;
+import no.uib.inf101.model.Workout;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.Map;
 public class DatabaseController {
 
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
-  private final String[] tables = { User.TABLE_NAME, "workouts", "exercise" };
+  private final String[] tables = { User.TABLE_NAME, Workout.TABLE_NAME, Exercise.TABLE_NAME };
 
   public DatabaseController() {
     setupDb(false);
@@ -27,14 +29,14 @@ public class DatabaseController {
     this.setupTables();
   }
 
-  public static void addRow(DbUploadable entity) {
+  public static int addRow(DbUploadable entity) {
     SQLQueryCreator creator = new SQLQueryCreator(entity);
     String sqlString = creator.createAddRowString();
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
 
     if (!validateParamsForString(uploadAbleData, attributeNames)) {
-      return;
+      return 0;
     }
 
     try (Connection connection = connect();
@@ -44,16 +46,40 @@ public class DatabaseController {
         pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
       }
       pStatement.executeUpdate();
+      return Integer.parseInt(getLastId());
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
+    return 0;
   }
+
+  // public static void addRow(DbUploadable entity) {
+  //   SQLQueryCreator creator = new SQLQueryCreator(entity);
+  //   String sqlString = creator.createAddRowString();
+  //   HashMap<String, Object> uploadAbleData = entity.getUploadableData();
+  //   ArrayList<String> attributeNames = entity.getAttributeNames();
+
+  //   if (!validateParamsForString(uploadAbleData, attributeNames)) {
+  //     return;
+  //   }
+
+  //   try (Connection connection = connect();
+  //       PreparedStatement pStatement = connection.prepareStatement(sqlString)) {
+  //     int idx = 1;
+  //     for (String attribute : attributeNames) {
+  //       pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
+  //     }
+  //     pStatement.executeUpdate();
+  //   } catch (SQLException e) {
+  //     System.err.println(e.getMessage());
+  //   }
+  // }
 
   public static Map<String, String> getRow(DbUploadable entity) {
     String sqlString = SQLQueryCreator.getRowSQLString(entity);
     ArrayList<String> attributeNames = entity.getAttributeNames();
     Map<String, String> dbAttributes = new HashMap<>();
-    
+
     try (Connection connection = connect();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlString)) {
@@ -207,9 +233,13 @@ public class DatabaseController {
     try (Connection connection = connect();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlString)) {
-      return resultSet.getString("last_insert_rowid()");
+
+      if (resultSet != null && resultSet.next()) {
+        String lastId = resultSet.getString(1);
+        return lastId;
+      } 
     } catch (SQLException e) {
-      System.err.println(e.getMessage());
+      System.err.println("Error retrieving last inserted row ID: " + e.getMessage());
     }
     return null;
   }

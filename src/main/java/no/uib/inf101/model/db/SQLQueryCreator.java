@@ -73,7 +73,7 @@ public class SQLQueryCreator {
         + "	id integer PRIMARY KEY,\n"
         + " " + Workout.USERID + " integer,\n"
         + " " + Workout.WORKOUTNAME + " text,\n"
-        + " " + Workout.WORKOUTDATE + " text,\n"
+        + " " + Workout.WORKOUTDATE + " DATE,\n"
         + " FOREIGN KEY (" + Workout.USERID + ") REFERENCES " + User.TABLE_NAME + "(id)"
         + ");";
       case Exercise.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
@@ -96,5 +96,9 @@ public class SQLQueryCreator {
     StringBuilder sb = new StringBuilder();
     sb.append("SELECT * FROM ").append(tablename).append(" WHERE id = ").append(id);
     return sb.toString();
+  }
+
+  protected static String getLastIdSQLString() {
+    return "SELECT last_insert_rowid()";
   }
 }

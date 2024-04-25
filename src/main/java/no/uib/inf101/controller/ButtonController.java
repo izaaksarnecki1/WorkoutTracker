@@ -62,7 +62,12 @@ public class ButtonController implements ActionListener {
       }
     } else if (this.currentWindow instanceof MainMenu mainMenu) {
       if (e.getSource() == mainMenu.getAddWorkoutButton()) {
-        model.handleMainMenu(Constants.MAINMENU_BUTTON_ADDWORKOUT);
+        InteractiveWindow window = model.handleMainMenu(Constants.MAINMENU_BUTTON_ADDWORKOUT);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating add workout menu from main menu. ");
+        }
       } else if (e.getSource() == mainMenu.getEditUserButton()) {
         InteractiveWindow window = model.handleMainMenu(Constants.MAINMENU_BUTTON_EDITUSER);
         if (window != null) {
@@ -81,6 +86,23 @@ public class ButtonController implements ActionListener {
           this.setNewWindow(window);
         } else {
           System.err.println("Failed creating main menu from profile menu. ");
+        }
+      }
+    } else if (this.currentWindow instanceof AddWorkoutMenu addWorkoutMenu) {
+      if (e.getSource() == addWorkoutMenu.getAddExerciseButton()) {
+        Map<String, String> fields = addWorkoutMenu.getFields();
+        InteractiveWindow window = model.handleAddWorkoutMenu(Constants.ADDWORKOUT_BUTTON_ADD, fields);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating add exercise window from add workout window. ");
+        }
+      } else if (e.getSource() == addWorkoutMenu.getBackButton()) {
+        InteractiveWindow window = model.handleAddWorkoutMenu(Constants.ADDWORKOUT_BUTTON_BACK);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating main menu from add workout window. ");
         }
       }
     }

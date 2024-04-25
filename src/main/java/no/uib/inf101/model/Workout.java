@@ -14,34 +14,37 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
       Arrays.asList(USERID, WORKOUTNAME, WORKOUTDATE));
 
   private final int userId;
-  private final int workoutId = 0;
+  private int workoutId = 0;
   private String workoutName;
-  private LocalDate workoutDate;
+  private String workoutDate;
   private List<Exercise> exercises;
 
   // JList to display workouts in window
-  public Workout(int userId, LocalDate workoutDate, String workoutName) {
+  public Workout(int userId, String workoutDate, String workoutName) {
     this.exercises = new ArrayList<>();
-    this.workoutDate = workoutDate;
+    this.workoutDate = validateDate(workoutDate);
     this.userId = userId;
     this.workoutName = workoutName;
   }
 
-  public LocalDate getWorkoutDate() {
+  public String getWorkoutDate() {
     return this.workoutDate;
   }
 
-  public int getWorkoutDateAsInt() {
-    return Integer.parseInt(
-        this.workoutDate.format(DateTimeFormatter.BASIC_ISO_DATE));
+  public String getWorkoutName() {
+    return this.workoutName;
   }
 
-  public void setWorkoutDate(LocalDate workoutDate) {
+  public void setWorkoutDate(String workoutDate) {
     this.workoutDate = workoutDate;
   }
 
   public void setWorkoutName(String workoutName) {
     this.workoutName = workoutName;
+  }
+
+  protected void setWorkoutId(int workoutId) {
+    this.workoutId = workoutId;
   }
 
   public void addExercise(Exercise exercise) {
@@ -56,6 +59,17 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
     return !exercise.getExerciseName().isEmpty()
         && exercise.getReps() != 0
         && exercise.getSets() != 0;
+  }
+
+  private String validateDate(String date) {
+    try {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+      LocalDate.parse(date, formatter);
+      return date;
+    } catch (Exception e) {
+      System.err.println("Invalid date format: " + date);
+      return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
   }
 
   // IDK IF THIS IS NEEDED
@@ -91,6 +105,6 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
 
   @Override
   public int getId() {
-    return 0;
+    return this.workoutId;
   }
 }

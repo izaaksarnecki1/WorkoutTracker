@@ -200,4 +200,17 @@ public class DatabaseController {
 
     return true;
   }
+
+  public static String getLastId() {
+    String sqlString = SQLQueryCreator.getLastIdSQLString();
+
+    try (Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
+      return resultSet.getString("last_insert_rowid()");
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+    return null;
+  }
 }

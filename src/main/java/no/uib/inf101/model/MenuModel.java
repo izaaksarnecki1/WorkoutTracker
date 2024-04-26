@@ -20,26 +20,27 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   }
 
   @Override
-  public InteractiveWindow handleSignupMenu(String identifier, String uname, char[] password) {
+  public InteractiveWindow handleSignupMenu(String identifier, Map<String, String> fields) {
     if (identifier.equals(Constants.SIGNUPMENU_BUTTON_SUBMIT)) {
       String stringPassword = Hashing
           .sha256()
-          .hashString(String.valueOf(password), StandardCharsets.UTF_8)
+          .hashString(String.valueOf(fields.get(Constants.SIGNUPMENU_FIELD_PASSWORD)), StandardCharsets.UTF_8)
           .toString();
-      User user = Authenticator.createNewUser(uname, stringPassword);
+      User user = Authenticator.createNewUser(fields.get(Constants.SIGNUPMENU_FIELD_USERNAME), stringPassword);
       if (user != null) {
         this.user = user;
         return new MainMenu();
       } else {
         System.err.println("Error creating user. ");
       }
+    } else if (identifier.equals(Constants.SIGNUPMENU_BUTTON_BACK)) {
+      return new StartMenu();
     }
     return null;
   }
 
   @Override
   public InteractiveWindow handleLoginMenu(String identifier, Map<String, String> fields) {
-
     if (identifier.equals(Constants.LOGINMENU_BUTTON_SUBMIT)) {
       String stringPassword = Hashing
           .sha256()

@@ -5,6 +5,9 @@ public class Constants {
   public static final String STARTMENU_BUTTON_SIGNUP = "signup";
 
   public static final String SIGNUPMENU_BUTTON_SUBMIT = "submit";
+  public static final String SIGNUPMENU_BUTTON_BACK = "back";
+  public static final String SIGNUPMENU_FIELD_USERNAME = "username";
+  public static final String SIGNUPMENU_FIELD_PASSWORD = "password";
 
   public static final String LOGINMENU_BUTTON_SUBMIT = "submit";
   public static final String LOGINMENU_BUTTON_BACK = "back";

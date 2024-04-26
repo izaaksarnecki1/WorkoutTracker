@@ -38,14 +38,19 @@ public class ButtonController implements ActionListener {
       }
     } else if (this.currentWindow instanceof SignupMenu signupMenu) {
       if (e.getSource() == signupMenu.getSubmitButton()) {
-        String username = signupMenu.getUsernameField().getText();
-        char[] charPassword = signupMenu.getPasswordField().getPassword();
-
-        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_BUTTON_SUBMIT, username, charPassword);
+        Map<String, String> fields = signupMenu.getFields();
+        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_BUTTON_SUBMIT, fields);
         if (window != null) {
           this.setNewWindow(window);
         } else {
           System.err.println("Failed creating main menu from signup menu. ");
+        }
+      } else if (e.getSource() == signupMenu.getBackButton()) {
+        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_BUTTON_BACK, null);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating start menu from signup menu. ");
         }
       }
     } else if (this.currentWindow instanceof LoginMenu loginMenu) {

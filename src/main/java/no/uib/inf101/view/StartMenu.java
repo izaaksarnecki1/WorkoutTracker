@@ -1,7 +1,6 @@
 package no.uib.inf101.view;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

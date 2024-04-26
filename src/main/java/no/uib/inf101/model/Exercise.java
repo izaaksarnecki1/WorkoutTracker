@@ -14,7 +14,6 @@ public class Exercise implements DbUploadable {
       Arrays.asList(WORKOUT_ID, EXERCISE_NAME, SETS, REPS, WEIGHT));
 
   private final int workoutId;
-  private int exerciseId = 0;
   private String exerciseName;
   private int sets;
   private int reps;
@@ -64,35 +63,6 @@ public class Exercise implements DbUploadable {
     this.weight = weight;
   }
 
-  public void setExerciseId(int exerciseId) {
-    this.exerciseId = exerciseId;
-  }
-
-  @Override
-  public String toString() {
-    return String.format(
-        "Exercise_Name: %s | Sets: %d | Reps: %d | Weight: %d",
-        exerciseName, sets, reps, weight);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
-    Exercise exercise = (Exercise) o;
-    return sets == exercise.sets
-        && reps == exercise.reps
-        && weight == exercise.weight
-        && Objects.equals(exerciseName, exercise.exerciseName);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(exerciseName, sets, reps, weight);
-  }
-
   @Override
   public HashMap<String, Object> getUploadableData() {
     HashMap<String, Object> uploadableData = new HashMap<>();
@@ -115,12 +85,7 @@ public class Exercise implements DbUploadable {
   }
 
   @Override
-  public String getParent() {
-    return Workout.TABLE_NAME;
-  }
-
-  @Override
   public int getId() {
-    return this.workoutId;
+    return 0;
   }
 }

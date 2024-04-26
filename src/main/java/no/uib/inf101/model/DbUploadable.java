@@ -36,16 +36,4 @@ public interface DbUploadable {
    * @return the ID of the object
    */
   int getId();
-
-  /**
-   * Retrieves the parent table of the current object.
-   * For example, an Exercise object may have a parent table of Workouts,
-   * as it links to workouts through a foreign key.
-   * Not all objects will have parents, and this method returns null by default.
-   *
-   * @return the parent table of the object, or null if there is no parent
-   */
-  default String getParent() {
-    return null;
-  }
 }

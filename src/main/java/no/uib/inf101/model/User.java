@@ -19,12 +19,10 @@ public class User implements DbUploadable {
   private final String password;
   private String firstName;
   private String lastName;
-  // Simply fetch from db instead of saving this info here?
   private int weight;
   private int height;
   private ArrayList<Workout> workouts;
   private int id = 0;
-  private final String[] profileAttributes = { FIRST_NAME, LAST_NAME, WEIGHT, HEIGHT };
 
   public User(String username, String password) {
     this.username = username;
@@ -37,7 +35,7 @@ public class User implements DbUploadable {
   }
 
   public String getFirstName() {
-    return firstName;
+    return this.firstName;
   }
 
   public void setFirstName(String firstName) {
@@ -68,24 +66,12 @@ public class User implements DbUploadable {
     this.height = height;
   }
 
-  public void addWorkout(Workout workout) {
-    this.workouts.add(workout);
-  }
-
   public void setId(int id) {
     this.id = id;
   }
 
   public int getId() {
     return this.id;
-  }
-
-  public String getUsername() {
-    return this.username;
-  }
-
-  public String getPassword() {
-    return this.password;
   }
 
   public ArrayList<Workout> getWorkouts() {
@@ -112,9 +98,5 @@ public class User implements DbUploadable {
   @Override
   public ArrayList<String> getAttributeNames() {
     return this.attributeNames;
-  }
-
-  public String[] getProfileAttributes() {
-    return this.profileAttributes;
   }
 }

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Workout implements Iterable<Exercise>, DbUploadable {
+public class Workout implements DbUploadable {
   public static final String TABLE_NAME = "workouts";
   public static final String WORKOUTDATE = "date";
   public static final String USERID = "user_id";
@@ -72,13 +72,6 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
     }
   }
 
-  // IDK IF THIS IS NEEDED
-  @Override
-  public Iterator<Exercise> iterator() {
-    List<Exercise> temp = new ArrayList<>(this.exercises);
-    return temp.iterator();
-  }
-
   @Override
   public HashMap<String, Object> getUploadableData() {
     HashMap<String, Object> uploadableData = new HashMap<>();
@@ -96,11 +89,6 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
   @Override
   public ArrayList<String> getAttributeNames() {
     return this.attirbuteNames;
-  }
-
-  @Override
-  public String getParent() {
-    return User.TABLE_NAME;
   }
 
   @Override

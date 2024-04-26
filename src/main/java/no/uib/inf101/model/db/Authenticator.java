@@ -26,7 +26,7 @@ public class Authenticator {
     }
 
     User user = new User(username, password);
-    DatabaseController.addRow(user);
+    DatabaseController.insertRow(user);
     String stringId = DatabaseController.fetchUserId(username);
 
     if (stringId != null) {

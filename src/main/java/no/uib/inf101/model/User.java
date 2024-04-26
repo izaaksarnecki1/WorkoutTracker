@@ -4,7 +4,17 @@ import java.util.*;
 
 public class User implements DbUploadable {
 
-  public static final String tableName = "users";
+  public static final String TABLE_NAME = "users";
+  public static final String USERNAME = "username";
+  public static final String PASSWORD = "password";
+  public static final String FIRST_NAME = "first_name";
+  public static final String LAST_NAME = "last_name";
+  public static final String WEIGHT = "weight";
+  public static final String HEIGHT = "height";
+
+  private final ArrayList<String> attributeNames = new ArrayList<>(
+      Arrays.asList(USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, WEIGHT, HEIGHT));
+
   private final String username;
   private final String password;
   private String firstName;
@@ -14,13 +24,7 @@ public class User implements DbUploadable {
   private int height;
   private ArrayList<Workout> workouts;
   private int id = 0;
-  public static final String USERNAME = "username";
-  public static final String PASSWORD = "password";
-  public static final String FIRST_NAME = "first_name";
-  public static final String LAST_NAME = "last_name";
-  public static final String WEIGHT = "weight";
-  public static final String HEIGHT = "height";
-  private final String[] profileAttributes = {FIRST_NAME, LAST_NAME, WEIGHT, HEIGHT};
+  private final String[] profileAttributes = { FIRST_NAME, LAST_NAME, WEIGHT, HEIGHT };
 
   public User(String username, String password) {
     this.username = username;
@@ -75,6 +79,7 @@ public class User implements DbUploadable {
   public int getId() {
     return this.id;
   }
+
   public String getUsername() {
     return this.username;
   }
@@ -101,15 +106,15 @@ public class User implements DbUploadable {
 
   @Override
   public String getTableName() {
-    return tableName;
+    return User.TABLE_NAME;
   }
 
   @Override
   public ArrayList<String> getAttributeNames() {
-    return new ArrayList<>(Arrays.asList(USERNAME, PASSWORD, FIRST_NAME, LAST_NAME, WEIGHT, HEIGHT));
+    return this.attributeNames;
   }
 
   public String[] getProfileAttributes() {
-    return Arrays.copyOf(this.profileAttributes, this.profileAttributes.length);
+    return this.profileAttributes;
   }
 }

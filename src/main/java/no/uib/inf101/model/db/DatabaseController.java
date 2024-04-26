@@ -1,7 +1,9 @@
 package no.uib.inf101.model.db;
 
 import no.uib.inf101.model.DbUploadable;
+import no.uib.inf101.model.Exercise;
 import no.uib.inf101.model.User;
+import no.uib.inf101.model.Workout;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,22 +12,31 @@ import java.util.Map;
 
 // https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
 
+/**
+ * The DatabaseController class is responsible for managing the database
+ * operations
+ * for the workout tracker application. It provides methods for adding,
+ * updating, and
+ * retrieving data from the database.
+ */
 public class DatabaseController {
 
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
-  private final String[] tables = { "users", "workouts", "exercise" };
+  private final String[] tables = { User.TABLE_NAME, Workout.TABLE_NAME, Exercise.TABLE_NAME };
 
   public DatabaseController() {
-    setupDb();
+    setupDb(false);
   }
 
-  void setupDb() {
-    // this.dropTables();
+  void setupDb(boolean dropTables) {
+    if (dropTables) {
+      this.dropTables();
+    }
     this.setupForeignKey();
     this.setupTables();
   }
 
-  public static void addRow(DbUploadable entity) {
+  public static void insertRow(DbUploadable entity) {
     SQLQueryCreator creator = new SQLQueryCreator(entity);
     String sqlString = creator.createAddRowString();
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
@@ -51,7 +62,7 @@ public class DatabaseController {
     String sqlString = SQLQueryCreator.getRowSQLString(entity);
     ArrayList<String> attributeNames = entity.getAttributeNames();
     Map<String, String> dbAttributes = new HashMap<>();
-    
+
     try (Connection connection = connect();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlString)) {
@@ -89,6 +100,24 @@ public class DatabaseController {
     }
   }
 
+  public static String getLastId(DbUploadable entity) {
+    String sqlString = SQLQueryCreator.getLastIdSQLString(entity);
+
+    try (Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
+
+      if (resultSet != null && resultSet.next()) {
+        String lastId = resultSet.getString(1);
+        System.out.println(lastId);
+        return lastId;
+      } 
+    } catch (SQLException e) {
+      System.err.println("Error retrieving last inserted row ID: " + e.getMessage());
+    }
+    return null;
+  }
+
   protected static boolean validatePass(String username, String password) {
     String sqlString = "SELECT password FROM users WHERE username = '" + username + "';";
 
@@ -103,7 +132,7 @@ public class DatabaseController {
     return false;
   }
 
-  static String fetchUserId(String username) {
+  protected static String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();
@@ -173,7 +202,7 @@ public class DatabaseController {
     System.out.println("Successfully dropped all tables. ");
   }
 
-  private void dropTable(String tableName) {
+  private void dropTable(String tableName) {    
     String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";
     try (Connection connection = connect();
         Statement statement = connection.createStatement()) {

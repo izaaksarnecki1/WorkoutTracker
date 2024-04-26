@@ -1,6 +1,9 @@
 package no.uib.inf101.model.db;
 
 import no.uib.inf101.model.DbUploadable;
+import no.uib.inf101.model.User;
+import no.uib.inf101.model.Workout;
+import no.uib.inf101.model.Exercise;
 
 import java.util.ArrayList;
 
@@ -56,30 +59,31 @@ public class SQLQueryCreator {
 
   protected static String getTableSQLString(String tableName) {
     return switch (tableName) {
-      case "users" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-              + "	id integer PRIMARY KEY,\n"
-              + "	username text NOT NULL UNIQUE,\n"
-              + "	password text NOT NULL,\n"
-              + " first_name text,\n"
-              + " last_name text,\n"
-              + " weight int,\n"
-              + " height int\n"
-              + ");";
-      case "workouts" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-              + "	id integer PRIMARY KEY,\n"
-              + " user_id integer, \n"
-              + "	date text,\n"
-              + " FOREIGN KEY (user_id) REFERENCES users (id)"
-              + ");";
-      case "exercise" -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
-              + "	id integer PRIMARY KEY,\n"
-              + " workout_id integer, \n"
-              + "	ex_name text NOT NULL,\n"
-              + "	sets integer NOT NULL,\n"
-              + "	reps integer NOT NULL,\n"
-              + "	weight text,\n"
-              + " FOREIGN KEY (workout_id) REFERENCES workouts (id)"
-              + ");";
+      case User.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
+          + "	id integer PRIMARY KEY AUTOINCREMENT,\n"
+          + "	" + User.USERNAME + " text NOT NULL UNIQUE,\n"
+          + "	" + User.PASSWORD + " text NOT NULL,\n"
+          + "	" + User.FIRST_NAME + " text,\n"
+          + "	" + User.LAST_NAME + " text,\n"
+          + "	" + User.WEIGHT + " int,\n"
+          + "	" + User.HEIGHT + " int\n"
+          + ");";
+      case Workout.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
+          + "	id integer PRIMARY KEY AUTOINCREMENT,\n"
+          + " " + Workout.USERID + " integer,\n"
+          + " " + Workout.WORKOUTNAME + " text,\n"
+          + " " + Workout.WORKOUTDATE + " DATE,\n"
+          + " FOREIGN KEY (" + Workout.USERID + ") REFERENCES " + User.TABLE_NAME + "(id)"
+          + ");";
+      case Exercise.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
+          + "	id integer PRIMARY KEY AUTOINCREMENT,\n"
+          + " " + Exercise.WORKOUT_ID + " integer,\n"
+          + " " + Exercise.EXERCISE_NAME + " text NOT NULL,\n"
+          + "	" + Exercise.SETS + " integer NOT NULL,\n"
+          + "	" + Exercise.REPS + " integer NOT NULL,\n"
+          + "	" + Exercise.WEIGHT + " text,\n"
+          + " FOREIGN KEY (" + Exercise.WORKOUT_ID + ") REFERENCES " + Workout.TABLE_NAME + "(id)"
+          + ");";
       default -> throw new IllegalStateException("SQL Table creation failed for value: " + tableName);
     };
   }
@@ -90,6 +94,15 @@ public class SQLQueryCreator {
 
     StringBuilder sb = new StringBuilder();
     sb.append("SELECT * FROM ").append(tablename).append(" WHERE id = ").append(id);
+    return sb.toString();
+  }
+
+  protected static String getLastIdSQLString(DbUploadable entity) {
+
+    String tablename = entity.getTableName();
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("SELECT seq FROM sqlite_sequence WHERE name=").append('"').append(tablename).append('"');
     return sb.toString();
   }
 }

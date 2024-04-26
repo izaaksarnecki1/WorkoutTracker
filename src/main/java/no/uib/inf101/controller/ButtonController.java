@@ -38,31 +38,46 @@ public class ButtonController implements ActionListener {
       }
     } else if (this.currentWindow instanceof SignupMenu signupMenu) {
       if (e.getSource() == signupMenu.getSubmitButton()) {
-        String username = signupMenu.getUsernameField().getText();
-        char[] charPassword = signupMenu.getPasswordField().getPassword();
-
-        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_BUTTON_SUBMIT, username, charPassword);
+        Map<String, String> fields = signupMenu.getFields();
+        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_BUTTON_SUBMIT, fields);
         if (window != null) {
           this.setNewWindow(window);
         } else {
           System.err.println("Failed creating main menu from signup menu. ");
         }
+      } else if (e.getSource() == signupMenu.getBackButton()) {
+        InteractiveWindow window = model.handleSignupMenu(Constants.SIGNUPMENU_BUTTON_BACK, null);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating start menu from signup menu. ");
+        }
       }
     } else if (this.currentWindow instanceof LoginMenu loginMenu) {
       if (e.getSource() == loginMenu.getSubmitButton()) {
-        String username = loginMenu.getUsernameField().getText();
-        char[] charPassword = loginMenu.getPasswordField().getPassword();
-
-        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_BUTTON_SUBMIT, username, charPassword);
+        Map<String, String> fields = loginMenu.getFields();
+        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_BUTTON_SUBMIT, fields);
         if (window != null) {
           this.setNewWindow(window);
         } else {
           System.err.println("Failed creating main menu from login menu. ");
         }
+      } else if (e.getSource() == loginMenu.getBackButton()) {
+        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_BUTTON_BACK, null);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating start menu from login menu. ");
+        }
       }
     } else if (this.currentWindow instanceof MainMenu mainMenu) {
       if (e.getSource() == mainMenu.getAddWorkoutButton()) {
-        model.handleMainMenu(Constants.MAINMENU_BUTTON_ADDWORKOUT);
+        InteractiveWindow window = model.handleMainMenu(Constants.MAINMENU_BUTTON_ADDWORKOUT);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating add workout menu from main menu. ");
+        }
       } else if (e.getSource() == mainMenu.getEditUserButton()) {
         InteractiveWindow window = model.handleMainMenu(Constants.MAINMENU_BUTTON_EDITUSER);
         if (window != null) {
@@ -83,6 +98,34 @@ public class ButtonController implements ActionListener {
           System.err.println("Failed creating main menu from profile menu. ");
         }
       }
+    } else if (this.currentWindow instanceof AddWorkoutMenu addWorkoutMenu) {
+      if (e.getSource() == addWorkoutMenu.getAddExerciseButton()) {
+        Map<String, String> fields = addWorkoutMenu.getFields();
+        InteractiveWindow window = model.handleAddWorkoutMenu(Constants.ADDWORKOUT_BUTTON_ADD, fields);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating add exercise window from add workout window. ");
+        }
+      } else if (e.getSource() == addWorkoutMenu.getBackButton()) {
+        InteractiveWindow window = model.handleAddWorkoutMenu(Constants.ADDWORKOUT_BUTTON_BACK);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating main menu from add workout window. ");
+        }
+      }
+    } else if (this.currentWindow instanceof AddExerciseMenu addExerciseMenu) {
+      if (e.getSource() == addExerciseMenu.getAddButton()) {
+        Map<String, String> fields = addExerciseMenu.getFields();
+        InteractiveWindow window = model.handleAddExerciseMenu(Constants.ADDEXERCISE_BUTTON_ADD, fields);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating add exercise window from add workout window. ");
+        }
+      }
+
     }
   }
 

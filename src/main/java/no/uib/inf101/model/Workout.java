@@ -5,29 +5,46 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Workout implements Iterable<Exercise>, DbUploadable {
-  public static final String tableName = "workouts";
+  public static final String TABLE_NAME = "workouts";
+  public static final String WORKOUTDATE = "date";
+  public static final String USERID = "user_id";
+  public static final String WORKOUTNAME = "workout_name";
+
+  private final ArrayList<String> attirbuteNames = new ArrayList<>(
+      Arrays.asList(USERID, WORKOUTNAME, WORKOUTDATE));
+
+  private final int userId;
+  private int workoutId = 0;
+  private String workoutName;
+  private String workoutDate;
   private List<Exercise> exercises;
-  private LocalDate workoutDate;
-  private final int user_id;
+
   // JList to display workouts in window
-  public Workout(int user_id, LocalDate workoutDate) {
+  public Workout(int userId, String workoutDate, String workoutName) {
     this.exercises = new ArrayList<>();
-    this.workoutDate = workoutDate;
-    this.user_id = user_id;
+    this.workoutDate = validateDate(workoutDate);
+    this.userId = userId;
+    this.workoutName = workoutName;
   }
 
-  public LocalDate getWorkoutDate() {
+  public String getWorkoutDate() {
     return this.workoutDate;
   }
 
-  public int getWorkoutDateAsInt() {
-    return Integer.parseInt(
-            this.workoutDate.format(DateTimeFormatter.BASIC_ISO_DATE)
-    );
+  public String getWorkoutName() {
+    return this.workoutName;
   }
 
-  public void setWorkoutDate(LocalDate workoutDate) {
+  public void setWorkoutDate(String workoutDate) {
     this.workoutDate = workoutDate;
+  }
+
+  public void setWorkoutName(String workoutName) {
+    this.workoutName = workoutName;
+  }
+
+  protected void setWorkoutId(int workoutId) {
+    this.workoutId = workoutId;
   }
 
   public void addExercise(Exercise exercise) {
@@ -40,10 +57,22 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
 
   boolean validExercise(Exercise exercise) {
     return !exercise.getExerciseName().isEmpty()
-            && exercise.getReps() != 0
-            && exercise.getSets() != 0;
+        && exercise.getReps() != 0
+        && exercise.getSets() != 0;
   }
 
+  private String validateDate(String date) {
+    try {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+      LocalDate.parse(date, formatter);
+      return date;
+    } catch (Exception e) {
+      System.err.println("Invalid date format: " + date);
+      return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+  }
+
+  // IDK IF THIS IS NEEDED
   @Override
   public Iterator<Exercise> iterator() {
     List<Exercise> temp = new ArrayList<>(this.exercises);
@@ -53,28 +82,29 @@ public class Workout implements Iterable<Exercise>, DbUploadable {
   @Override
   public HashMap<String, Object> getUploadableData() {
     HashMap<String, Object> uploadableData = new HashMap<>();
-    uploadableData.put("date", this.workoutDate);
-    uploadableData.put("user_id", this.user_id);
+    uploadableData.put(WORKOUTDATE, this.workoutDate);
+    uploadableData.put(WORKOUTNAME, this.workoutName);
+    uploadableData.put(USERID, this.userId);
     return uploadableData;
   }
 
   @Override
   public String getTableName() {
-    return tableName;
+    return TABLE_NAME;
   }
 
   @Override
   public ArrayList<String> getAttributeNames() {
-    return new ArrayList<>(Arrays.asList("date", "user_id"));
+    return this.attirbuteNames;
   }
 
   @Override
   public String getParent() {
-    return User.tableName;
+    return User.TABLE_NAME;
   }
 
   @Override
   public int getId() {
-    return 0;
+    return this.workoutId;
   }
 }

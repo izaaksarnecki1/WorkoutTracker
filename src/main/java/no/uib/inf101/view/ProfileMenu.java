@@ -56,15 +56,17 @@ public class ProfileMenu extends InteractiveWindow {
   protected void setUpLayout() {
     // Used some ChatGPT to help me with the layout.
     // "Using GridBagLayout, how would I set up JTextFields with labels?"
-    Map<String, String> userProfile = model.getUserProfile();
-    System.out.println(userProfile);
+    // Probably a cleaner way to do this
+
+    Map<String, String> viewableUser = model.getUserProfile();
+  
     GridBagLayout layout = new GridBagLayout();
     GridBagConstraints c = new GridBagConstraints();
 
-    String firstName = userProfile.get(User.FIRST_NAME);
-    String lastName = userProfile.get(User.LAST_NAME);
-    String weight = userProfile.get(User.WEIGHT);
-    String height = userProfile.get(User.HEIGHT);
+    String firstName = viewableUser.get(User.FIRST_NAME);
+    String lastName = viewableUser.get(User.LAST_NAME);
+    String weight = viewableUser.get(User.WEIGHT);
+    String height = viewableUser.get(User.HEIGHT);
 
     this.screenComponents.setLayout(layout);
 

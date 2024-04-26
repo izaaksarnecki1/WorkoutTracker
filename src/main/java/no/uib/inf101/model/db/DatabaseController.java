@@ -5,6 +5,7 @@ import no.uib.inf101.model.Exercise;
 import no.uib.inf101.model.User;
 import no.uib.inf101.model.Workout;
 
+import java.awt.List;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,12 +112,57 @@ public class DatabaseController {
         String lastId = resultSet.getString(1);
         System.out.println(lastId);
         return lastId;
-      } 
+      }
     } catch (SQLException e) {
       System.err.println("Error retrieving last inserted row ID: " + e.getMessage());
     }
     return null;
   }
+
+  public static ArrayList<ArrayList<String>> getUserWorkouts(DbUploadable entity) {
+    String sqlString = SQLQueryCreator.getUserWorkouts(entity);
+    ArrayList<ArrayList<String>> workouts = new ArrayList<>();
+ 
+    try (Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
+      while (resultSet.next()) {
+        ArrayList<String> workout = new ArrayList<>();
+        workout.add(resultSet.getString("id"));
+        workout.add(resultSet.getString(Workout.WORKOUTNAME));
+        workout.add(resultSet.getString(Workout.WORKOUTDATE));
+        workouts.add(workout);
+      }
+      System.out.println(workouts);
+      return workouts;
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+    return null;
+  }
+
+  public static ArrayList<ArrayList<String>> getWorkoutExercises(int workoutId) {
+    String sqlString = SQLQueryCreator.getWorkoutExercises(workoutId);
+    ArrayList<ArrayList<String>> exercises = new ArrayList<>();
+
+    try (Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
+      while (resultSet.next()) {
+        ArrayList<String> exercise = new ArrayList<>();
+        exercise.add(resultSet.getString("id"));
+        exercise.add(resultSet.getString(Exercise.EXERCISE_NAME));
+        exercise.add(resultSet.getString(Exercise.REPS));
+        exercise.add(resultSet.getString(Exercise.SETS));
+        exercise.add(resultSet.getString(Exercise.WEIGHT));
+        exercises.add(exercise);
+      }
+      return exercises;
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+    return null;
+  }  
 
   protected static boolean validatePass(String username, String password) {
     String sqlString = "SELECT password FROM users WHERE username = '" + username + "';";
@@ -202,7 +248,7 @@ public class DatabaseController {
     System.out.println("Successfully dropped all tables. ");
   }
 
-  private void dropTable(String tableName) {    
+  private void dropTable(String tableName) {
     String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";
     try (Connection connection = connect();
         Statement statement = connection.createStatement()) {

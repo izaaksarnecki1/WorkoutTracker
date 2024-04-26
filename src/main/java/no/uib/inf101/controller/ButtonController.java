@@ -86,7 +86,12 @@ public class ButtonController implements ActionListener {
           System.err.println("Failed creating profile menu from main menu. ");
         }
       } else if (e.getSource() == mainMenu.getViewWorkoutsButton()) {
-        model.handleMainMenu(Constants.MAINMENU_BUTTON_VIEWWORKOUTS);
+        InteractiveWindow window = model.handleMainMenu(Constants.MAINMENU_BUTTON_VIEWWORKOUTS);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating view workouts window from main menu. ");
+        }
       }
     } else if (this.currentWindow instanceof ProfileMenu profileMenu) {
       if (e.getSource() == profileMenu.getSaveButton()) {
@@ -125,7 +130,15 @@ public class ButtonController implements ActionListener {
           System.err.println("Failed creating add exercise window from add workout window. ");
         }
       }
-
+    } else if (this.currentWindow instanceof ViewWorkoutMenu viewWorkoutMenu) {
+      if (e.getSource() == viewWorkoutMenu.getBackButton()) {
+        InteractiveWindow window = model.handleViewWorkoutMenu(Constants.VIEWWORKOUTS_BUTTON_BACK);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating main menu from view workout window. ");
+        }
+      }
     }
   }
 

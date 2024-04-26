@@ -1,5 +1,6 @@
 package no.uib.inf101.view;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 // Use to get user data from model to view.
@@ -33,4 +34,19 @@ public interface ViewableMenuModel {
    * @return true if a workout exists, false otherwise
    */
   boolean workoutExists();
+
+  /**
+   * Retrieves the workout data as a two-dimensional ArrayList of Strings.
+   *
+   * @return The workout data, where each inner ArrayList represents a row of data.
+   */
+  ArrayList<ArrayList<String>> getWorkoutData();
+
+  /**
+   * Retrieves the exercise data for a given workout as a two-dimensional ArrayList of Strings.
+   *
+   * @param workoutId the ID of the workout
+   * @return The exercise data, where each inner ArrayList represents a row of data.
+   */
+  ArrayList<ArrayList<String>> getExerciseData(int workoutId);
 }

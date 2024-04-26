@@ -81,4 +81,6 @@ public interface ControllableMenuModel {
    * @return an InteractiveWindow representing the next menu to display
    */
   InteractiveWindow handleAddExerciseMenu(String identifier, Map<String, String> fields);
+
+  InteractiveWindow handleViewWorkoutMenu(String identifier);
 }

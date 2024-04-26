@@ -8,6 +8,7 @@ import no.uib.inf101.model.db.DatabaseController;
 import no.uib.inf101.view.*;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,7 +77,9 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
       return new ProfileMenu(this);
     } else if (identifier.equals(Constants.MAINMENU_BUTTON_ADDWORKOUT)) {
       return new AddWorkoutMenu(this);
-    }
+    } else if (identifier.equals(Constants.MAINMENU_BUTTON_VIEWWORKOUTS)) {
+      return new ViewWorkoutMenu(this);
+    } 
     return null;
   }
 
@@ -134,6 +137,14 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   }
 
   @Override
+  public InteractiveWindow handleViewWorkoutMenu(String identifier) {
+    if (identifier.equals(Constants.VIEWWORKOUTS_BUTTON_BACK)) {
+      return new MainMenu();
+    }
+    return null;
+  }
+
+  @Override
   public Map<String, String> getUserProfile() {
     Map<String, String> profileData = new HashMap<>();
     profileData.put(User.FIRST_NAME, this.user.getFirstName());
@@ -152,6 +163,16 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     workoutAttributes.put(Workout.WORKOUTNAME, this.workout.getWorkoutName());
     workoutAttributes.put(Workout.WORKOUTDATE, this.workout.getWorkoutDate());
     return workoutAttributes;
+  }
+
+  @Override
+  public ArrayList<ArrayList<String>> getWorkoutData() {
+    return DatabaseController.getUserWorkouts(user);
+  }
+
+  @Override
+  public ArrayList<ArrayList<String>> getExerciseData(int id) {
+    return DatabaseController.getWorkoutExercises(id);
   }
 
   @Override

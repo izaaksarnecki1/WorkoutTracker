@@ -7,6 +7,9 @@ public class Constants {
   public static final String SIGNUPMENU_BUTTON_SUBMIT = "submit";
 
   public static final String LOGINMENU_BUTTON_SUBMIT = "submit";
+  public static final String LOGINMENU_BUTTON_BACK = "back";
+  public static final String LOGINMENU_FIELD_USERNAME = "username";
+  public static final String LOGINMENU_FIELD_PASSWORD = "password";
 
   public static final String MAINMENU_BUTTON_ADDWORKOUT = "add_workout";
   public static final String MAINMENU_BUTTON_EDITUSER = "edit_user";

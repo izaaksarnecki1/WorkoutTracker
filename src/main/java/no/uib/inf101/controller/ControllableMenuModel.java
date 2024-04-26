@@ -23,11 +23,10 @@ public interface ControllableMenuModel {
    * Handles the login menu action.
    *
    * @param identifier the identifier for the menu
-   * @param uname the username for the login
-   * @param pass the password for the login
+   * @param fields a map of additional fields for the login
    * @return an InteractiveWindow representing the next menu to display
    */
-  InteractiveWindow handleLoginMenu(String identifier, String uname, char[] pass);
+  InteractiveWindow handleLoginMenu(String identifier, Map<String, String> fields);
 
   /**
    * Handles the start menu action.

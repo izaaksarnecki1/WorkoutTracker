@@ -50,14 +50,19 @@ public class ButtonController implements ActionListener {
       }
     } else if (this.currentWindow instanceof LoginMenu loginMenu) {
       if (e.getSource() == loginMenu.getSubmitButton()) {
-        String username = loginMenu.getUsernameField().getText();
-        char[] charPassword = loginMenu.getPasswordField().getPassword();
-
-        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_BUTTON_SUBMIT, username, charPassword);
+        Map<String, String> fields = loginMenu.getFields();
+        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_BUTTON_SUBMIT, fields);
         if (window != null) {
           this.setNewWindow(window);
         } else {
           System.err.println("Failed creating main menu from login menu. ");
+        }
+      } else if (e.getSource() == loginMenu.getBackButton()) {
+        InteractiveWindow window = model.handleLoginMenu(Constants.LOGINMENU_BUTTON_BACK, null);
+        if (window != null) {
+          this.setNewWindow(window);
+        } else {
+          System.err.println("Failed creating start menu from login menu. ");
         }
       }
     } else if (this.currentWindow instanceof MainMenu mainMenu) {
@@ -115,7 +120,7 @@ public class ButtonController implements ActionListener {
           System.err.println("Failed creating add exercise window from add workout window. ");
         }
       }
-    
+
     }
   }
 

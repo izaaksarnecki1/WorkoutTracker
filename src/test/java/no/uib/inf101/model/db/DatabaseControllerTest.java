@@ -33,7 +33,7 @@ class DatabaseControllerTest {
     String username = "testuser";
     String password = "testpassword";
     DbUploadable userEntity = new User(username, password);
-    DatabaseController.addRow(userEntity);
+    DatabaseController.insertRow(userEntity);
 
     boolean result = DatabaseController.validatePass(username, password);
 
@@ -47,7 +47,7 @@ class DatabaseControllerTest {
     String password = "testpassword";
     String wrongPassword = "wrongpassword";
     DbUploadable userEntity = new User(username, password);
-    DatabaseController.addRow(userEntity);
+    DatabaseController.insertRow(userEntity);
 
     // When
     boolean result = DatabaseController.validatePass(username, wrongPassword);
@@ -64,7 +64,7 @@ class DatabaseControllerTest {
     String expectedUserId = "1";
 
     DbUploadable userEntity = new User(username, password);
-    DatabaseController.addRow(userEntity);
+    DatabaseController.insertRow(userEntity);
 
     String userId = DatabaseController.fetchUserId(username);
 

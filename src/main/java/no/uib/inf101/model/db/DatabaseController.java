@@ -12,6 +12,13 @@ import java.util.Map;
 
 // https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
 
+/**
+ * The DatabaseController class is responsible for managing the database
+ * operations
+ * for the workout tracker application. It provides methods for adding,
+ * updating, and
+ * retrieving data from the database.
+ */
 public class DatabaseController {
 
   private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
@@ -29,14 +36,14 @@ public class DatabaseController {
     this.setupTables();
   }
 
-  public static int addRow(DbUploadable entity) {
+  public static void insertRow(DbUploadable entity) {
     SQLQueryCreator creator = new SQLQueryCreator(entity);
     String sqlString = creator.createAddRowString();
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
 
     if (!validateParamsForString(uploadAbleData, attributeNames)) {
-      return 0;
+      return;
     }
 
     try (Connection connection = connect();
@@ -46,34 +53,10 @@ public class DatabaseController {
         pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
       }
       pStatement.executeUpdate();
-      return 0;
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
-    return 0;
   }
-
-  // public static void addRow(DbUploadable entity) {
-  //   SQLQueryCreator creator = new SQLQueryCreator(entity);
-  //   String sqlString = creator.createAddRowString();
-  //   HashMap<String, Object> uploadAbleData = entity.getUploadableData();
-  //   ArrayList<String> attributeNames = entity.getAttributeNames();
-
-  //   if (!validateParamsForString(uploadAbleData, attributeNames)) {
-  //     return;
-  //   }
-
-  //   try (Connection connection = connect();
-  //       PreparedStatement pStatement = connection.prepareStatement(sqlString)) {
-  //     int idx = 1;
-  //     for (String attribute : attributeNames) {
-  //       pStatement.setString(idx++, uploadAbleData.get(attribute).toString());
-  //     }
-  //     pStatement.executeUpdate();
-  //   } catch (SQLException e) {
-  //     System.err.println(e.getMessage());
-  //   }
-  // }
 
   public static Map<String, String> getRow(DbUploadable entity) {
     String sqlString = SQLQueryCreator.getRowSQLString(entity);
@@ -117,6 +100,24 @@ public class DatabaseController {
     }
   }
 
+  public static String getLastId(DbUploadable entity) {
+    String sqlString = SQLQueryCreator.getLastIdSQLString(entity);
+
+    try (Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
+
+      if (resultSet != null && resultSet.next()) {
+        String lastId = resultSet.getString(1);
+        System.out.println(lastId);
+        return lastId;
+      } 
+    } catch (SQLException e) {
+      System.err.println("Error retrieving last inserted row ID: " + e.getMessage());
+    }
+    return null;
+  }
+
   protected static boolean validatePass(String username, String password) {
     String sqlString = "SELECT password FROM users WHERE username = '" + username + "';";
 
@@ -131,7 +132,7 @@ public class DatabaseController {
     return false;
   }
 
-  static String fetchUserId(String username) {
+  protected static String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();
@@ -201,7 +202,7 @@ public class DatabaseController {
     System.out.println("Successfully dropped all tables. ");
   }
 
-  private void dropTable(String tableName) {
+  private void dropTable(String tableName) {    
     String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";
     try (Connection connection = connect();
         Statement statement = connection.createStatement()) {
@@ -225,23 +226,5 @@ public class DatabaseController {
     }
 
     return true;
-  }
-
-  public static String getLastId(DbUploadable entity) {
-    String sqlString = SQLQueryCreator.getLastIdSQLString(entity);
-
-    try (Connection connection = connect();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sqlString)) {
-
-      if (resultSet != null && resultSet.next()) {
-        String lastId = resultSet.getString(1);
-        System.out.println(lastId);
-        return lastId;
-      } 
-    } catch (SQLException e) {
-      System.err.println("Error retrieving last inserted row ID: " + e.getMessage());
-    }
-    return null;
   }
 }

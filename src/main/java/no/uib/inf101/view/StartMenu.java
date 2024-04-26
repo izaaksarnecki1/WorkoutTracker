@@ -2,20 +2,19 @@ package no.uib.inf101.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 
 public class StartMenu extends InteractiveWindow {
-  private final JButton loginButton;
-  private final JButton signupButton;
+  private JButton loginButton;
+  private JButton signupButton;
 
   public StartMenu() {
     super();
-
-    this.screenComponents.setLayout(new BoxLayout(screenComponents, BoxLayout.Y_AXIS));
-    this.screenComponents.setBorder(new EmptyBorder(10, 10, 30, 10));
-
-    this.loginButton = addButton(screenComponents, "Log In");
-    this.signupButton = addButton(screenComponents, "Sign Up");
+    this.setUpLayout();
 
     this.frame.add(screenComponents);
     this.frame.setVisible(true);
@@ -35,8 +34,26 @@ public class StartMenu extends InteractiveWindow {
     this.signupButton.addActionListener(l);
   }
 
-  @Override
   protected void setUpLayout() {
+    GridBagLayout layout = new GridBagLayout();
+    GridBagConstraints c = new GridBagConstraints();
 
+    screenComponents.setLayout(layout);
+
+    // Login button
+    c.gridx = 0;
+    c.gridy = 0;
+    c.anchor = GridBagConstraints.CENTER;
+    c.fill = GridBagConstraints.HORIZONTAL;
+    c.insets = new Insets(10, 10, 0, 10);
+    loginButton = addButton(screenComponents, "Login");
+    screenComponents.add(loginButton, c);
+
+    // Signup button
+    c.gridx = 0;
+    c.gridy = 1;
+    c.insets = new Insets(10, 10, 0, 10);
+    signupButton = addButton(screenComponents, "Signup");
+    screenComponents.add(signupButton, c);
   }
 }

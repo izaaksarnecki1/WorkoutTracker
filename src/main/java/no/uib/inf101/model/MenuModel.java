@@ -38,18 +38,23 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   }
 
   @Override
-  public InteractiveWindow handleLoginMenu(String identifier, String uname, char[] password) {
-    String stringPassword = Hashing
-        .sha256()
-        .hashString(String.valueOf(password), StandardCharsets.UTF_8)
-        .toString();
-    User user = Authenticator.loginUser(uname, stringPassword);
-    if (user != null) {
-      this.user = user;
-      setUserDbAttributes();
-      return new MainMenu();
-    } else {
-      System.err.println("Error logging in user. ");
+  public InteractiveWindow handleLoginMenu(String identifier, Map<String, String> fields) {
+
+    if (identifier.equals(Constants.LOGINMENU_BUTTON_SUBMIT)) {
+      String stringPassword = Hashing
+          .sha256()
+          .hashString(String.valueOf(fields.get(Constants.LOGINMENU_FIELD_PASSWORD)), StandardCharsets.UTF_8)
+          .toString();
+      User user = Authenticator.loginUser(fields.get(Constants.LOGINMENU_FIELD_USERNAME), stringPassword);
+      if (user != null) {
+        this.user = user;
+        setUserDbAttributes();
+        return new MainMenu();
+      } else {
+        System.err.println("Error logging in user. ");
+      }
+    } else if (identifier.equals(Constants.LOGINMENU_BUTTON_BACK)) {
+      return new StartMenu();
     }
     return null;
   }
@@ -121,7 +126,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
           Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_REPS)),
           Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_SETS)),
           Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_WEIGHT)));
-      DatabaseController.addRow(exercise);
+      DatabaseController.insertRow(exercise);
       return new AddWorkoutMenu(this);
     }
     return null;
@@ -157,11 +162,8 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     if (workout == null) {
       this.workout = new Workout(this.user.getId(), fields.get(Constants.ADDWORKOUT_FIELD_DATE),
           fields.get(Constants.ADDWORKOUT_FIELD_WORKOUTNAME));
-      DatabaseController.addRow(workout);
-      System.out.println(workoutExists());
-      System.out.println(this.workout);
+      DatabaseController.insertRow(workout);
       int id = Integer.parseInt(DatabaseController.getLastId(this.workout));
-      System.out.println(id);
       workout.setWorkoutId(id);
     } else {
       workout.setWorkoutDate(fields.get(Constants.ADDWORKOUT_FIELD_DATE));

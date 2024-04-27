@@ -21,8 +21,13 @@ import java.util.Map;
  */
 public class DatabaseController {
 
-  private final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
+  private String dbPath = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
   private final String[] tables = { User.TABLE_NAME, Workout.TABLE_NAME, Exercise.TABLE_NAME };
+
+  public DatabaseController(String dbPath) {
+    this.dbPath = dbPath;
+    setupDb(false);
+  }
 
   public DatabaseController() {
     setupDb(false);
@@ -173,19 +178,44 @@ public class DatabaseController {
     }
     return false;
   }
-
+  
   protected String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
-
+    
     try (Connection connection = connect();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sqlString)) {
+    Statement statement = connection.createStatement();
+    ResultSet resultSet = statement.executeQuery(sqlString)) {
       return String.valueOf(resultSet.getInt("id"));
     } catch (SQLException e) {
       System.err.println(e.getMessage());
     }
     return null;
   }
+  
+  void dropTables() {
+    for (String tableName : this.tables) {
+      dropTable(tableName);
+    }
+    System.out.println("Successfully dropped all tables. ");
+  }
+
+  
+  boolean tableExists(String tableName) {
+    try (Connection connection = connect()) {
+        DatabaseMetaData metaData = connection.getMetaData();
+        try {
+
+            ResultSet resultSet = metaData.getTables(null, null, tableName, null);
+            return resultSet.next();
+        } catch (SQLException e) {
+            System.err.println("Error checking if table exists: " + e.getMessage());
+            return false;
+        }
+    } catch (SQLException e) {
+        System.err.println("Error connecting to database: " + e.getMessage());
+        return false;
+    }
+}
 
   private void setupTables() {
     for (String tableName : this.tables) {
@@ -207,7 +237,7 @@ public class DatabaseController {
   private Connection connect() {
     Connection connection = null;
     try {
-      connection = DriverManager.getConnection(DB_PATH);
+      connection = DriverManager.getConnection(this.dbPath);
       return connection;
     } catch (SQLException e) {
       System.err.println(e.getMessage());
@@ -237,12 +267,6 @@ public class DatabaseController {
     }
   }
 
-  void dropTables() {
-    for (String tableName : this.tables) {
-      dropTable(tableName);
-    }
-    System.out.println("Successfully dropped all tables. ");
-  }
 
   private void dropTable(String tableName) {
     String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";

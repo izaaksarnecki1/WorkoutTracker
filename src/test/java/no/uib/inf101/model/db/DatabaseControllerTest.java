@@ -1,85 +1,61 @@
-// package no.uib.inf101.model.db;
+package no.uib.inf101.model.db;
 
-// import no.uib.inf101.model.DbUploadable;
-// import no.uib.inf101.model.User;
-// import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-// import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 
-// class DatabaseControllerTest {
+import no.uib.inf101.model.User;
 
-//   @BeforeAll
-//   static void setUp() {
-//     // Set up tables before running tests
-//     DatabaseController controller = new DatabaseController();
-//     controller.setupDb(true);
-//   }
+import java.util.HashMap;
 
-// //  @Test
-// //  void addRow_ValidEntity_Success() {
-// //    // Given
-// //    DbUploadableMock entity = new DbUploadableMock();
-// //
-// //    // When
-// //    DatabaseController.addRow(entity);
-// //
-// //    // Then: Verify that the row has been added successfully
-// //    // You can perform additional verification here, such as checking the database directly
-// //    // to ensure the row has been inserted properly.
-// //  }
+public class DatabaseControllerTest {
 
-//   @Test
-//   void validatePass_ValidCredentials_Success() {
-//     String username = "testuser";
-//     String password = "testpassword";
-//     DbUploadable userEntity = new User(username, password);
-//     DatabaseController.insertRow(userEntity);
+    private static final String TEST_DB_PATH = "jdbc:sqlite:src/test/resources/db/test-db.db";
 
-//     boolean result = DatabaseController.validatePass(username, password);
+    private DatabaseController dbController;
 
-//     assertTrue(result);
-//   }
+    @BeforeEach
+    public void setup() {
+        dbController = new DatabaseController(TEST_DB_PATH);
+    }
 
-//   @Test
-//   void validatePass_InvalidCredentials_Failure() {
-//     // Given
-//     String username = "testuser";
-//     String password = "testpassword";
-//     String wrongPassword = "wrongpassword";
-//     DbUploadable userEntity = new User(username, password);
-//     DatabaseController.insertRow(userEntity);
+    @AfterEach
+    public void teardown() {
+        dbController.dropTables();
+    }
 
-//     // When
-//     boolean result = DatabaseController.validatePass(username, wrongPassword);
+    @Test
+    public void testDatabaseSetup() {
+        // Verify that tables are created during setup
+        assertTrue(dbController.tableExists("users"));
+        assertTrue(dbController.tableExists("workouts"));
+        assertTrue(dbController.tableExists("exercises"));
+    }
 
-//     // Then
-//     assertFalse(result);
-//   }
+    @Test
+    public void testInsertRow() {
+        // Create a dummy user entity for testing
+        User user = new User("testuser", "password");
+        user.setFirstName("Kari");
+        user.setLastName("Nordmann");
+        user.setWeight(70);
+        user.setHeight(180);
 
-//   @Test
-//   void fetchUserId_ValidUsername_Success() {
-//     // Given
-//     String username = "testuser";
-//     String password = "testpassword";
-//     String expectedUserId = "1";
+        // Insert the user into the database
+        dbController.insertRow(user);
 
-//     DbUploadable userEntity = new User(username, password);
-//     DatabaseController.insertRow(userEntity);
+        // Retrieve the inserted user from the database
+        User retrievedUser = dbController.getUserByUsername("testuser");
 
-//     String userId = DatabaseController.fetchUserId(username);
+        // Verify that the retrieved user matches the inserted user
+        assertNotNull(retrievedUser);
+        assertEquals("testuser", retrievedUser.getUsername());
+        assertEquals("Kari", retrievedUser.getFirstName());
+        assertEquals("Nordmann", retrievedUser.getLastName());
+        assertEquals(70, retrievedUser.getWeight());
+        assertEquals(180, retrievedUser.getHeight());
+    }
 
-//     assertEquals(expectedUserId, userId);
-//   }
+    // Add more tests for other functionalities
 
-//   @Test
-//   void fetchUserId_InvalidUsername_Failure() {
-//     // Given
-//     String username = "nonexistentuser";
-
-//     // When
-//     String userId = DatabaseController.fetchUserId(username);
-
-//     // Then
-//     assertEquals(userId, "0");
-//   }
-// }
+}

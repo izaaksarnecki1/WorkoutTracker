@@ -151,4 +151,9 @@ public class Workout implements DbUploadable {
   public int getId() {
     return this.workoutId;
   }
+
+  @Override
+  public void setId(int id) {
+    this.workoutId = id;
+  }
 }

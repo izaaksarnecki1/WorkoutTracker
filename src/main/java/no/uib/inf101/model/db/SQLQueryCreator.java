@@ -127,7 +127,6 @@ public class SQLQueryCreator {
    * @return The SQL query string for retrieving the last inserted ID
    */
   protected static String getLastIdSQLString(DbUploadable entity) {
-
     String tablename = entity.getTableName();
 
     StringBuilder sb = new StringBuilder();

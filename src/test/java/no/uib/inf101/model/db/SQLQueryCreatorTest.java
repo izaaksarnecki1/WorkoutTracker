@@ -1,50 +1,105 @@
-// package no.uib.inf101.model.db;
+package no.uib.inf101.model.db;
 
-// import no.uib.inf101.model.DbUploadable;
-// import no.uib.inf101.model.User;
-// import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-// import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import no.uib.inf101.model.DbUploadable;
+import no.uib.inf101.model.User;
 
-// public class SQLQueryCreatorTest {
+public class SQLQueryCreatorTest {
 
-//   @Test
-//   void createAddRowString() {
-//     DbUploadable uploadable = new User("test", "password");
-//     SQLQueryCreator creator = new SQLQueryCreator(uploadable);
-//     String expectedSQL = "INSERT INTO users(username, password) VALUES(?, ?)";
-//     assertEquals(expectedSQL, creator.createAddRowString());
-//   }
+    @Test
+    public void testUpdateRowSQLString() {
+        // Create a dummy entity for testing
+        DbUploadable dummyEntity = new User("username", "password");
 
-//   @Test
-//   void getTableSQLString() {
-//     String userTableSQL = SQLQueryCreator.getTableSQLString("users");
-//     String expectedUserTableSQL = "CREATE TABLE IF NOT EXISTS users (\n" +
-//             "	id integer PRIMARY KEY,\n" +
-//             "	username text NOT NULL UNIQUE,\n" +
-//             "	password text NOT NULL\n" +
-//             ");";
-//     assertEquals(expectedUserTableSQL, userTableSQL);
+        // Expected SQL query string
+        String expectedQuery = "UPDATE users SET username = ?, password = ?, first_name = ?, last_name = ?, weight = ?, height = ? WHERE id = ?";
 
-//     String workoutTableSQL = SQLQueryCreator.getTableSQLString("workouts");
-//     String expectedWorkoutTableSQL = "CREATE TABLE IF NOT EXISTS workouts (\n" +
-//             "	id integer PRIMARY KEY,\n" +
-//             " user_id integer, \n" +
-//             "	date text,\n" +
-//             " FOREIGN KEY (user_id) REFERENCES users (id)" +
-//             ");";
-//     assertEquals(expectedWorkoutTableSQL, workoutTableSQL);
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.updateRowSQLString(dummyEntity);
 
-//     String exerciseTableSQL = SQLQueryCreator.getTableSQLString("exercise");
-//     String expectedExerciseTableSQL = "CREATE TABLE IF NOT EXISTS exercise (\n" +
-//             "	id integer PRIMARY KEY,\n" +
-//             " workout_id integer, \n" +
-//             "	ex_name text NOT NULL,\n" +
-//             "	sets integer NOT NULL,\n" +
-//             "	reps integer NOT NULL,\n" +
-//             "	weight text,\n" +
-//             " FOREIGN KEY (workout_id) REFERENCES workouts (id)" +
-//             ");";
-//     assertEquals(expectedExerciseTableSQL, exerciseTableSQL);
-//   }
-// }
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
+
+    @Test
+    public void testGetTableSQLString() {
+        // Test with User table name
+        String userTableQuery = SQLQueryCreator.getTableSQLString(User.TABLE_NAME);
+        String expectedString = "CREATE TABLE IF NOT EXISTS users (\n" +
+                "   id integer PRIMARY KEY AUTOINCREMENT,\n" +
+                "   username text NOT NULL UNIQUE,\n" +
+                "   password text NOT NULL,\n" +
+                "   first_name text,\n" +
+                "   last_name text,\n" +
+                "   weight int,\n" +
+                "   height int\n" +
+                ");";
+        
+        // Normalize both strings to ignore whitespace differences
+        userTableQuery = userTableQuery.replaceAll("\\s+", " ").trim();
+        expectedString = expectedString.replaceAll("\\s+", " ").trim();
+    
+        // Compare the normalized strings
+        assertEquals(expectedString, userTableQuery);
+    }
+    @Test
+    public void testGetRowSQLString() {
+        // Create a dummy entity for testing
+        DbUploadable dummyEntity = new User("username", "password");
+        dummyEntity.setId(1);
+
+        // Expected SQL query string
+        String expectedQuery = "SELECT * FROM users WHERE id = 1";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.getRowSQLString(dummyEntity);
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
+
+    @Test
+    public void testGetLastIdSQLString() {
+        // Create a dummy entity for testing
+        DbUploadable dummyEntity = new User("username", "password");
+
+        // Expected SQL query string
+        String expectedQuery = "SELECT seq FROM sqlite_sequence WHERE name=\"users\"";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.getLastIdSQLString(dummyEntity);
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
+
+    @Test
+    public void testGetUserWorkouts() {
+        // Create a dummy entity for testing
+        DbUploadable dummyEntity = new User("username", "password");
+        dummyEntity.setId(1);
+
+        // Expected SQL query string
+        String expectedQuery = "SELECT * FROM workouts WHERE user_id = 1 ORDER BY date DESC";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.getUserWorkouts(dummyEntity);
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
+
+    @Test
+    public void testGetWorkoutExercises() {
+        // Expected SQL query string
+        String expectedQuery = "SELECT * FROM exercise WHERE workout_id = 1";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.getWorkoutExercises(1);
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
+}

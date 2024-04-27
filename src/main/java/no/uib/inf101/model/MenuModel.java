@@ -46,49 +46,57 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return null;
   }
 
-  @Override
-  public InteractiveWindow handleSignupMenu(String identifier, Map<String, String> fields) {
+  private InteractiveWindow handleSignupMenu(String identifier, Map<String, String> fields) {
     if (identifier.equals(Constants.SIGNUPMENU_BUTTON_SUBMIT)) {
-      String stringPassword = Hashing
-          .sha256()
-          .hashString(String.valueOf(fields.get(Constants.SIGNUPMENU_FIELD_PASSWORD)), StandardCharsets.UTF_8)
-          .toString();
-      User user = Authenticator.createNewUser(fields.get(Constants.SIGNUPMENU_FIELD_USERNAME), stringPassword);
-      if (user != null) {
-        this.user = user;
-        return new MainMenu();
-      } else {
-        System.err.println("Error creating user. ");
-      }
+      return handeSignupSubmit(fields);
     } else if (identifier.equals(Constants.SIGNUPMENU_BUTTON_BACK)) {
       return new StartMenu();
     }
     return null;
   }
 
-  @Override
-  public InteractiveWindow handleLoginMenu(String identifier, Map<String, String> fields) {
+  private InteractiveWindow handeSignupSubmit(Map<String, String> fields) {
+    String stringPassword = hashPassword(fields.get(Constants.SIGNUPMENU_FIELD_PASSWORD));
+    User newUser = Authenticator.createNewUser(fields.get(Constants.SIGNUPMENU_FIELD_USERNAME), stringPassword);
+    if (newUser != null) {
+      this.user = newUser;
+      return new MainMenu();
+    } else {
+      System.err.println("Error creating user. ");
+      return null;
+    }
+  }
+
+  private String hashPassword(String passwordString) {
+    return Hashing
+        .sha256()
+        .hashString(passwordString, StandardCharsets.UTF_8)
+        .toString();
+  }
+
+  private InteractiveWindow handleLoginMenu(String identifier, Map<String, String> fields) {
     if (identifier.equals(Constants.LOGINMENU_BUTTON_SUBMIT)) {
-      String stringPassword = Hashing
-          .sha256()
-          .hashString(String.valueOf(fields.get(Constants.LOGINMENU_FIELD_PASSWORD)), StandardCharsets.UTF_8)
-          .toString();
-      User user = Authenticator.loginUser(fields.get(Constants.LOGINMENU_FIELD_USERNAME), stringPassword);
-      if (user != null) {
-        this.user = user;
-        setUserDbAttributes();
-        return new MainMenu();
-      } else {
-        System.err.println("Error logging in user. ");
-      }
+      return handleLoginSubmit(fields);
     } else if (identifier.equals(Constants.LOGINMENU_BUTTON_BACK)) {
       return new StartMenu();
     }
     return null;
   }
 
-  @Override
-  public InteractiveWindow handleStartMenu(String identifier) {
+  private InteractiveWindow handleLoginSubmit(Map<String, String> fields) {
+    String stringPassword = hashPassword(fields.get(Constants.LOGINMENU_FIELD_PASSWORD));
+    User loggedInUser = Authenticator.loginUser(fields.get(Constants.LOGINMENU_FIELD_USERNAME), stringPassword);
+    if (loggedInUser != null) {
+      this.user = loggedInUser;
+      setUserDbAttributes();
+      return new MainMenu();
+    } else {
+      System.err.println("Error logging in user. ");
+      return null;
+    }
+  }
+
+  private InteractiveWindow handleStartMenu(String identifier) {
     if (identifier.equals(Constants.STARTMENU_BUTTON_SIGNUP)) {
       return new SignupMenu();
     } else if (identifier.equals(Constants.STARTMENU_BUTTON_LOGIN)) {
@@ -97,8 +105,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return null;
   }
 
-  @Override
-  public InteractiveWindow handleMainMenu(String identifier) {
+  private InteractiveWindow handleMainMenu(String identifier) {
     if (identifier.equals(Constants.MAINMENU_BUTTON_EDITUSER)) {
       return new ProfileMenu(this);
     } else if (identifier.equals(Constants.MAINMENU_BUTTON_ADDWORKOUT)) {
@@ -109,8 +116,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return null;
   }
 
-  @Override
-  public InteractiveWindow handleProfileMenu(String identifier, Map<String, String> fields) {
+  private InteractiveWindow handleProfileMenu(String identifier, Map<String, String> fields) {
     if (identifier.equals(Constants.PROFILEMENU_BUTTON_SAVE)) {
       user.setFirstName(fields.get(Constants.PROFILEMENU_FIELD_FIRST));
       user.setLastName(fields.get(Constants.PROFILEMENU_FIELD_LAST));
@@ -122,8 +128,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return null;
   }
 
-  @Override
-  public InteractiveWindow handleAddWorkoutMenu(String identifier, Map<String, String> fields) {
+  private InteractiveWindow handleAddWorkoutMenu(String identifier, Map<String, String> fields) {
     if (identifier.equals(Constants.ADDWORKOUT_BUTTON_ADD)) {
       if (fields == null) {
         System.err.println("Error adding workout. Fields are null");
@@ -145,8 +150,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return null;
   }
 
-  @Override
-  public InteractiveWindow handleAddExerciseMenu(String identifier, Map<String, String> fields) {
+  private InteractiveWindow handleAddExerciseMenu(String identifier, Map<String, String> fields) {
     if (identifier.equals(Constants.ADDEXERCISE_BUTTON_ADD)) {
       if (fields == null) {
         System.err.println("Error adding exercise. Fields are null");
@@ -162,8 +166,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return null;
   }
 
-  @Override
-  public InteractiveWindow handleViewWorkoutMenu(String identifier) {
+  private InteractiveWindow handleViewWorkoutMenu(String identifier) {
     if (identifier.equals(Constants.VIEWWORKOUTS_BUTTON_BACK)) {
       this.currentWorkout = 0;
       return new MainMenu();
@@ -188,10 +191,12 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   @Override
   public Map<String, String> getUserProfile() {
     Map<String, String> profileData = new HashMap<>();
-    profileData.put(User.FIRST_NAME, this.user.getFirstName());
-    profileData.put(User.LAST_NAME, this.user.getLastName());
-    profileData.put(User.WEIGHT, String.valueOf(this.user.getWeight()));
-    profileData.put(User.HEIGHT, String.valueOf(this.user.getHeight()));
+    if (this.user != null) {
+      profileData.put(User.FIRST_NAME, this.user.getFirstName());
+      profileData.put(User.LAST_NAME, this.user.getLastName());
+      profileData.put(User.WEIGHT, String.valueOf(this.user.getWeight()));
+      profileData.put(User.HEIGHT, String.valueOf(this.user.getHeight()));
+    }
     return profileData;
   }
 

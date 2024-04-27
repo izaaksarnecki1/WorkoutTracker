@@ -7,32 +7,36 @@ import no.uib.inf101.model.Exercise;
 
 import java.util.ArrayList;
 
+/**
+ * The SQLQueryCreator class provides static methods to create SQL queries for
+ * various operations.
+ */
 public class SQLQueryCreator {
 
-  private DbUploadable uploadable;
-
-  public SQLQueryCreator(DbUploadable uploadable) {
-    this.uploadable = uploadable;
-  }
-
-  protected String createAddRowString() {
-    String tableName = this.uploadable.getTableName();
-    ArrayList<String> attributeNames = this.uploadable.getAttributeNames();
+  /**
+   * Creates an SQL query string for adding a row to a database table.
+   *
+   * @param entity The DbUploadable entity representing the row to be added
+   * @return The SQL query string for adding the row
+   */
+  protected static String createAddRowString(DbUploadable entity) {
+    String tablename = entity.getTableName();
+    ArrayList<String> attributes = entity.getAttributeNames();
 
     StringBuilder sb = new StringBuilder();
-    sb.append("INSERT INTO ").append(tableName).append("(");
+    sb.append("INSERT INTO ").append(tablename).append("(");
 
-    for (int i = 0; i < attributeNames.size(); i++) {
-      sb.append(attributeNames.get(i));
-      if (i < attributeNames.size() - 1) {
+    for (int i = 0; i < attributes.size(); i++) {
+      sb.append(attributes.get(i));
+      if (i < attributes.size() - 1) {
         sb.append(", ");
       }
     }
     sb.append(") VALUES(");
 
-    for (int i = 0; i < attributeNames.size(); i++) {
+    for (int i = 0; i < attributes.size(); i++) {
       sb.append("?");
-      if (i < attributeNames.size() - 1) {
+      if (i < attributes.size() - 1) {
         sb.append(", ");
       }
     }
@@ -40,6 +44,12 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for updating a row in a database table.
+   *
+   * @param entity The DbUploadable entity representing the row to be updated
+   * @return The SQL query string for updating the row
+   */
   protected static String updateRowSQLString(DbUploadable entity) {
     String tablename = entity.getTableName();
     ArrayList<String> attributes = entity.getAttributeNames();
@@ -57,6 +67,12 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for creating a database table.
+   *
+   * @param tableName The name of the table to be created
+   * @return The SQL query string for creating the table
+   */
   protected static String getTableSQLString(String tableName) {
     return switch (tableName) {
       case User.TABLE_NAME -> "CREATE TABLE IF NOT EXISTS " + tableName + " (\n"
@@ -88,6 +104,12 @@ public class SQLQueryCreator {
     };
   }
 
+  /**
+   * Creates an SQL query string for retrieving a row from the database table.
+   *
+   * @param entity The DbUploadable entity representing the row to be retrieved
+   * @return The SQL query string for retrieving the row
+   */
   protected static String getRowSQLString(DbUploadable entity) {
     String tablename = entity.getTableName();
     int id = entity.getId();
@@ -97,6 +119,13 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for retrieving the last inserted ID from the
+   * database table.
+   *
+   * @param entity The DbUploadable entity representing the table
+   * @return The SQL query string for retrieving the last inserted ID
+   */
   protected static String getLastIdSQLString(DbUploadable entity) {
 
     String tablename = entity.getTableName();
@@ -106,6 +135,13 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for retrieving all workouts of a user from the
+   * database.
+   *
+   * @param entity The DbUploadable entity representing the user.
+   * @return The SQL query string for retrieving the user's workouts.
+   */
   protected static String getUserWorkouts(DbUploadable entity) {
     int id = entity.getId();
     StringBuilder sb = new StringBuilder();
@@ -115,6 +151,13 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for retrieving all exercises of a workout from
+   * the database.
+   *
+   * @param id The ID of the workout
+   * @return The SQL query string for retrieving the workout's exercises
+   */
   protected static String getWorkoutExercises(int id) {
     StringBuilder sb = new StringBuilder();
     sb.append("SELECT * FROM ").append(Exercise.TABLE_NAME).append(" WHERE ").append(Exercise.WORKOUT_ID).append(" = ")

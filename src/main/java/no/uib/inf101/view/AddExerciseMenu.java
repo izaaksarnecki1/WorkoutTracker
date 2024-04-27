@@ -13,6 +13,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+/**
+ * The AddExerciseMenu class represents a menu for adding exercise information.
+ * It extends the InteractiveWindow class and implements the MenuWithFields
+ * interface.
+ * The menu provides fields for entering exercise name, sets, reps, and weight.
+ * It also includes an "Add" button for submitting the exercise information.
+ */
 public class AddExerciseMenu extends InteractiveWindow implements MenuWithFields {
 
   private JTextField exerciseNameField;

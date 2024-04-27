@@ -14,6 +14,10 @@ import javax.swing.JTextField;
 import no.uib.inf101.Constants;
 import no.uib.inf101.model.Workout;
 
+/**
+ * Represents a menu for adding a workout. Extends the InteractiveWindow class and implements the MenuWithFields interface.
+ * Provides methods for retrieving user input fields and adding action listeners to buttons.
+ */
 public class AddWorkoutMenu extends InteractiveWindow implements MenuWithFields {
 
   private ViewableMenuModel model;
@@ -81,7 +85,6 @@ public class AddWorkoutMenu extends InteractiveWindow implements MenuWithFields 
     dateLabel.setText("Date (YYYY-MM-DD): ");
     workoutLabel.setText("Workout Name: ");
 
-    // Date label and field
     c.gridx = 0;
     c.gridy = 0;
     c.anchor = GridBagConstraints.WEST;
@@ -96,7 +99,6 @@ public class AddWorkoutMenu extends InteractiveWindow implements MenuWithFields 
     c.insets = new Insets(10, 0, 0, 10);
     this.screenComponents.add(dateField, c);
 
-    // Workout Name label and field
     c.gridx = 0;
     c.gridy = 1;
     c.fill = GridBagConstraints.NONE;
@@ -112,32 +114,29 @@ public class AddWorkoutMenu extends InteractiveWindow implements MenuWithFields 
     this.workoutNameField = addTextField(this.screenComponents, workoutName);
     this.screenComponents.add(workoutNameField, c);
 
-    // Add Exercise button
     c.gridx = 1;
     c.gridy = 2;
     c.anchor = GridBagConstraints.PAGE_END;
     c.fill = GridBagConstraints.NONE;
-    c.weightx = 0.0; // Reset weight
+    c.weightx = 0.0;
     c.insets = new Insets(20, 10, 10, 10);
     this.addExerciseButton = addButton(this.screenComponents, "Add Exercise");
     this.screenComponents.add(addExerciseButton, c);
 
-    // Back button
     c.gridx = 1;
     c.gridy = 3;
     c.anchor = GridBagConstraints.PAGE_END;
     c.fill = GridBagConstraints.NONE;
-    c.weightx = 0.0; // Reset weight
+    c.weightx = 0.0; 
     c.insets = new Insets(10, 10, 10, 10);
     this.backButton = addButton(this.screenComponents, "Back");
     this.screenComponents.add(backButton, c);
 
-    // Save button
     c.gridx = 1;
     c.gridy = 4;
     c.anchor = GridBagConstraints.PAGE_END;
     c.fill = GridBagConstraints.NONE;
-    c.weightx = 0.0; // Reset weight
+    c.weightx = 0.0; 
     c.insets = new Insets(10, 10, 10, 10);
     this.saveButton = addButton(this.screenComponents, "Save");
     this.screenComponents.add(saveButton, c);

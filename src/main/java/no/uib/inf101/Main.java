@@ -9,9 +9,9 @@ import no.uib.inf101.view.StartMenu;
 public class Main {
 
     public static void main(String[] args) {
-      new DatabaseController();
+      DatabaseController databaseController = new DatabaseController();
       StartMenu menu = new StartMenu();
-      ControllableMenuModel model = new MenuModel();
+      ControllableMenuModel model = new MenuModel(databaseController);
       new ButtonController(model, menu);
     }
   }

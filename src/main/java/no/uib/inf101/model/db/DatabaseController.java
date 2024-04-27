@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class DatabaseController {
 
-  private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
+  private final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
   private final String[] tables = { User.TABLE_NAME, Workout.TABLE_NAME, Exercise.TABLE_NAME };
 
   public DatabaseController() {
@@ -36,9 +36,8 @@ public class DatabaseController {
     this.setupTables();
   }
 
-  public static void insertRow(DbUploadable entity) {
-    SQLQueryCreator creator = new SQLQueryCreator(entity);
-    String sqlString = creator.createAddRowString();
+  public void insertRow(DbUploadable entity) {
+    String sqlString = SQLQueryCreator.createAddRowString(entity);
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
 
@@ -58,7 +57,7 @@ public class DatabaseController {
     }
   }
 
-  public static Map<String, String> getRow(DbUploadable entity) {
+  public Map<String, String> getRow(DbUploadable entity) {
     String sqlString = SQLQueryCreator.getRowSQLString(entity);
     ArrayList<String> attributeNames = entity.getAttributeNames();
     Map<String, String> dbAttributes = new HashMap<>();
@@ -78,7 +77,7 @@ public class DatabaseController {
     return null;
   }
 
-  public static void updateRow(DbUploadable entity) {
+  public void updateRow(DbUploadable entity) {
     String sqlString = SQLQueryCreator.updateRowSQLString(entity);
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
@@ -100,7 +99,7 @@ public class DatabaseController {
     }
   }
 
-  public static String getLastId(DbUploadable entity) {
+  public String getLastId(DbUploadable entity) {
     String sqlString = SQLQueryCreator.getLastIdSQLString(entity);
 
     try (Connection connection = connect();
@@ -117,10 +116,10 @@ public class DatabaseController {
     return null;
   }
 
-  public static ArrayList<ArrayList<String>> getUserWorkouts(DbUploadable entity) {
+  public ArrayList<ArrayList<String>> getUserWorkouts(DbUploadable entity) {
     String sqlString = SQLQueryCreator.getUserWorkouts(entity);
     ArrayList<ArrayList<String>> workouts = new ArrayList<>();
- 
+
     try (Connection connection = connect();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlString)) {
@@ -138,7 +137,7 @@ public class DatabaseController {
     return null;
   }
 
-  public static ArrayList<ArrayList<String>> getWorkoutExercises(int workoutId) {
+  public ArrayList<ArrayList<String>> getWorkoutExercises(int workoutId) {
     String sqlString = SQLQueryCreator.getWorkoutExercises(workoutId);
     ArrayList<ArrayList<String>> exercises = new ArrayList<>();
 
@@ -159,9 +158,9 @@ public class DatabaseController {
       System.err.println(e.getMessage());
     }
     return null;
-  }  
+  }
 
-  protected static boolean validatePass(String username, String password) {
+  protected boolean validatePass(String username, String password) {
     String sqlString = "SELECT password FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();
@@ -175,7 +174,7 @@ public class DatabaseController {
     return false;
   }
 
-  protected static String fetchUserId(String username) {
+  protected String fetchUserId(String username) {
     String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
 
     try (Connection connection = connect();
@@ -205,7 +204,7 @@ public class DatabaseController {
     }
   }
 
-  private static Connection connect() {
+  private Connection connect() {
     Connection connection = null;
     try {
       connection = DriverManager.getConnection(DB_PATH);
@@ -216,7 +215,7 @@ public class DatabaseController {
     return connection;
   }
 
-  private static void closeConnection(Connection connection) {
+  private void closeConnection(Connection connection) {
     try {
       if (connection != null) {
         connection.close();

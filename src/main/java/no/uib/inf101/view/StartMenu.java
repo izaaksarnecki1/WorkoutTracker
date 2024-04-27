@@ -7,6 +7,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 
+/**
+ * The StartMenu class represents the start menu of the workout tracker application.
+ * It extends the InteractiveWindow class and provides functionality for displaying
+ * login and signup buttons.
+ */
 public class StartMenu extends InteractiveWindow {
   private JButton loginButton;
   private JButton signupButton;

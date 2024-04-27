@@ -12,13 +12,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The MenuModel class represents the model component of the menu system in the
+ * workout tracker application.
+ * It implements both the ControllableMenuModel and ViewableMenuModel
+ * interfaces.
+ * The MenuModel class handles user actions and manages the state of the
+ * application's menus.
+ * It interacts with the DatabaseController and Authenticator classes to perform
+ * database operations and user authentication.
+ */
 public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   private User user = null;
   private Workout workout = null;
   private int currentWorkout;
+  private DatabaseController databaseController;
+  private Authenticator authenticator;
 
-  public MenuModel() {
+  /**
+   * Constructs a new MenuModel object with the specified DatabaseController.
+   * 
+   * @param databaseController the DatabaseController to be used by the MenuModel
+   */
+  public MenuModel(DatabaseController databaseController) {
+    this.databaseController = databaseController;
+    this.authenticator = new Authenticator(databaseController);
     this.currentWorkout = 0;
   }
 
@@ -46,6 +65,49 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return null;
   }
 
+  @Override
+  public Map<String, String> getUserProfile() {
+    Map<String, String> profileData = new HashMap<>();
+    if (this.user != null) {
+      profileData.put(User.FIRST_NAME, this.user.getFirstName());
+      profileData.put(User.LAST_NAME, this.user.getLastName());
+      profileData.put(User.WEIGHT, String.valueOf(this.user.getWeight()));
+      profileData.put(User.HEIGHT, String.valueOf(this.user.getHeight()));
+    }
+    return profileData;
+  }
+
+  @Override
+  public Map<String, String> getWorkoutDisplay() {
+    Map<String, String> workoutAttributes = new HashMap<>();
+    if (workout == null) {
+      return workoutAttributes;
+    }
+    workoutAttributes.put(Workout.WORKOUTNAME, this.workout.getWorkoutName());
+    workoutAttributes.put(Workout.WORKOUTDATE, this.workout.getWorkoutDate());
+    return workoutAttributes;
+  }
+
+  @Override
+  public ArrayList<ArrayList<String>> getWorkoutData() {
+    return this.databaseController.getUserWorkouts(user);
+  }
+
+  @Override
+  public ArrayList<String> getCurrentWorkout() {
+    return this.databaseController.getUserWorkouts(user).get(currentWorkout);
+  }
+
+  @Override
+  public ArrayList<ArrayList<String>> getExerciseData(int id) {
+    return this.databaseController.getWorkoutExercises(id);
+  }
+
+  @Override
+  public boolean workoutExists() {
+    return this.workout != null;
+  }
+
   private InteractiveWindow handleSignupMenu(String identifier, Map<String, String> fields) {
     if (identifier.equals(Constants.SIGNUPMENU_BUTTON_SUBMIT)) {
       return handeSignupSubmit(fields);
@@ -57,7 +119,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   private InteractiveWindow handeSignupSubmit(Map<String, String> fields) {
     String stringPassword = hashPassword(fields.get(Constants.SIGNUPMENU_FIELD_PASSWORD));
-    User newUser = Authenticator.createNewUser(fields.get(Constants.SIGNUPMENU_FIELD_USERNAME), stringPassword);
+    User newUser = this.authenticator.createNewUser(fields.get(Constants.SIGNUPMENU_FIELD_USERNAME), stringPassword);
     if (newUser != null) {
       this.user = newUser;
       return new MainMenu();
@@ -85,7 +147,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   private InteractiveWindow handleLoginSubmit(Map<String, String> fields) {
     String stringPassword = hashPassword(fields.get(Constants.LOGINMENU_FIELD_PASSWORD));
-    User loggedInUser = Authenticator.loginUser(fields.get(Constants.LOGINMENU_FIELD_USERNAME), stringPassword);
+    User loggedInUser = this.authenticator.loginUser(fields.get(Constants.LOGINMENU_FIELD_USERNAME), stringPassword);
     if (loggedInUser != null) {
       this.user = loggedInUser;
       setUserDbAttributes();
@@ -122,7 +184,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
       user.setLastName(fields.get(Constants.PROFILEMENU_FIELD_LAST));
       user.setWeight(Integer.parseInt(fields.get(Constants.PROFILEMENU_FIELD_WEIGHT)));
       user.setHeight(Integer.parseInt(fields.get(Constants.PROFILEMENU_FIELD_HEIGHT)));
-      DatabaseController.updateRow(user);
+      this.databaseController.updateRow(user);
       return new MainMenu();
     }
     return null;
@@ -145,7 +207,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
         return null;
       }
       setupWorkout(fields);
-      DatabaseController.updateRow(workout);
+      this.databaseController.updateRow(workout);
     }
     return null;
   }
@@ -160,7 +222,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
           Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_REPS)),
           Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_SETS)),
           Integer.parseInt(fields.get(Constants.ADDEXERCISE_FIELD_WEIGHT)));
-      DatabaseController.insertRow(exercise);
+      this.databaseController.insertRow(exercise);
       return new AddWorkoutMenu(this);
     }
     return null;
@@ -171,7 +233,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
       this.currentWorkout = 0;
       return new MainMenu();
     } else if (identifier.equals(Constants.VIEWWORKOUTS_BUTTON_NEXT)) {
-      if (this.currentWorkout < DatabaseController.getUserWorkouts(user).size() - 1) {
+      if (this.currentWorkout < this.databaseController.getUserWorkouts(user).size() - 1) {
         this.currentWorkout++;
         return new ViewWorkoutMenu(this);
       } else {
@@ -188,55 +250,12 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
     return null;
   }
 
-  @Override
-  public Map<String, String> getUserProfile() {
-    Map<String, String> profileData = new HashMap<>();
-    if (this.user != null) {
-      profileData.put(User.FIRST_NAME, this.user.getFirstName());
-      profileData.put(User.LAST_NAME, this.user.getLastName());
-      profileData.put(User.WEIGHT, String.valueOf(this.user.getWeight()));
-      profileData.put(User.HEIGHT, String.valueOf(this.user.getHeight()));
-    }
-    return profileData;
-  }
-
-  @Override
-  public Map<String, String> getWorkoutDisplay() {
-    Map<String, String> workoutAttributes = new HashMap<>();
-    if (workout == null) {
-      return workoutAttributes;
-    }
-    workoutAttributes.put(Workout.WORKOUTNAME, this.workout.getWorkoutName());
-    workoutAttributes.put(Workout.WORKOUTDATE, this.workout.getWorkoutDate());
-    return workoutAttributes;
-  }
-
-  @Override
-  public ArrayList<ArrayList<String>> getWorkoutData() {
-    return DatabaseController.getUserWorkouts(user);
-  }
-
-  @Override
-  public ArrayList<String> getCurrentWorkout() {
-    return DatabaseController.getUserWorkouts(user).get(currentWorkout);
-  }
-
-  @Override
-  public ArrayList<ArrayList<String>> getExerciseData(int id) {
-    return DatabaseController.getWorkoutExercises(id);
-  }
-
-  @Override
-  public boolean workoutExists() {
-    return this.workout != null;
-  }
-
   private void setupWorkout(Map<String, String> fields) {
     if (workout == null) {
       this.workout = new Workout(this.user.getId(), fields.get(Constants.ADDWORKOUT_FIELD_DATE),
           fields.get(Constants.ADDWORKOUT_FIELD_WORKOUTNAME));
-      DatabaseController.insertRow(workout);
-      int id = Integer.parseInt(DatabaseController.getLastId(this.workout));
+      this.databaseController.insertRow(workout);
+      int id = Integer.parseInt(this.databaseController.getLastId(this.workout));
       workout.setWorkoutId(id);
     } else {
       workout.setWorkoutDate(fields.get(Constants.ADDWORKOUT_FIELD_DATE));
@@ -245,7 +264,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   }
 
   private void setUserDbAttributes() {
-    Map<String, String> userAttributes = DatabaseController.getRow(user);
+    Map<String, String> userAttributes = this.databaseController.getRow(user);
     user.setFirstName(userAttributes.get(User.FIRST_NAME));
     user.setLastName(userAttributes.get(User.LAST_NAME));
     user.setWeight(Integer.parseInt(userAttributes.get(User.WEIGHT)));

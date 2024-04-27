@@ -13,6 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+/**
+ * The ViewWorkoutMenu class represents a menu for viewing workout details.
+ * It extends the InteractiveWindow class and provides methods to retrieve
+ * buttons and set up the layout of the menu.
+ */
 public class ViewWorkoutMenu extends InteractiveWindow {
 
   private final ViewableMenuModel model;
@@ -21,6 +26,12 @@ public class ViewWorkoutMenu extends InteractiveWindow {
   private JButton prevPage;
   private final Font textBoxFont = new Font("Arial", Font.PLAIN, 20);
 
+  /**
+   * Constructs a ViewWorkoutMenu object with the specified ViewableMenuModel.
+   * It sets up the layout and adds the screen components to the frame.
+   *
+   * @param model the ViewableMenuModel to use for retrieving workout data
+   */
   public ViewWorkoutMenu(ViewableMenuModel model) {
     super();
     this.model = model;
@@ -66,9 +77,7 @@ public class ViewWorkoutMenu extends InteractiveWindow {
     }
 
     JPanel navPanel = new JPanel();
-    // GridLayout navLayout = new GridLayout(1, 3);
     navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
-    // navPanel.setLayout(navLayout);
     navPanel.add(Box.createHorizontalGlue());
     this.prevPage = addButton(navPanel, "<");
     this.backButton = addButton(navPanel, "Back");

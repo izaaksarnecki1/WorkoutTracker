@@ -83,4 +83,6 @@ public interface ControllableMenuModel {
   InteractiveWindow handleAddExerciseMenu(String identifier, Map<String, String> fields);
 
   InteractiveWindow handleViewWorkoutMenu(String identifier);
+
+  InteractiveWindow handleMenuAction(InteractiveWindow window, String action, Map<String, String> fields);
 }

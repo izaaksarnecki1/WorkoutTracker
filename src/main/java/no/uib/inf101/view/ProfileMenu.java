@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProfileMenu extends InteractiveWindow {
+public class ProfileMenu extends InteractiveWindow implements MenuWithFields {
   private JTextField firstNameField;
   private JTextField lastNameField;
   private JTextField weightField;
@@ -31,6 +31,7 @@ public class ProfileMenu extends InteractiveWindow {
     this.frame.setVisible(true);
   }
 
+  @Override
   public Map<String, String> getFields() {
     this.fields.put(Constants.PROFILEMENU_FIELD_FIRST, this.firstNameField.getText());
     this.fields.put(Constants.PROFILEMENU_FIELD_LAST, this.lastNameField.getText());

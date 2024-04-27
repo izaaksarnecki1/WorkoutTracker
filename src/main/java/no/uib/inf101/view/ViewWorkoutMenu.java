@@ -1,17 +1,17 @@
 package no.uib.inf101.view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class ViewWorkoutMenu extends InteractiveWindow {
 
@@ -19,19 +19,11 @@ public class ViewWorkoutMenu extends InteractiveWindow {
   private JButton backButton;
   private JButton nextPage;
   private JButton prevPage;
-  private JButton workout1;
-  private JButton workout2;
-  private JButton workout3;
-  private JButton workout4;
-  private JButton workout5;
-  private final Map<JButton, Integer> workoutButtons;
-  private JButton[] displayButtons = new JButton[5];
+  private final Font textBoxFont = new Font("Arial", Font.PLAIN, 20);
 
   public ViewWorkoutMenu(ViewableMenuModel model) {
     super();
-    initiateButtons();
     this.model = model;
-    this.workoutButtons = new HashMap<>();
     this.setUpLayout();
     this.frame.add(this.screenComponents);
     this.frame.setVisible(true);
@@ -49,34 +41,17 @@ public class ViewWorkoutMenu extends InteractiveWindow {
     return this.prevPage;
   }
 
-  public JButton getWorkout1() {
-    return this.workout1;
-  }
-
-  public JButton getWorkout2() {
-    return this.workout2;
-  }
-
-  public JButton getWorkout3() {
-    return this.workout3;
-  }
-
-  public JButton getWorkout4() {
-    return this.workout4;
-  }
-
-  public JButton getWorkout5() {
-    return this.workout5;
-  }
-
   @Override
   public void addActionListener(ActionListener l) {
     this.backButton.addActionListener(l);
+    this.nextPage.addActionListener(l);
+    this.prevPage.addActionListener(l);
   }
 
   @Override
   protected void setUpLayout() {
     ArrayList<ArrayList<String>> workouts = model.getWorkoutData();
+    ArrayList<String> workout = model.getCurrentWorkout();
     if (workouts == null || workouts.size() == 0) {
       GridBagLayout layout = new GridBagLayout();
       this.screenComponents.setLayout(layout);
@@ -85,29 +60,39 @@ public class ViewWorkoutMenu extends InteractiveWindow {
       this.backButton = addButton(screenComponents, "Back");
       this.screenComponents.add(this.backButton);
     } else {
-      JPanel buttonPanel = new JPanel();
-      buttonPanel.setLayout(new GridLayout(0, 1, 0, 10));
-      for (ArrayList<String> workout : workouts) {
-        if (workout.size() > 1) {
-          // int workoutId = Integer.parseInt(workout.get(0));
-          String workoutName = workout.get(1);
-          JButton button = new JButton(workoutName);
-
-          buttonPanel.add(button);
-        }
-      }
-
-      JPanel controlPanel = new JPanel();
-      controlPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-      backButton = addButton(controlPanel, "Back");
-
-      screenComponents.setLayout(new BorderLayout());
-      screenComponents.add(buttonPanel, BorderLayout.CENTER);
-      screenComponents.add(controlPanel, BorderLayout.SOUTH);
+      JTextArea workoutTextArea = createWorkoutTextArea(workout);
+      this.screenComponents.setLayout(new BorderLayout());
+      this.screenComponents.add(workoutTextArea, BorderLayout.CENTER);
     }
+
+    JPanel navPanel = new JPanel();
+    // GridLayout navLayout = new GridLayout(1, 3);
+    navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
+    // navPanel.setLayout(navLayout);
+    navPanel.add(Box.createHorizontalGlue());
+    this.prevPage = addButton(navPanel, "<");
+    this.backButton = addButton(navPanel, "Back");
+    this.nextPage = addButton(navPanel, ">");
+    navPanel.add(this.prevPage);
+    navPanel.add(this.backButton);
+    navPanel.add(this.nextPage);
+    navPanel.add(Box.createHorizontalGlue());
+
+    this.screenComponents.add(navPanel, BorderLayout.SOUTH);
   }
 
-  private void initiateButtons() {
-    
+  private JTextArea createWorkoutTextArea(ArrayList<String> workout) {
+    JTextArea workoutTextArea = new JTextArea();
+    workoutTextArea.setFont(textBoxFont);
+    workoutTextArea.setEditable(false);
+    workoutTextArea.append("Workout: " + workout.get(1) + "\n");
+    workoutTextArea.append("Date: " + workout.get(2) + "\n");
+    workoutTextArea.append("\n");
+    workoutTextArea.append("Exercises: \n");
+    ArrayList<ArrayList<String>> exercises = model.getExerciseData(Integer.parseInt(workout.get(0)));
+    for (ArrayList<String> exercise : exercises) {
+      workoutTextArea.append(exercise.get(1) + " - Sets: " + exercise.get(2) + " Reps: " + exercise.get(3) + " Weight: " + exercise.get(4) + "\n");
+    }
+    return workoutTextArea;
   }
 }

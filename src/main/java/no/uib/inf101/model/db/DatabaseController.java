@@ -5,7 +5,6 @@ import no.uib.inf101.model.Exercise;
 import no.uib.inf101.model.User;
 import no.uib.inf101.model.Workout;
 
-import java.awt.List;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,7 +109,6 @@ public class DatabaseController {
 
       if (resultSet != null && resultSet.next()) {
         String lastId = resultSet.getString(1);
-        System.out.println(lastId);
         return lastId;
       }
     } catch (SQLException e) {
@@ -133,7 +131,6 @@ public class DatabaseController {
         workout.add(resultSet.getString(Workout.WORKOUTDATE));
         workouts.add(workout);
       }
-      System.out.println(workouts);
       return workouts;
     } catch (SQLException e) {
       System.err.println(e.getMessage());

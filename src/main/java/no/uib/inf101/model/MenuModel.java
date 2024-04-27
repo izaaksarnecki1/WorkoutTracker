@@ -16,8 +16,34 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   private User user = null;
   private Workout workout = null;
+  private int currentWorkout;
 
   public MenuModel() {
+    this.currentWorkout = 0;
+  }
+
+  @Override
+  public InteractiveWindow handleMenuAction(InteractiveWindow window, String action, Map<String, String> fields) {
+    if (window instanceof SignupMenu) {
+      return handleSignupMenu(action, fields);
+    } else if (window instanceof LoginMenu) {
+      return handleLoginMenu(action, fields);
+    } else if (window instanceof StartMenu) {
+      return handleStartMenu(action);
+    } else if (window instanceof MainMenu) {
+      return handleMainMenu(action);
+    } else if (window instanceof ProfileMenu) {
+      return handleProfileMenu(action, fields);
+    } else if (window instanceof AddWorkoutMenu) {
+      return handleAddWorkoutMenu(action, fields);
+    } else if (window instanceof AddExerciseMenu) {
+      return handleAddExerciseMenu(action, fields);
+    } else if (window instanceof ViewWorkoutMenu) {
+      return handleViewWorkoutMenu(action);
+    } else {
+      System.err.println("Unknown window type.");
+    }
+    return null;
   }
 
   @Override
@@ -79,7 +105,7 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
       return new AddWorkoutMenu(this);
     } else if (identifier.equals(Constants.MAINMENU_BUTTON_VIEWWORKOUTS)) {
       return new ViewWorkoutMenu(this);
-    } 
+    }
     return null;
   }
 
@@ -139,7 +165,22 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   @Override
   public InteractiveWindow handleViewWorkoutMenu(String identifier) {
     if (identifier.equals(Constants.VIEWWORKOUTS_BUTTON_BACK)) {
+      this.currentWorkout = 0;
       return new MainMenu();
+    } else if (identifier.equals(Constants.VIEWWORKOUTS_BUTTON_NEXT)) {
+      if (this.currentWorkout < DatabaseController.getUserWorkouts(user).size() - 1) {
+        this.currentWorkout++;
+        return new ViewWorkoutMenu(this);
+      } else {
+        return null;
+      }
+    } else if (identifier.equals(Constants.VIEWWORKOUTS_BUTTON_PREV)) {
+      if (this.currentWorkout > 0) {
+        this.currentWorkout--;
+        return new ViewWorkoutMenu(this);
+      } else {
+        return null;
+      }
     }
     return null;
   }
@@ -168,6 +209,11 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
   @Override
   public ArrayList<ArrayList<String>> getWorkoutData() {
     return DatabaseController.getUserWorkouts(user);
+  }
+
+  @Override
+  public ArrayList<String> getCurrentWorkout() {
+    return DatabaseController.getUserWorkouts(user).get(currentWorkout);
   }
 
   @Override

@@ -39,9 +39,4 @@ public class Constants {
   public static final String VIEWWORKOUTS_BUTTON_BACK = "back";
   public static final String VIEWWORKOUTS_BUTTON_NEXT = "next";
   public static final String VIEWWORKOUTS_BUTTON_PREV = "prev";
-  public static final String VIEWWORKOUTS_BUTTON_WORKOUT1 = "workout1";
-  public static final String VIEWWORKOUTS_BUTTON_WORKOUT2 = "workout2";
-  public static final String VIEWWORKOUTS_BUTTON_WORKOUT3 = "workout3";
-  public static final String VIEWWORKOUTS_BUTTON_WORKOUT4 = "workout4";
-  public static final String VIEWWORKOUTS_BUTTON_WORKOUT5 = "workout5";
   }

@@ -13,7 +13,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-public class AddExerciseMenu extends InteractiveWindow {
+public class AddExerciseMenu extends InteractiveWindow implements MenuWithFields {
 
   private JTextField exerciseNameField;
   private JTextField setsField;
@@ -47,6 +47,7 @@ public class AddExerciseMenu extends InteractiveWindow {
     return this.addButton;
   }
 
+  @Override
   public Map<String, String> getFields() {
     this.fields.put(Constants.ADDEXERCISE_FIELD_EX_NAME, this.exerciseNameField.getText());
     this.fields.put(Constants.ADDEXERCISE_FIELD_SETS, this.setsField.getText());

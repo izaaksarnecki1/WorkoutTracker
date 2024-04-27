@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 import no.uib.inf101.Constants;
 import no.uib.inf101.model.Workout;
 
-public class AddWorkoutMenu extends InteractiveWindow {
+public class AddWorkoutMenu extends InteractiveWindow implements MenuWithFields {
 
   private ViewableMenuModel model;
   private JTextField dateField;
@@ -43,9 +43,10 @@ public class AddWorkoutMenu extends InteractiveWindow {
     return this.backButton;
   }
 
+  @Override
   public Map<String, String> getFields() {
     this.fields.put(Constants.ADDWORKOUT_FIELD_WORKOUTNAME, this.workoutNameField.getText());
-  this.fields.put(Constants.ADDWORKOUT_FIELD_DATE, this.dateField.getText());
+    this.fields.put(Constants.ADDWORKOUT_FIELD_DATE, this.dateField.getText());
     return this.fields;
   }
 
@@ -67,7 +68,7 @@ public class AddWorkoutMenu extends InteractiveWindow {
     if (this.model.workoutExists()) {
       Map<String, String> viewableWorkout = model.getWorkoutDisplay();
       date = viewableWorkout.get(Workout.WORKOUTDATE);
-      workoutName = viewableWorkout.get(Workout.WORKOUTNAME);  
+      workoutName = viewableWorkout.get(Workout.WORKOUTNAME);
     } else {
       date = "";
       workoutName = "";
@@ -110,7 +111,7 @@ public class AddWorkoutMenu extends InteractiveWindow {
     c.insets = new Insets(10, 0, 0, 10);
     this.workoutNameField = addTextField(this.screenComponents, workoutName);
     this.screenComponents.add(workoutNameField, c);
-    
+
     // Add Exercise button
     c.gridx = 1;
     c.gridy = 2;

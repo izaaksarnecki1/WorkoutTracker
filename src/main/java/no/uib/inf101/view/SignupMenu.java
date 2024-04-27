@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignupMenu extends InteractiveWindow {
+public class SignupMenu extends InteractiveWindow implements MenuWithFields {
   private JTextField usernameField;
   private JPasswordField passwordField;
   private final JLabel usernameLabel = new JLabel();
@@ -28,6 +28,7 @@ public class SignupMenu extends InteractiveWindow {
     this.frame.setVisible(true);
   }
 
+  @Override
   public Map<String, String> getFields() {
     this.fields.put(Constants.SIGNUPMENU_FIELD_USERNAME, this.usernameField.getText());
     this.fields.put(Constants.LOGINMENU_FIELD_PASSWORD, new String(this.passwordField.getPassword()));

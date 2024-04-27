@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginMenu extends InteractiveWindow {
+public class LoginMenu extends InteractiveWindow implements MenuWithFields {
 
   private JTextField usernameField;
   private JPasswordField passwordField;
@@ -37,6 +37,7 @@ public class LoginMenu extends InteractiveWindow {
     this.backButton.addActionListener(l);
   }
 
+  @Override
   public Map<String, String> getFields() {
     this.fields.put(Constants.LOGINMENU_FIELD_USERNAME, this.usernameField.getText());
     this.fields.put(Constants.LOGINMENU_FIELD_PASSWORD, new String(this.passwordField.getPassword()));

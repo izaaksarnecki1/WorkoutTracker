@@ -105,4 +105,20 @@ public class SQLQueryCreator {
     sb.append("SELECT seq FROM sqlite_sequence WHERE name=").append('"').append(tablename).append('"');
     return sb.toString();
   }
+
+  protected static String getUserWorkouts(DbUploadable entity) {
+    int id = entity.getId();
+    StringBuilder sb = new StringBuilder();
+    sb.append("SELECT * FROM ").append(Workout.TABLE_NAME).append(" WHERE ").append(Workout.USERID).append(" = ")
+        .append(id)
+        .append(" ORDER BY date DESC");
+    return sb.toString();
+  }
+
+  protected static String getWorkoutExercises(int id) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("SELECT * FROM ").append(Exercise.TABLE_NAME).append(" WHERE ").append(Exercise.WORKOUT_ID).append(" = ")
+        .append(id);
+    return sb.toString();
+  }
 }

@@ -35,4 +35,8 @@ public class Constants {
   public static final String ADDEXERCISE_FIELD_SETS = "sets";
   public static final String ADDEXERCISE_FIELD_WEIGHT = "weight";
   public static final String ADDEXERCISE_BUTTON_ADD = "add";
+
+  public static final String VIEWWORKOUTS_BUTTON_BACK = "back";
+  public static final String VIEWWORKOUTS_BUTTON_NEXT = "next";
+  public static final String VIEWWORKOUTS_BUTTON_PREV = "prev";
   }

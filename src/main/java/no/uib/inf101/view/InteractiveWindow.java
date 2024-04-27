@@ -13,6 +13,7 @@ public abstract class InteractiveWindow {
   private final Font TEXT_FONT = new Font("Arial", Font.PLAIN, 18);
   final JFrame frame;
   JPanel screenComponents;
+
   public InteractiveWindow() {
     this.frame = new JFrame();
     this.frame.setTitle(WINDOW_TITLE);
@@ -56,12 +57,10 @@ public abstract class InteractiveWindow {
   }
 
   JTextField addTextField(JPanel textFields, String text) {
-    // TODO: consider using setbounds for fields instead of layouts
     JTextField textField = new JTextField();
     textField.setText(text);
     textField.setFont(TEXT_FONT);
-//    textField.setAlignmentX(Component.CENTER_ALIGNMENT);
-    textField.setBounds(new Rectangle(new Dimension(20, 50) ));
+    textField.setBounds(new Rectangle(new Dimension(20, 50)));
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(textField);
     return textField;
@@ -71,7 +70,6 @@ public abstract class InteractiveWindow {
     // textFields param is used to simplify display process.
     JPasswordField passwordField = new JPasswordField();
     passwordField.setText(text);
-//    passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
     textFields.add(Box.createRigidArea(new Dimension(20, 20)));
     textFields.add(passwordField);
     return passwordField;
@@ -89,5 +87,6 @@ public abstract class InteractiveWindow {
   }
 
   public abstract void addActionListener(ActionListener l);
+
   protected abstract void setUpLayout();
 }

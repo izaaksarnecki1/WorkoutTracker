@@ -1,93 +1,93 @@
-// package no.uib.inf101.model;
-// import org.junit.jupiter.api.Test;
+package no.uib.inf101.model;
 
-// import java.time.LocalDate;
-// import java.util.Arrays;
-// import java.util.HashMap;
+import static org.junit.jupiter.api.Assertions.*;
 
-// import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-// public class UserTest {
+import org.junit.jupiter.api.Test;
 
-//   @Test
-//   void getSetFirstName() {
-//     User user = new User("test", "password");
-//     user.setFirstName("John");
-//     assertEquals("John", user.getFirstName());
-//   }
+public class UserTest {
 
-//   @Test
-//   void getSetLastName() {
-//     User user = new User("test", "password");
-//     user.setLastName("Doe");
-//     assertEquals("Doe", user.getLastName());
-//   }
+    @Test
+    public void testConstructor() {
+        User user = new User("kari_nordmann", "password123");
+        assertEquals("kari_nordmann", user.getUsername());
+        assertEquals("", user.getFirstName());
+        assertEquals("", user.getLastName());
+        assertEquals(0, user.getWeight());
+        assertEquals(0, user.getHeight());
+    }
 
-//   @Test
-//   void getSetWeight() {
-//     User user = new User("test", "password");
-//     user.setWeight(70);
-//     assertEquals(70, user.getWeight());
-//   }
+    @Test
+    public void testGettersAndSetters() {
+        User user = new User("kari_nordmann", "password123");
+        user.setFirstName("Kari");
+        user.setLastName("Nordmann");
+        user.setWeight(70);
+        user.setHeight(180);
 
-//   @Test
-//   void getSetHeight() {
-//     User user = new User("test", "password");
-//     user.setHeight(180);
-//     assertEquals(180, user.getHeight());
-//   }
+        assertEquals("Kari", user.getFirstName());
+        assertEquals("Nordmann", user.getLastName());
+        assertEquals(70, user.getWeight());
+        assertEquals(180, user.getHeight());
+    }
 
-//   @Test
-//   void addWorkout() {
-//     User user = new User("test", "password");
-//     Workout workout = new Workout(1, LocalDate.now());
-//     user.addWorkout(workout);
-//     assertTrue(user.getWorkouts().contains(workout));
-//   }
+    @Test
+    public void testUploadableData() {
+        User user = new User("kari_nordmann", "password123");
+        user.setFirstName("Kari");
+        user.setLastName("Nordmann");
+        user.setWeight(70);
+        user.setHeight(180);
 
-//   @Test
-//   void setId() {
-//     User user = new User("test", "password");
-//     user.setId(1);
-//     assertEquals(1, user.getId());
-//   }
+        HashMap<String, Object> expectedUploadableData = new HashMap<>();
+        expectedUploadableData.put(User.USERNAME, "kari_nordmann");
+        expectedUploadableData.put(User.PASSWORD, "password123");
+        expectedUploadableData.put(User.FIRST_NAME, "Kari");
+        expectedUploadableData.put(User.LAST_NAME, "Nordmann");
+        expectedUploadableData.put(User.WEIGHT, 70);
+        expectedUploadableData.put(User.HEIGHT, 180);
 
-//   @Test
-//   void getId() {
-//     User user = new User("test", "password");
-//     user.setId(1);
-//     assertEquals(1, user.getId());
-//   }
+        assertEquals(expectedUploadableData, user.getUploadableData());
+    }
 
-//   @Test
-//   void getUsername() {
-//     User user = new User("test", "password");
-//     assertEquals("test", user.getUsername());
-//   }
+    @Test
+    public void testTableName() {
+        User user = new User("kari_nordmann", "password123");
+        assertEquals(User.TABLE_NAME, user.getTableName());
+    }
 
-//   @Test
-//   void getPassword() {
-//     User user = new User("test", "password");
-//     assertEquals("password", user.getPassword());
-//   }
+    @Test
+    public void testAttributeNames() {
+        User user = new User("kari_nordmann", "password123");
+        ArrayList<String> expectedAttributeNames = new ArrayList<>();
+        expectedAttributeNames.add(User.USERNAME);
+        expectedAttributeNames.add(User.PASSWORD);
+        expectedAttributeNames.add(User.FIRST_NAME);
+        expectedAttributeNames.add(User.LAST_NAME);
+        expectedAttributeNames.add(User.WEIGHT);
+        expectedAttributeNames.add(User.HEIGHT);
 
-//   @Test
-//   void getUploadableData() {
-//     User user = new User("test", "password");
-//     HashMap<String, Object> expectedData = new HashMap<>();
-//     expectedData.put("username", "test");
-//     expectedData.put("password", "password");
-//     assertEquals(expectedData, user.getUploadableData());
-//   }
+        assertEquals(expectedAttributeNames, user.getAttributeNames());
+    }
 
-//   @Test
-//   void getTableName() {
-//     assertEquals("users", User.tableName);
-//   }
+    @Test
+    void testExtremeValues() {
+        User user = new User("kari.nordmann", "password");
 
-//   @Test
-//   void getAttributeNames() {
-//     User user = new User("test", "password");
-//     assertEquals(Arrays.asList("username", "password"), user.getAttributeNames());
-//   }
-// }
+        // Test setting extreme values for weight and height
+        user.setWeight(Integer.MAX_VALUE);
+        user.setHeight(Integer.MAX_VALUE);
+
+        assertEquals(Integer.MAX_VALUE, user.getWeight());
+        assertEquals(Integer.MAX_VALUE, user.getHeight());
+
+        // Test setting negative values for weight and height
+        user.setWeight(-100);
+        user.setHeight(-200);
+
+        assertEquals(-100, user.getWeight());
+        assertEquals(-200, user.getHeight());
+    }
+}

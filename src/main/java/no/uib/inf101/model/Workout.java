@@ -25,7 +25,6 @@ public class Workout implements DbUploadable {
   private int workoutId = 0;
   private String workoutName;
   private String workoutDate;
-  private List<Exercise> exercises;
 
   /**
    * Constructs a new Workout object.
@@ -35,7 +34,6 @@ public class Workout implements DbUploadable {
    * @param workoutName the name of the workout
    */
   public Workout(int userId, String workoutDate, String workoutName) {
-    this.exercises = new ArrayList<>();
     this.workoutDate = validateDate(workoutDate);
     this.userId = userId;
     this.workoutName = workoutName;
@@ -84,19 +82,6 @@ public class Workout implements DbUploadable {
    */
   protected void setWorkoutId(int workoutId) {
     this.workoutId = workoutId;
-  }
-
-  /**
-   * Adds an exercise to the workout.
-   *
-   * @param exercise the exercise to add
-   */
-  public void addExercise(Exercise exercise) {
-    if (validExercise(exercise)) {
-      this.exercises.add(exercise);
-    } else {
-      System.err.println("Failed to add exercise: " + exercise);
-    }
   }
 
   /**

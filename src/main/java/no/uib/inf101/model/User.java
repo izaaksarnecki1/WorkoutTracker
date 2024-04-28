@@ -2,6 +2,8 @@ package no.uib.inf101.model;
 
 import java.util.*;
 
+import org.jetbrains.annotations.TestOnly;
+
 /**
  * Represents a user in the workout tracker system.
  * Implements the DbUploadable interface for database operations.
@@ -25,7 +27,6 @@ public class User implements DbUploadable {
   private String lastName;
   private int weight;
   private int height;
-  private ArrayList<Workout> workouts;
   private int id = 0;
 
   /**
@@ -40,7 +41,6 @@ public class User implements DbUploadable {
     this.lastName = "";
     this.weight = 0;
     this.height = 0;
-    this.workouts = new ArrayList<>();
   }
 
   /**
@@ -124,11 +124,12 @@ public class User implements DbUploadable {
   }
 
   /**
-   * Returns a copy of the list of workouts of the user.
-   * @return a copy of the list of workouts of the user
+   * Returns the username of the user.
+   * @return the username of the user
    */
-  public ArrayList<Workout> getWorkouts() {
-    return new ArrayList<>(workouts);
+  @TestOnly
+  public String getUsername() {
+    return this.username;
   }
 
   @Override

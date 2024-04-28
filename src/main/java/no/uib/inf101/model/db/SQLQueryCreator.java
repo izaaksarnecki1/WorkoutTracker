@@ -163,4 +163,33 @@ public class SQLQueryCreator {
         .append(id);
     return sb.toString();
   }
+
+  protected static String getUserByUsernameSQL(String username) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("SELECT * FROM ").append(User.TABLE_NAME).append(" WHERE ").append(User.USERNAME).append(" = ")
+        .append('"').append(username).append('"');
+    return sb.toString();
+  }
+
+  protected static String validatePassSQL(String username) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("SELECT password FROM ").append(User.TABLE_NAME).append(" WHERE ").append(User.USERNAME).append(" = ")
+        .append('"').append(username).append('"');
+    return sb.toString();
+  }
+
+  protected static String fetchUserIdSQL(String username) {
+    StringBuilder sb = new StringBuilder();
+    sb.append("SELECT id FROM ").append(User.TABLE_NAME).append(" WHERE ").append(User.USERNAME).append(" = ")
+        .append('"').append(username).append('"');
+    return sb.toString();
+  }
+
+  protected static String enablePragma() {
+    return "PRAGMA foreign_keys = ON;";
+  }
+
+  protected static String dropTableSQL(String tableName) {
+    return "DROP TABLE IF EXISTS " + tableName + ";";
+  }
 }

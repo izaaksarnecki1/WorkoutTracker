@@ -102,4 +102,64 @@ public class SQLQueryCreatorTest {
         // Assert that the generated query matches the expected query
         assertEquals(expectedQuery, actualQuery);
     }
+
+    @Test
+    public void testGetUserByUsernameSQL() {
+        // Expected SQL query string
+        String expectedQuery = "SELECT * FROM users WHERE username = \"username\"";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.getUserByUsernameSQL("username");
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
+
+    @Test
+    public void testValidatePassSQL() {
+        // Expected SQL query string
+        String expectedQuery = "SELECT password FROM users WHERE username = \"username\"";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.validatePassSQL("username");
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
+
+    @Test
+    public void testFetchUserIdSQL() {
+        // Expected SQL query string
+        String expectedQuery = "SELECT id FROM users WHERE username = \"username\"";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.fetchUserIdSQL("username");
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
+
+    @Test
+    public void enablePragmaTest() {
+        // Expected SQL query string
+        String expectedQuery = "PRAGMA foreign_keys = ON;";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.enablePragma();
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }    
+
+    @Test
+    public void dropTableTest() {
+        // Expected SQL query string
+        String expectedQuery = "DROP TABLE IF EXISTS users;";
+
+        // Generate SQL query string using SQLQueryCreator
+        String actualQuery = SQLQueryCreator.dropTableSQL("users");
+
+        // Assert that the generated query matches the expected query
+        assertEquals(expectedQuery, actualQuery);
+    }
 }

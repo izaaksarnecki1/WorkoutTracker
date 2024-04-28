@@ -13,4 +13,4 @@ Adding workouts involves naming the workout and specifying a date, followed by a
 
 For reviewing previous workouts, users can navigate through their workouts displayed in chronological order, with the newest workouts appearing first. Within this menu, users can seamlessly switch between their workouts.
 
-I have created a short youtube video of how the app is used: [Workout Tracker App in Java by Izaak Sarnecki]()
+I have created a short youtube video of how the app is used: [Workout Tracker App in Java by Izaak Sarnecki](https://www.youtube.com/watch?v=jAydtTNlrPQ)

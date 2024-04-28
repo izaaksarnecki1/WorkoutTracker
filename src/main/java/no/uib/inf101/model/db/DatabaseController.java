@@ -305,6 +305,9 @@ public class DatabaseController {
     return null;
   }
 
+  /**
+   * Drops all tables in the database.
+   */
   void dropTables() {
     for (String tableName : this.tables) {
       dropTable(tableName);
@@ -312,6 +315,12 @@ public class DatabaseController {
     System.out.println("Successfully dropped all tables. ");
   }
 
+  /**
+   * Checks if a table exists in the database.
+   *
+   * @param tableName the name of the table to check
+   * @return true if the table exists, false otherwise
+   */
   boolean tableExists(String tableName) {
     try (Connection connection = connect()) {
       DatabaseMetaData metaData = connection.getMetaData();

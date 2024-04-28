@@ -164,6 +164,12 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for deleting a row from the database table.
+   *
+   * @param entity The DbUploadable entity representing the row to be deleted
+   * @return The SQL query string for deleting the row
+   */
   protected static String getUserByUsernameSQL(String username) {
     StringBuilder sb = new StringBuilder();
     sb.append("SELECT * FROM ").append(User.TABLE_NAME).append(" WHERE ").append(User.USERNAME).append(" = ")
@@ -171,6 +177,12 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for validating a user's password.
+   *
+   * @param username The username of the user
+   * @return The SQL query string for validating the user's password
+   */
   protected static String validatePassSQL(String username) {
     StringBuilder sb = new StringBuilder();
     sb.append("SELECT password FROM ").append(User.TABLE_NAME).append(" WHERE ").append(User.USERNAME).append(" = ")
@@ -178,6 +190,12 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for fetching a user's ID from the database.
+   *
+   * @param username The username of the user
+   * @return The SQL query string for fetching the user's ID
+   */
   protected static String fetchUserIdSQL(String username) {
     StringBuilder sb = new StringBuilder();
     sb.append("SELECT id FROM ").append(User.TABLE_NAME).append(" WHERE ").append(User.USERNAME).append(" = ")
@@ -185,10 +203,22 @@ public class SQLQueryCreator {
     return sb.toString();
   }
 
+  /**
+   * Creates an SQL query string for deleting a row from the database table.
+   *
+   * @param entity The DbUploadable entity representing the row to be deleted
+   * @return The SQL query string for deleting the row
+   */
   protected static String enablePragma() {
     return "PRAGMA foreign_keys = ON;";
   }
 
+  /**
+   * Creates an SQL query string for deleting a row from the database table.
+   *
+   * @param entity The DbUploadable entity representing the row to be deleted
+   * @return The SQL query string for deleting the row
+   */
   protected static String dropTableSQL(String tableName) {
     return "DROP TABLE IF EXISTS " + tableName + ";";
   }

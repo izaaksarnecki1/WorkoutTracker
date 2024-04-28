@@ -95,7 +95,11 @@ public class MenuModel implements ControllableMenuModel, ViewableMenuModel {
 
   @Override
   public ArrayList<String> getCurrentWorkout() {
-    return this.databaseController.getUserWorkouts(user).get(currentWorkout);
+    ArrayList<ArrayList<String>> userWorkouts = this.databaseController.getUserWorkouts(user); 
+    if (userWorkouts.isEmpty()) {
+      return null;
+    }
+    return userWorkouts.get(currentWorkout);
   }
 
   @Override

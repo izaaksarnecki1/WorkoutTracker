@@ -1,0 +1,88 @@
+Date : 2024-04-28 12:35:29
+Directory : c:\Users\izaak\uib\inf101\workout-tracker
+Total : 37 files,  2464 codes, 692 comments, 575 blanks, all 3731 lines
+
+Languages
++--------------+------------+------------+------------+------------+------------+
+| language     | files      | code       | comment    | blank      | total      |
++--------------+------------+------------+------------+------------+------------+
+| Java         |         32 |      2,330 |        679 |        558 |      3,567 |
+| XML          |          2 |        100 |          6 |          7 |        113 |
+| Markdown     |          2 |         22 |          0 |          2 |         24 |
+| Shell Script |          1 |         12 |          7 |          8 |         27 |
++--------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                        | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                           |         37 |      2,464 |        692 |        575 |      3,731 |
+| . (Files)                                                                                                   |          4 |        125 |         13 |         17 |        155 |
+| .run                                                                                                        |          1 |          9 |          0 |          0 |          9 |
+| src                                                                                                         |         32 |      2,330 |        679 |        558 |      3,567 |
+| src\main                                                                                                    |         24 |      1,924 |        586 |        393 |      2,903 |
+| src\main\consent                                                                                            |          1 |          6 |         20 |          6 |         32 |
+| src\main\java                                                                                               |         23 |      1,918 |        566 |        387 |      2,871 |
+| src\main\java\no                                                                                            |         23 |      1,918 |        566 |        387 |      2,871 |
+| src\main\java\no\uib                                                                                        |         23 |      1,918 |        566 |        387 |      2,871 |
+| src\main\java\no\uib\inf101                                                                                 |         23 |      1,918 |        566 |        387 |      2,871 |
+| src\main\java\no\uib\inf101 (Files)                                                                         |          2 |         48 |          4 |         13 |         65 |
+| src\main\java\no\uib\inf101\controller                                                                      |          2 |        120 |         18 |         21 |        159 |
+| src\main\java\no\uib\inf101\model                                                                           |          8 |        957 |        383 |        178 |      1,518 |
+| src\main\java\no\uib\inf101\model (Files)                                                                   |          5 |        474 |        199 |         91 |        764 |
+| src\main\java\no\uib\inf101\model\db                                                                        |          3 |        483 |        184 |         87 |        754 |
+| src\main\java\no\uib\inf101\view                                                                            |         11 |        793 |        161 |        175 |      1,129 |
+| src\test                                                                                                    |          8 |        406 |         93 |        165 |        664 |
+| src\test\java                                                                                               |          8 |        406 |         93 |        165 |        664 |
+| src\test\java\no                                                                                            |          8 |        406 |         93 |        165 |        664 |
+| src\test\java\no\uib                                                                                        |          8 |        406 |         93 |        165 |        664 |
+| src\test\java\no\uib\inf101                                                                                 |          8 |        406 |         93 |        165 |        664 |
+| src\test\java\no\uib\inf101 (Files)                                                                         |          1 |          9 |          6 |          5 |         20 |
+| src\test\java\no\uib\inf101\model                                                                           |          7 |        397 |         87 |        160 |        644 |
+| src\test\java\no\uib\inf101\model (Files)                                                                   |          4 |        183 |         24 |         72 |        279 |
+| src\test\java\no\uib\inf101\model\db                                                                        |          3 |        214 |         63 |         88 |        365 |
++-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------+--------------+------------+------------+------------+------------+
+| filename                                                                                                    | language     | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------+--------------+------------+------------+------------+------------+
+| c:\Users\izaak\uib\inf101\workout-tracker\.run\Main.run.xml                                                 | XML          |          9 |          0 |          0 |          9 |
+| c:\Users\izaak\uib\inf101\workout-tracker\README.md                                                         | Markdown     |          3 |          0 |          1 |          4 |
+| c:\Users\izaak\uib\inf101\workout-tracker\pom.xml                                                           | XML          |         91 |          6 |          7 |        104 |
+| c:\Users\izaak\uib\inf101\workout-tracker\pushbranch.sh                                                     | Shell Script |         12 |          7 |          8 |         27 |
+| c:\Users\izaak\uib\inf101\workout-tracker\sources.md                                                        | Markdown     |         19 |          0 |          1 |         20 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\consent\Consent.java                                     | Java         |          6 |         20 |          6 |         32 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\Constants.java                        | Java         |         34 |          4 |          9 |         47 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\Main.java                             | Java         |         14 |          0 |          4 |         18 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\controller\ButtonController.java      | Java         |        114 |          4 |         16 |        134 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\controller\ControllableMenuModel.java | Java         |          6 |         14 |          5 |         25 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\model\DbUploadable.java               | Java         |         10 |         25 |          7 |         42 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\model\Exercise.java                   | Java         |         74 |         54 |         18 |        146 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\model\MenuModel.java                  | Java         |        233 |         15 |         26 |        274 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\model\User.java                       | Java         |         82 |         53 |         22 |        157 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\model\Workout.java                    | Java         |         75 |         52 |         18 |        145 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\model\db\Authenticator.java           | Java         |         66 |         56 |         20 |        142 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\model\db\DatabaseController.java      | Java         |        293 |         79 |         44 |        416 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\model\db\SQLQueryCreator.java         | Java         |        124 |         49 |         23 |        196 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\AddExerciseMenu.java             | Java         |        119 |          7 |         23 |        149 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\AddWorkoutMenu.java              | Java         |        119 |          4 |         24 |        147 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\InteractiveWindow.java           | Java         |         57 |         48 |         13 |        118 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\LoginMenu.java                   | Java         |         93 |          5 |         19 |        117 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\MainMenu.java                    | Java         |         46 |          5 |         15 |         66 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\MenuWithFields.java              | Java         |          5 |          9 |          3 |         17 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\ProfileMenu.java                 | Java         |        123 |         15 |         24 |        162 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\SignupMenu.java                  | Java         |         93 |         10 |         18 |        121 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\StartMenu.java                   | Java         |         44 |          7 |         13 |         64 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\ViewWorkoutMenu.java             | Java         |         83 |         11 |         14 |        108 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\main\java\no\uib\inf101\view\ViewableMenuModel.java           | Java         |         11 |         40 |          9 |         60 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\test\java\no\uib\inf101\SimpleTest.java                       | Java         |          9 |          6 |          5 |         20 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\test\java\no\uib\inf101\model\ExerciseTest.java               | Java         |          3 |          0 |          3 |          6 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\test\java\no\uib\inf101\model\MenuModelTest.java              | Java         |         56 |          1 |         24 |         81 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\test\java\no\uib\inf101\model\UserTest.java                   | Java         |         73 |          2 |         19 |         94 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\test\java\no\uib\inf101\model\WorkoutTest.java                | Java         |         51 |         21 |         26 |         98 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\test\java\no\uib\inf101\model\db\AuthenticatorTest.java       | Java         |         52 |          7 |         24 |         83 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\test\java\no\uib\inf101\model\db\DatabaseControllerTest.java  | Java         |         73 |         19 |         24 |        116 |
+| c:\Users\izaak\uib\inf101\workout-tracker\src\test\java\no\uib\inf101\model\db\SQLQueryCreatorTest.java     | Java         |         89 |         37 |         40 |        166 |
+| Total                                                                                                       |              |      2,464 |        692 |        575 |      3,731 |
++-------------------------------------------------------------------------------------------------------------+--------------+------------+------------+------------+------------+

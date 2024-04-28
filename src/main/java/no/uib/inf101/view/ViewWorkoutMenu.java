@@ -62,32 +62,30 @@ public class ViewWorkoutMenu extends InteractiveWindow {
   @Override
   protected void setUpLayout() {
     ArrayList<ArrayList<String>> workouts = model.getWorkoutData();
-    ArrayList<String> workout = model.getCurrentWorkout();
+    this.prevPage = new JButton();
+    this.nextPage = new JButton();
+    this.screenComponents.setLayout(new BorderLayout());
+
     if (workouts == null || workouts.size() == 0) {
-      GridBagLayout layout = new GridBagLayout();
-      this.screenComponents.setLayout(layout);
-      JLabel noWorkoutsLabel = new JLabel("No workouts available.");
-      this.screenComponents.add(noWorkoutsLabel);
       this.backButton = addButton(screenComponents, "Back");
-      this.screenComponents.add(this.backButton);
+      this.screenComponents.add(this.backButton, BorderLayout.SOUTH);
     } else {
+      ArrayList<String> workout = model.getCurrentWorkout();
       JTextArea workoutTextArea = createWorkoutTextArea(workout);
-      this.screenComponents.setLayout(new BorderLayout());
+
       this.screenComponents.add(workoutTextArea, BorderLayout.CENTER);
+      JPanel navPanel = new JPanel();
+      navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
+      navPanel.add(Box.createHorizontalGlue());
+      this.prevPage = addButton(navPanel, "<");
+      this.backButton = addButton(navPanel, "Back");
+      this.nextPage = addButton(navPanel, ">");
+      navPanel.add(this.prevPage);
+      navPanel.add(this.backButton);
+      navPanel.add(this.nextPage);
+      navPanel.add(Box.createHorizontalGlue());
+      this.screenComponents.add(navPanel, BorderLayout.SOUTH);
     }
-
-    JPanel navPanel = new JPanel();
-    navPanel.setLayout(new BoxLayout(navPanel, BoxLayout.X_AXIS));
-    navPanel.add(Box.createHorizontalGlue());
-    this.prevPage = addButton(navPanel, "<");
-    this.backButton = addButton(navPanel, "Back");
-    this.nextPage = addButton(navPanel, ">");
-    navPanel.add(this.prevPage);
-    navPanel.add(this.backButton);
-    navPanel.add(this.nextPage);
-    navPanel.add(Box.createHorizontalGlue());
-
-    this.screenComponents.add(navPanel, BorderLayout.SOUTH);
   }
 
   private JTextArea createWorkoutTextArea(ArrayList<String> workout) {
@@ -100,7 +98,8 @@ public class ViewWorkoutMenu extends InteractiveWindow {
     workoutTextArea.append("Exercises: \n");
     ArrayList<ArrayList<String>> exercises = model.getExerciseData(Integer.parseInt(workout.get(0)));
     for (ArrayList<String> exercise : exercises) {
-      workoutTextArea.append(exercise.get(1) + " - Sets: " + exercise.get(2) + " Reps: " + exercise.get(3) + " Weight: " + exercise.get(4) + "\n");
+      workoutTextArea.append(exercise.get(1) + " - Sets: " + exercise.get(2) + " Reps: " + exercise.get(3) + " Weight: "
+          + exercise.get(4) + "\n");
     }
     return workoutTextArea;
   }

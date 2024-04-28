@@ -11,6 +11,12 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The SignupMenu class represents a menu for user signup.
+ * It extends the InteractiveWindow class and implements the MenuWithFields interface.
+ * The SignupMenu allows users to enter their username and password and submit the form.
+ * It provides methods to retrieve the entered fields, as well as access to the submit and back buttons.
+ */
 public class SignupMenu extends InteractiveWindow implements MenuWithFields {
   private JTextField usernameField;
   private JPasswordField passwordField;

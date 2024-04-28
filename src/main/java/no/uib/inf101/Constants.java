@@ -1,5 +1,9 @@
 package no.uib.inf101;
 
+/**
+ * The Constants class contains constant values used throughout the application.
+ * These constants represent button names, field names, and other identifiers.
+ */
 public class Constants {
   public static final String STARTMENU_BUTTON_LOGIN = "login";
   public static final String STARTMENU_BUTTON_SIGNUP = "signup";

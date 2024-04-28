@@ -11,6 +11,11 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The LoginMenu class represents a graphical user interface for the login menu.
+ * It extends the InteractiveWindow class and implements the MenuWithFields interface.
+ * The LoginMenu allows users to enter their username and password and provides buttons for submitting the login information and navigating back.
+ */
 public class LoginMenu extends InteractiveWindow implements MenuWithFields {
 
   private JTextField usernameField;
@@ -59,7 +64,6 @@ public class LoginMenu extends InteractiveWindow implements MenuWithFields {
 
     this.screenComponents.setLayout(layout);
 
-    // Username label and field
     c.gridx = 0;
     c.gridy = 0;
     c.anchor = GridBagConstraints.WEST;
@@ -75,7 +79,6 @@ public class LoginMenu extends InteractiveWindow implements MenuWithFields {
     c.insets = new Insets(10, 0, 0, 10);
     this.screenComponents.add(usernameField, c);
 
-    // Password label and field
     c.gridx = 0;
     c.gridy = 1;
     c.fill = GridBagConstraints.NONE;
@@ -92,7 +95,6 @@ public class LoginMenu extends InteractiveWindow implements MenuWithFields {
     this.passwordField = addPasswordField(this.screenComponents, "");
     this.screenComponents.add(passwordField, c);
 
-    // Submit button
     c.gridx = 1;
     c.gridy = 2;
     c.anchor = GridBagConstraints.PAGE_END;
@@ -102,7 +104,6 @@ public class LoginMenu extends InteractiveWindow implements MenuWithFields {
     this.submitButton = addButton(this.screenComponents, "Submit");
     this.screenComponents.add(submitButton, c);
 
-    // Back button
     c.gridx = 1;
     c.gridy = 3;
     c.anchor = GridBagConstraints.PAGE_END;

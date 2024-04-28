@@ -2,6 +2,12 @@ package no.uib.inf101.model;
 
 import java.util.*;
 
+import org.jetbrains.annotations.TestOnly;
+
+/**
+ * Represents a user in the workout tracker system.
+ * Implements the DbUploadable interface for database operations.
+ */
 public class User implements DbUploadable {
 
   public static final String TABLE_NAME = "users";
@@ -21,9 +27,13 @@ public class User implements DbUploadable {
   private String lastName;
   private int weight;
   private int height;
-  private ArrayList<Workout> workouts;
   private int id = 0;
 
+  /**
+   * Constructs a new User object with the specified username and password.
+   * @param username the username of the user
+   * @param password the password of the user
+   */
   public User(String username, String password) {
     this.username = username;
     this.password = password;
@@ -31,51 +41,95 @@ public class User implements DbUploadable {
     this.lastName = "";
     this.weight = 0;
     this.height = 0;
-    this.workouts = new ArrayList<>();
   }
 
+  /**
+   * Returns the first name of the user.
+   * @return the first name of the user
+   */
   public String getFirstName() {
     return this.firstName;
   }
 
+  /**
+   * Sets the first name of the user.
+   * @param firstName the first name to set
+   */
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
+  /**
+   * Returns the last name of the user.
+   * @return the last name of the user
+   */
   public String getLastName() {
     return lastName;
   }
 
+  /**
+   * Sets the last name of the user.
+   * @param lastName the last name to set
+   */
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
 
+  /**
+   * Returns the weight of the user.
+   * @return the weight of the user
+   */
   public int getWeight() {
     return weight;
   }
 
+  /**
+   * Sets the weight of the user.
+   * @param weight the weight to set
+   */
   public void setWeight(int weight) {
     this.weight = weight;
   }
 
+  /**
+   * Returns the height of the user.
+   * @return the height of the user
+   */
   public int getHeight() {
     return height;
   }
 
+  /**
+   * Sets the height of the user.
+   * @param height the height to set
+   */
   public void setHeight(int height) {
     this.height = height;
   }
 
+  /**
+   * Sets the ID of the user.
+   * @param id the ID to set
+   */
   public void setId(int id) {
     this.id = id;
   }
 
+  /**
+   * Returns the ID of the user.
+   * @return the ID of the user
+   */
   public int getId() {
     return this.id;
   }
 
-  public ArrayList<Workout> getWorkouts() {
-    return new ArrayList<>(workouts);
+  /**
+   * Returns the username of the user.
+   * @return the username of the user
+   */
+  @TestOnly
+  public String getUsername() {
+    return this.username;
   }
 
   @Override

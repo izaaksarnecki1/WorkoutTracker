@@ -4,10 +4,17 @@ import no.uib.inf101.model.User;
 
 import java.util.Objects;
 
+/**
+ * The Authenticator class is responsible for creating and logging in users.
+ * It interacts with a database controller to perform operations such as
+ * inserting user data, fetching user IDs, and validating passwords.
+ */
 public class Authenticator {
 
-  public Authenticator() {
+  private DatabaseController databaseController;
 
+  public Authenticator(DatabaseController databaseController) {
+    this.databaseController = databaseController;
   }
 
   /**
@@ -20,14 +27,14 @@ public class Authenticator {
    * @return a new User.
    * @see User
    */
-  public static User createNewUser(String username, String password) {
+  public User createNewUser(String username, String password) {
     if (!validateUserSignup(username, password)) {
       return null;
     }
 
     User user = new User(username, password);
-    DatabaseController.insertRow(user);
-    String stringId = DatabaseController.fetchUserId(username);
+    this.databaseController.insertRow(user);
+    String stringId = this.databaseController.fetchUserId(username);
 
     if (stringId != null) {
       user.setId(Integer.parseInt(stringId));
@@ -48,13 +55,13 @@ public class Authenticator {
    * @return User object
    * @see User
    */
-  public static User loginUser(String username, String password) {
+  public User loginUser(String username, String password) {
     if (!validateUserLogin(username, password)) {
       return null;
     }
 
     User user = new User(username, password);
-    String stringId = DatabaseController.fetchUserId(username);
+    String stringId = this.databaseController.fetchUserId(username);
 
     if (stringId != null) {
       user.setId(Integer.parseInt(stringId));
@@ -65,7 +72,14 @@ public class Authenticator {
     }
   }
 
-  private static boolean validateUserSignup(String username, String password) {
+  /**
+   * Validates a user signup by checking if the username is available and if the password is valid.
+   *
+   * @param username the username to be checked
+   * @param password the password to be checked
+   * @return true if the user signup is valid, false otherwise
+   */
+  private boolean validateUserSignup(String username, String password) {
     if (checkUsernameExists(username)) {
       System.out.println("Username taken. ");
       return false;
@@ -88,7 +102,7 @@ public class Authenticator {
    * @param password used to validate user
    * @return true if user exits and correct password, false otherwise
    */
-  private static boolean validateUserLogin(String username, String password) {
+  private boolean validateUserLogin(String username, String password) {
     if (!checkUsernameExists(username)) {
       System.out.println("Username not found. ");
       return false;
@@ -102,7 +116,6 @@ public class Authenticator {
     return true;
   }
 
-
   /**
    * Method that checks whether provided password is the same as
    * stored in db. Method looks up username in db, and compares.
@@ -111,8 +124,8 @@ public class Authenticator {
    * @param password password to validate
    * @return true if password is correct, false otherwise.
    */
-  private static boolean checkPassword(String username, String password) {
-    return DatabaseController.validatePass(username, password);
+  private boolean checkPassword(String username, String password) {
+    return this.databaseController.validatePass(username, password);
   }
 
   /**
@@ -122,7 +135,7 @@ public class Authenticator {
    * @param username to check
    * @return boolean based on username existence in db.
    */
-  private static boolean checkUsernameExists(String username) {
-    return !Objects.equals(DatabaseController.fetchUserId(username), "0");
+  private boolean checkUsernameExists(String username) {
+    return !Objects.equals(this.databaseController.fetchUserId(username), "0");
   }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-// https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
+import org.jetbrains.annotations.TestOnly;
 
 /**
  * The DatabaseController class is responsible for managing the database
@@ -18,16 +18,39 @@ import java.util.Map;
  * for the workout tracker application. It provides methods for adding,
  * updating, and
  * retrieving data from the database.
+ * 
+ * The construction of this class was inspired by the following tutorial:
+ * https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
  */
 public class DatabaseController {
 
-  private static final String DB_PATH = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
+  private String dbPath = "jdbc:sqlite:src/main/resources/db/workout-tracker.db";
   private final String[] tables = { User.TABLE_NAME, Workout.TABLE_NAME, Exercise.TABLE_NAME };
 
+  /**
+   * Constructs a new DatabaseController object with the specified database path.
+   * 
+   * @param dbPath the path to the database file
+   */
+  public DatabaseController(String dbPath) {
+    this.dbPath = dbPath;
+    setupDb(false);
+  }
+
+  /**
+   * Constructs a new DatabaseController object with the default database path.
+   */
   public DatabaseController() {
     setupDb(false);
   }
 
+  /**
+   * Sets up the database by dropping tables (if specified), setting up foreign
+   * keys, and creating tables.
+   * 
+   * @param dropTables true if the tables should be dropped before setting up,
+   *                   false otherwise
+   */
   void setupDb(boolean dropTables) {
     if (dropTables) {
       this.dropTables();
@@ -36,9 +59,16 @@ public class DatabaseController {
     this.setupTables();
   }
 
-  public static void insertRow(DbUploadable entity) {
-    SQLQueryCreator creator = new SQLQueryCreator(entity);
-    String sqlString = creator.createAddRowString();
+  /**
+   * Inserts a row into the database for the specified entity.
+   * 
+   * @param entity the entity to be inserted into the database
+   */
+  public void insertRow(DbUploadable entity) {
+    if (!validateEntity(entity)) {
+      return;
+    }
+    String sqlString = SQLQueryCreator.createAddRowString(entity);
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
 
@@ -58,7 +88,16 @@ public class DatabaseController {
     }
   }
 
-  public static Map<String, String> getRow(DbUploadable entity) {
+  /**
+   * Retrieves a row from the database for the specified entity.
+   * 
+   * @param entity the entity to retrieve from the database
+   * @return a map containing the attribute names and values of the retrieved row
+   */
+  public Map<String, String> getRow(DbUploadable entity) {
+    if (!validateEntity(entity)) {
+      return null;
+    }
     String sqlString = SQLQueryCreator.getRowSQLString(entity);
     ArrayList<String> attributeNames = entity.getAttributeNames();
     Map<String, String> dbAttributes = new HashMap<>();
@@ -78,7 +117,15 @@ public class DatabaseController {
     return null;
   }
 
-  public static void updateRow(DbUploadable entity) {
+  /**
+   * Updates a row in the database for the specified entity.
+   * 
+   * @param entity the entity to be updated in the database
+   */
+  public void updateRow(DbUploadable entity) {
+    if (!validateEntity(entity)) {
+      return;
+    }
     String sqlString = SQLQueryCreator.updateRowSQLString(entity);
     HashMap<String, Object> uploadAbleData = entity.getUploadableData();
     ArrayList<String> attributeNames = entity.getAttributeNames();
@@ -100,7 +147,13 @@ public class DatabaseController {
     }
   }
 
-  public static String getLastId(DbUploadable entity) {
+  /**
+   * Retrieves the last inserted row ID for the specified entity.
+   * 
+   * @param entity the entity to retrieve the last inserted row ID for
+   * @return the last inserted row ID as a string
+   */
+  public String getLastId(DbUploadable entity) {
     String sqlString = SQLQueryCreator.getLastIdSQLString(entity);
 
     try (Connection connection = connect();
@@ -117,10 +170,19 @@ public class DatabaseController {
     return null;
   }
 
-  public static ArrayList<ArrayList<String>> getUserWorkouts(DbUploadable entity) {
+  /**
+   * Retrieves the workouts for the specified user from the database.
+   * 
+   * @param entity the user entity to retrieve the workouts for
+   * @return a list of lists containing the workout details
+   */
+  public ArrayList<ArrayList<String>> getUserWorkouts(DbUploadable entity) {
+    if (!validateEntity(entity)) {
+      return null;
+    }
     String sqlString = SQLQueryCreator.getUserWorkouts(entity);
     ArrayList<ArrayList<String>> workouts = new ArrayList<>();
- 
+
     try (Connection connection = connect();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlString)) {
@@ -138,7 +200,16 @@ public class DatabaseController {
     return null;
   }
 
-  public static ArrayList<ArrayList<String>> getWorkoutExercises(int workoutId) {
+  /**
+   * Retrieves the exercises for the specified workout from the database.
+   * 
+   * @param workoutId the ID of the workout to retrieve the exercises for
+   * @return a list of lists containing the exercise details
+   */
+  public ArrayList<ArrayList<String>> getWorkoutExercises(int workoutId) {
+    if (workoutId < 1) {
+      return null;
+    }
     String sqlString = SQLQueryCreator.getWorkoutExercises(workoutId);
     ArrayList<ArrayList<String>> exercises = new ArrayList<>();
 
@@ -159,15 +230,55 @@ public class DatabaseController {
       System.err.println(e.getMessage());
     }
     return null;
-  }  
+  }
 
-  protected static boolean validatePass(String username, String password) {
-    String sqlString = "SELECT password FROM users WHERE username = '" + username + "';";
+  /**
+   * Retrieves a user from the database by username.
+   * This method is protected and used for testing purposes.
+   * 
+   * @param username the username of the user to be retrieved
+   * @return a User object representing the retrieved user
+   */
+  @TestOnly
+  protected User getUserByUsername(String username) {
+    if (username == null) {
+      return null;
+    }
+    String sqlString = SQLQueryCreator.getUserByUsernameSQL(username);
+
+    try (Connection connection = connect();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlString)) {
+      User user = new User(resultSet.getString("username"), resultSet.getString("password"));
+      user.setId(resultSet.getInt("id"));
+      user.setFirstName(resultSet.getString("first_name"));
+      user.setLastName(resultSet.getString("last_name"));
+      user.setWeight(resultSet.getInt("weight"));
+      user.setHeight(resultSet.getInt("height"));
+      return user;
+    } catch (SQLException e) {
+      System.err.println(e.getMessage());
+    }
+    return null;
+  }
+
+  /**
+   * Validates the password for the specified username.
+   * 
+   * @param username the username to validate the password for
+   * @param password the password to validate
+   * @return true if the password is valid, false otherwise
+   */
+  protected boolean validatePass(String username, String password) {
+    String sqlString = SQLQueryCreator.validatePassSQL(username);
 
     try (Connection connection = connect();
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sqlString)) {
       String s = resultSet.getString("password");
+      if (s == null) {
+        return false;
+      }
       return s.equals(password);
     } catch (SQLException e) {
       System.err.println(e.getMessage());
@@ -175,8 +286,14 @@ public class DatabaseController {
     return false;
   }
 
-  protected static String fetchUserId(String username) {
-    String sqlString = "SELECT id FROM users WHERE username = '" + username + "';";
+  /**
+   * Fetches the user ID for the specified username from the database.
+   * 
+   * @param username the username to fetch the user ID for
+   * @return the user ID as a string
+   */
+  protected String fetchUserId(String username) {
+    String sqlString = SQLQueryCreator.fetchUserIdSQL(username);
 
     try (Connection connection = connect();
         Statement statement = connection.createStatement();
@@ -188,6 +305,30 @@ public class DatabaseController {
     return null;
   }
 
+  void dropTables() {
+    for (String tableName : this.tables) {
+      dropTable(tableName);
+    }
+    System.out.println("Successfully dropped all tables. ");
+  }
+
+  boolean tableExists(String tableName) {
+    try (Connection connection = connect()) {
+      DatabaseMetaData metaData = connection.getMetaData();
+      try {
+
+        ResultSet resultSet = metaData.getTables(null, null, tableName, null);
+        return resultSet.next();
+      } catch (SQLException e) {
+        System.err.println("Error checking if table exists: " + e.getMessage());
+        return false;
+      }
+    } catch (SQLException e) {
+      System.err.println("Error connecting to database: " + e.getMessage());
+      return false;
+    }
+  }
+
   private void setupTables() {
     for (String tableName : this.tables) {
       initiateTables(tableName);
@@ -195,7 +336,7 @@ public class DatabaseController {
   }
 
   private void setupForeignKey() {
-    String sqlString = "PRAGMA foreign_keys = ON;";
+    String sqlString = SQLQueryCreator.enablePragma();
     try (Connection connection = connect();
         Statement statement = connection.createStatement()) {
       statement.execute(sqlString);
@@ -205,10 +346,10 @@ public class DatabaseController {
     }
   }
 
-  private static Connection connect() {
+  private Connection connect() {
     Connection connection = null;
     try {
-      connection = DriverManager.getConnection(DB_PATH);
+      connection = DriverManager.getConnection(this.dbPath);
       return connection;
     } catch (SQLException e) {
       System.err.println(e.getMessage());
@@ -216,7 +357,7 @@ public class DatabaseController {
     return connection;
   }
 
-  private static void closeConnection(Connection connection) {
+  private void closeConnection(Connection connection) {
     try {
       if (connection != null) {
         connection.close();
@@ -238,15 +379,8 @@ public class DatabaseController {
     }
   }
 
-  void dropTables() {
-    for (String tableName : this.tables) {
-      dropTable(tableName);
-    }
-    System.out.println("Successfully dropped all tables. ");
-  }
-
   private void dropTable(String tableName) {
-    String sqlString = "DROP TABLE IF EXISTS " + tableName + ";";
+    String sqlString = SQLQueryCreator.dropTableSQL(tableName);
     try (Connection connection = connect();
         Statement statement = connection.createStatement()) {
       statement.execute(sqlString);
@@ -256,7 +390,7 @@ public class DatabaseController {
     }
   }
 
-  private static boolean validateParamsForString(
+  private boolean validateParamsForString(
       HashMap<String, Object> uploadAbleData, ArrayList<String> attributeNames) {
     if (attributeNames.size() != uploadAbleData.keySet().size()) {
       System.err.println("Attribute list size does not match data keys size. ");
@@ -269,5 +403,13 @@ public class DatabaseController {
     }
 
     return true;
+  }
+
+  private boolean validateEntity(DbUploadable entity) {
+    if (entity.getUploadableData().isEmpty() || entity == null) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

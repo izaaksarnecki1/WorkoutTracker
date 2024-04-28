@@ -36,4 +36,6 @@ public interface DbUploadable {
    * @return the ID of the object
    */
   int getId();
+
+  default void setId(int id) {return;};
 }

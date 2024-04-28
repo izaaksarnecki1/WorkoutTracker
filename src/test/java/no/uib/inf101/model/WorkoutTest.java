@@ -1,81 +1,97 @@
-// package no.uib.inf101.model;
+package no.uib.inf101.model;
 
-// import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-// import java.time.LocalDate;
-// import java.util.Iterator;
+import org.junit.jupiter.api.Test;
 
-// import static org.junit.jupiter.api.Assertions.*;
+public class WorkoutTest {
 
-// public class WorkoutTest {
-//   @Test
-//   void addExercise() {
-//     Workout workout = new Workout(1, LocalDate.now());
-//     Exercise exercise = new Exercise("Push-up", 10, 3);
-//     workout.addExercise(exercise);
-//     assertTrue(workout.iterator().hasNext());
-//   }
+    @Test
+    public void testValidDate() {
+        // Arrange
+        String validDate = "2024-04-30";
+        Workout workout = new Workout(1, validDate, "Leg Day");
 
-//   @Test
-//   void validExercise() {
-//     Workout workout = new Workout(1, LocalDate.now());
-//     Exercise validExercise = new Exercise("Squat", 8, 4);
-//     Exercise invalidExercise = new Exercise("", 0, 0);
-//     assertTrue(workout.validExercise(validExercise));
-//     assertFalse(workout.validExercise(invalidExercise));
-//   }
+        // Act
+        String workoutDate = workout.getWorkoutDate();
 
-//   @Test
-//   void getWorkoutDate() {
-//     LocalDate date = LocalDate.now();
-//     Workout workout = new Workout(1, date);
-//     assertEquals(date, workout.getWorkoutDate());
-//   }
+        // Assert
+        assertEquals(validDate, workoutDate);
+    }
 
-//   @Test
-//   void setWorkoutDate() {
-//     LocalDate date = LocalDate.now();
-//     Workout workout = new Workout(1, LocalDate.now());
-//     workout.setWorkoutDate(date);
-//     assertEquals(date, workout.getWorkoutDate());
-//   }
+    @Test
+    public void testInvalidDate() {
+        // Arrange
+        String invalidDate = "2024-04-30T12:00:00"; // Invalid format
+        Workout workout = new Workout(1, invalidDate, "Chest Day");
 
-//   @Test
-//   void iterator() {
-//     Workout workout = new Workout(1, LocalDate.now());
-//     Exercise exercise = new Exercise("Jumping Jacks", 20, 3);
-//     workout.addExercise(exercise);
-//     Iterator<Exercise> iterator = workout.iterator();
-//     assertNotNull(iterator);
-//     assertTrue(iterator.hasNext());
-//     assertEquals(exercise, iterator.next());
-//   }
+        // Act
+        String workoutDate = workout.getWorkoutDate();
 
-//   @Test
-//   void getUploadableData() {
-//     LocalDate date = LocalDate.now();
-//     Workout workout = new Workout(1, date);
-//     Exercise exercise = new Exercise("Burpees", 15, 3);
-//     workout.addExercise(exercise);
-//     assertEquals(workout.getWorkoutDate(), workout.getUploadableData().get("date"));
-//     assertEquals(1, workout.getUploadableData().get("user_id"));
-//   }
+        // Assert
+        assertNotNull(workoutDate);
+        assertNotEquals(invalidDate, workoutDate);
+    }
 
-//   @Test
-//   void getTableName() {
-//     assertEquals("workouts", Workout.tableName);
-//   }
+    @Test
+    public void testGetWorkoutDate() {
+        // Arrange
+        Workout workout = new Workout(1, "2024-04-30", "Leg Day");
 
-//   @Test
-//   void getAttributeNames() {
-//     Workout workout = new Workout(1, LocalDate.now());
-//     assertEquals(2, workout.getAttributeNames().size());
-//     assertTrue(workout.getAttributeNames().contains("date"));
-//     assertTrue(workout.getAttributeNames().contains("user_id"));
-//   }
+        // Act
+        String workoutDate = workout.getWorkoutDate();
 
-//   @Test
-//   void getParent() {
-//     assertEquals(User.tableName, new Workout(1, LocalDate.now()).getParent());
-//   }
-// }
+        // Assert
+        assertEquals("2024-04-30", workoutDate);
+    }
+
+    @Test
+    public void testGetWorkoutName() {
+        // Arrange
+        Workout workout = new Workout(1, "2024-04-30", "Chest Day");
+
+        // Act
+        String workoutName = workout.getWorkoutName();
+
+        // Assert
+        assertEquals("Chest Day", workoutName);
+    }
+
+    @Test
+    public void testSetWorkoutDate() {
+        // Arrange
+        Workout workout = new Workout(1, "2024-04-30", "Back Day");
+
+        // Act
+        workout.setWorkoutDate("2024-05-01");
+
+        // Assert
+        assertEquals("2024-05-01", workout.getWorkoutDate());
+    }
+
+    @Test
+    public void testSetWorkoutName() {
+        // Arrange
+        Workout workout = new Workout(1, "2024-04-30", "Arm Day");
+
+        // Act
+        workout.setWorkoutName("Shoulder Day");
+
+        // Assert
+        assertEquals("Shoulder Day", workout.getWorkoutName());
+    }
+
+    @Test
+    public void testGetWorkoutId() {
+        // Arrange
+        Workout workout = new Workout(1, "2024-04-30", "Leg Day");
+        workout.setWorkoutId(123);
+
+        // Act
+        int workoutId = workout.getId();
+
+        // Assert
+        assertEquals(123, workoutId);
+    }
+}
+

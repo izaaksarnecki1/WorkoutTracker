@@ -7,6 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
+/**
+ * The ButtonController class implements the ActionListener interface and handles the actions performed on interactive windows.
+ * It is responsible for delegating the actions to the appropriate methods based on the type of the current window.
+ */
 public class ButtonController implements ActionListener {
   private final ControllableMenuModel model;
   private InteractiveWindow currentWindow;

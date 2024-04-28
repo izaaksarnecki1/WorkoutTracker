@@ -9,6 +9,13 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The `ProfileMenu` class represents a menu for managing user profiles.
+ * It extends the `InteractiveWindow` class and implements the `MenuWithFields` interface.
+ * The menu allows users to enter and save their profile information, such as first name, last name, weight, and height.
+ * It provides methods to retrieve the entered field values and add action listeners to the fields and save button.
+ * The layout of the menu is set up using the `GridBagLayout`.
+ */
 public class ProfileMenu extends InteractiveWindow implements MenuWithFields {
   private JTextField firstNameField;
   private JTextField lastNameField;

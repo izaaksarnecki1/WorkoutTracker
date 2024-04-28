@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * The MainMenu class represents the main menu of the workout tracker application.
+ * It extends the InteractiveWindow class and provides buttons for adding a workout,
+ * editing the user profile, and viewing workouts.
+ */
 public class MainMenu extends InteractiveWindow {
 
   private JButton addWorkoutButton;
